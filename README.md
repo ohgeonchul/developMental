@@ -54,8 +54,9 @@ Go to preferences - maven -user settings - change
 - pom.xml - specifying dependencies (mvnrepository url) allows sts to automatically download .jar files into Maven Dependencies(C:\maven\repository)
 
 ## UTF-8 inside .jsp
+```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
-
+```
 
 ## pom.xml
 ```xml
@@ -149,7 +150,7 @@ Go to preferences - maven -user settings - change
   <version>${org.springframework-version}</version>
 </dependency>
 
-<!-- test -->
+<!-- Test -->
 <plugin>
   <groupId>org.apache.maven.plugins</groupId>
   <artifactId>maven-compiler-plugin</artifactId>
@@ -191,7 +192,7 @@ http://mybatis.org/dtd/mybatis-3-mapper.dtd
 1. lombok -> vo 자동 생성 : mvnrepository lombok
 ```
 * C:\maven\repository\org\projectlombok\lombok\1.18.10
-* open powershell > java -jar .\lombok-1.18.10.jar
+* open powershell (shitft+r_click)> java -jar .\lombok-1.18.10.jar
   - specify location(sts.exe)
 ```
 
@@ -239,6 +240,42 @@ http://mybatis.org/dtd/mybatis-3-mapper.dtd
 
 ## SPRING LOG : 등록된 bean과 autowiring된 것들을 생성 및 bean으로 등록된 controller load?
 pom.xml log4j mvnrepository is included in default
+
+```
+log4j 구조
+```
+1. Appender 태그 : log출력에 대한 환경설정하는 태그
+  * 로그를 어디로 출력을 할지 : (콘솔/파일/DB)
+2. Logger 태그 : 어디 부분에서 Appender를 실행 할 지
+  * 어떤 단계에서 실행할지
+3. Root 태그 : 기본적용 Logger (부모; 최상위 객체)
+```
+기본 패턴설정 : %-5p: %c - %m%n
+    이벤트명, 카테고리명, 로그전달메세지 개행
+```
+* %c : 카테고리명(logger이름)을 표시
+* 카테고리명이 a.b.c일때, %c{2}는 b.c를 출력
+* %C : 클래스명을 표시함.	
+* 풀 클래스 명이 com.kh.logger일때, %C{2}는 kh.logger를 출력
+* %d : 로그 시간을 출력한다. java.text.SimpleDateFormat에서 적절한 출력 포맷을 지정할 수 있다. 
+* %d{HH:mm:ss, SSS}
+* %d{yyyy MMM dd HH:mm:ss, SSS}
+* %d{ABSOLUTE} 
+* %d{DATE} 
+* %d{ISO8601}
+* %F : 파일명을 출력. 로그시 수행한 메소드, 라인번호가 함께 출력된다.
+* %l : 로깅이 발생한 caller의 위치정보. 자바파일명:라인번호(링크제공) 
+* %L : 라인 번호만 출력한다(링크없음)
+* %m : 로그로 전달된 메시지를 출력한다.
+* %M : 로그를 수행한 메소드명을 출력한다. 
+* %n : 플랫폼 종속적인 개행문자가 출력. rn 또는 n
+* %p : 로그 이벤트명등의 priority 가 출력(debug, info, warn, error, fatal )
+* %r : 로그 처리시간 (milliseconds)
+* %t : 로그이벤트가 발생된 쓰레드의 이름을 출력
+* %% : % 표시를 출력. escaping
+* %r : 어플리케이션 시작 이후 부터 로깅이 발생한 시점의 시간(milliseconds)
+* %X : 로깅이 발생한 thread와 관련된 MDC(mapped diagnostic context)를 출력합니다. %X{key} 형태.
+
 ```xml
 <!-- pom.xml -->
 <!-- Logging -->
@@ -259,7 +296,7 @@ pom.xml log4j mvnrepository is included in default
 
 src/main/resources -> log4j.xml
 ```xml
-<!-- Appenders : console에 찍음-->
+<!-- Appender : console에 찍음-->
 <appender name="console" class="org.apache.log4j.ConsoleAppender">
   <param name="Target" value="System.out" />
   <!-- 로그가 찍히는 형식 -->
@@ -287,13 +324,13 @@ src/main/resources -> log4j.xml
   <!-- <level value="info" /> -->
   <level value="debug" />
   <!-- name에 해당 하는 패키지의 모든 로그가 level INFO이상의 로그를 찍음
-          TRACE->
-          DEBUG(개발시 사용하는 로그들)->
-          INFO(RUNTIME 중 상태변경, 정보성 메시지를 담을때)->
-          WARN(프로그램 실행시 문제가 없지만, 향후 시스템에서 error의 원인이 될 수 있다는 경고메시지)->
-          ERROR(어떤 요청을 처리할때 발생한 문제, 프로그램 동작안함)->
+          TRACE
+          DEBUG(개발시 사용하는 로그들)
+          INFO(RUNTIME 중 상태변경, 정보성 메시지를 담을때)
+          WARN(프로그램 실행시 문제가 없지만, 향후 시스템에서 error의 원인이 될 수 있다는 경고메시지)
+          ERROR(어떤 요청을 처리할때 발생한 문제, 프로그램 동작안함)
           FATAL(심각한 에러, 메모리에 대한 손상, 운영체제 손상)
-          => 개발자가 직접 에러 레벨 정함
+          : 개발자가 직접 에러 레벨 정함
     -->
 </logger>
 
@@ -320,9 +357,23 @@ src/main/resources -> log4j.xml
   <appender-ref ref="console" />
   <appender-ref ref="filelogger" />
 </root>
-
-
 ```
+
+com.kh.spring.logger.LoggerInterceptor(superclass as HandlerInterceptorAdapter)
+```
+method mapping 실행전,후, 응답완료후,  -> filter대신에 interception 사용
+
+interceptor
+구현 : HandlerInterceptorAdapter를 상속해서 구현
+
+전처리(preHandler) : dispatcherServlet이 컨트롤러가 매핑된 메소드 호출전에 실행되는 로직구현
+후처리(postHandler) : 컨트롤러가 매핑된 메소드 실행 후 실행되는 로직 구현
+뷰처리후(afterCompletion) : 응답까지 완료된 후 실행되는 매소드 구현
+
+1. intercepter클래스를 등록을 해야함
+  -> servlet-context.xml에 등록!
+```
+
 
 ```text
 10월 08, 2019 9:10:58 오전 org.apache.catalina.core.ApplicationContext log
@@ -336,73 +387,8 @@ INFO : org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 INFO : org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped "{[/demo/demo1.do]}" onto public java.lang.String com.kh.spring.demo.controller.DemoController.demo1(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
 INFO : org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped "{[/demo/demo2.do]}" onto public java.lang.String com.kh.spring.demo.controller.DemoController.demo2(java.lang.String,int,java.lang.String,java.lang.String,java.lang.String[],org.springframework.ui.Model)
 INFO : org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped "{[/demo/insertDev.do]}"
-
-pom.xml log4j mvnrepository is included in default
-  <!-- Logging -->
-  <dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-api</artifactId>
-      <dependency>
-    <groupId>log4j</groupId>
-    <artifactId>log4j</artifactId>
-    <version>1.2.15</version>
-
-  resource -> log4j.xml
-
-log4j 구조
-1. Appender 태그 : log출력에 대한 환경설정하는 태그
-  * 로그를 어디로 출력을 할지 : (콘솔/파일/DB)
-2. Logger 태그 : 어디 부분에서 Appender를 실행 할 지
-    어떤 단계에서 실행할지
-3. Root 태그 : 기본적용 Logger (부모; 최상위 객체)
-
----
-기본 패턴설정 : %-5p: %c - %m%n
-    이벤트명, 카테고리명, 로그전달메세지 개행
-
-* %c : 카테고리명(logger이름)을 표시
-* 카테고리명이 a.b.c일때, %c{2}는 b.c를 출력
-* %C : 클래스명을 표시함.	
-* 풀 클래스 명이 com.kh.logger일때, %C{2}는 kh.logger를 출력
-* %d : 로그 시간을 출력한다. java.text.SimpleDateFormat에서 적절한 출력 포맷을 지정할 수 있다. 
-* %d{HH:mm:ss, SSS}
-* %d{yyyy MMM dd HH:mm:ss, SSS}
-* %d{ABSOLUTE} 
-* %d{DATE} 
-* %d{ISO8601}
-* %F : 파일명을 출력. 로그시 수행한 메소드, 라인번호가 함께 출력된다.
-* %l : 로깅이 발생한 caller의 위치정보. 자바파일명:라인번호(링크제공) 
-* %L : 라인 번호만 출력한다(링크없음)
-* %m : 로그로 전달된 메시지를 출력한다.
-* %M : 로그를 수행한 메소드명을 출력한다. 
-* %n : 플랫폼 종속적인 개행문자가 출력. rn 또는 n
-* %p : 로그 이벤트명등의 priority 가 출력(debug, info, warn, error, fatal )
-* %r : 로그 처리시간 (milliseconds)
-* %t : 로그이벤트가 발생된 쓰레드의 이름을 출력
-* %% : % 표시를 출력. escaping
-* %r : 어플리케이션 시작 이후 부터 로깅이 발생한 시점의 시간(milliseconds)
-* %X : 로깅이 발생한 thread와 관련된 MDC(mapped diagnostic context)를 출력합니다. %X{key} 형태.
-
-log4j.xml
-<!-- Root Logger -->
-<root>
-  <priority value="warn" />
-  <appender-ref ref="console" />
-  <appender-ref ref="filelogger" />
-</root>
-
-method mapping 실행전,후, 응답완료후,  -> filter대신에 interception 사용
-
-interceptor
-구현 : HandlerInterceptorAdapter를 상속해서 구현
-
-전처리(preHandler) : dispatcherServlet이 컨트롤러가 매핑된 메소드 호출전에 실행되는 로직구현
-후처리(postHandler) : 컨트롤러가 매핑된 메소드 실행 후 실행되는 로직 구현
-뷰처리후(afterCompletion) : 응답까지 완료된 후 실행되는 매소드 구현
-
-1. intercepter클래스를 등록을 해야함
-  -> Servlet-context.xml에 등록!
 ```
+
 ## web.xml
 ```xml
 <!-- Server web.xml -->
@@ -441,17 +427,18 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/n
 ## Spring settings
 
 ```xml
-root-context.xml 은 스프링 돌아가는데 필요한거 다 담고 있다
-스프링은 객체들에 의해 돌아간다.
-여기에 디비에 대한 설정이 들어간다.
-<!-- root-context.xml defines shared resources visible to all other web components -->
+<!-- root-context.xml
+  defines shared resources visible to all other web components.
+  root-context.xml 은 스프링 돌아가는데 필요한거 다 담고 있다
+  스프링은 객체들에 의해 돌아간다. 여기에 디비에 대한 설정이 들어간다.
+-->
 <!-- DB JDBC MYBATIS 설정 (pom.xml에서 필요한 resource 저장해놓음) jar file -> dependency 등록 -->
-<!-- mybatis-config.xml을 spring에 맞게 수정
-spring이 시작하면서 이용할 수 있는 객체로 등록됨
-
-Spring 설정파일: BasicDataSource를 spring/spring 계정에게 부여. spring bean 등록
-close 생성자를 이용해서 destroy. Spring xml 파일을 보고 생성자를 생성. 연결내용.
-DB에 필요한 데이터를 BasicDataSource객체에 값을 넣음 setter(=property)-->
+<!-- mybatis-config.xml을 spring에 맞게 수정.
+  Spring이 시작하면서 이용할 수 있는 객체로 등록됨
+  Spring 설정파일: BasicDataSource를 spring/spring 계정에게 부여. spring bean 등록
+  close 생성자를 이용해서 destroy. Spring xml 파일을 보고 생성자를 생성. 연결내용.
+  DB에 필요한 데이터를 BasicDataSource객체에 값을 넣음 setter(=property)
+-->
 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
   <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
   <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
@@ -472,4 +459,26 @@ DB에 필요한 데이터를 BasicDataSource객체에 값을 넣음 setter(=prop
   <constructor-arg index="0" ref="sqlSessionFactoryBean"/>
 </bean>
 
+```
+
+## mybatis-config.xml
+
+## ArrayTypeHandler implements TypeHandler<String[]>
+```xml
+<!-- member-mapper.xml -->
+<!-- resultType은 select에서만 필요
+resultType update insert delete 은 디폴트로 _int이므로 생략
+  -->
+<insert id="insertMember" parameterType="member">
+  INSERT INTO MEMBER VALUES(
+                  #{userId},#{password},#{userName},#{gender},
+                  #{age},#{email},#{phone},
+                  #{address},#{hobby, typeHandler=arrType},SYSDATE)
+<!--   private String[] hobby; private Date enrollDate; -->
+</insert>
+```
+
+## mapper/emp/emp-mapper.xml
+```xml
+<mapper namespace="dev"></mapper>
 ```
