@@ -416,11 +416,6 @@ interceptor
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"> -->
 
-<!-- add welcome-file-list -->
-<welcome-file-list>
-  <welcome-file>index.jsp</welcome-file>
-</welcome-file-list>
-
 <!-- spring has pre-defined filter! -->
 <filter>
   <filter-name>encodingFilter</filter-name>
@@ -434,6 +429,11 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/n
   <filter-name>encodingFilter</filter-name>
   <url-pattern>/*</url-pattern>
 </filter-mapping>
+
+<!-- add welcome-file-list -->
+<welcome-file-list>
+  <welcome-file>index.jsp</welcome-file>
+</welcome-file-list>
 ```
 
 ## create index.jsp in webapp folder

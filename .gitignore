@@ -12,9 +12,9 @@ classes/
 *~.nib
 config.properties
 local.properties
-.settings/
-.loadpath
-.recommenders
+#.settings/
+#.loadpath
+#.recommenders
 
 # External tool builders
 .externalToolBuilders/
@@ -38,7 +38,7 @@ local.properties
 .buildpath
 
 # sbteclipse plugin
-.target
+#.target
 
 # Tern plugin
 .tern-project
@@ -47,7 +47,7 @@ local.properties
 .texlipse
 
 # STS (Spring Tool Suite)
-.springBeans
+#.springBeans
 
 # Code Recommenders
 .recommenders/
@@ -62,7 +62,7 @@ local.properties
 
 ### Eclipse Patch ###
 # Eclipse Core
-.project
+# .project
 
 # JDT-specific (Eclipse Java Development Tools)
 # .classpath
@@ -74,6 +74,6 @@ local.properties
 
 ### Java-Web ###
 ## ignoring target file
-target/
+#target/
 
 # End of https://www.gitignore.io/api/eclipse,java-web
