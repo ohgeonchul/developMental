@@ -237,6 +237,18 @@ http://mybatis.org/dtd/mybatis-3-mapper.dtd
     </param-value>
   </context-param>
 ```
+```xml
+<!-- security-context.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="bcryptPasswordEncoder"
+    class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+</beans>
+```
 
 ## SPRING LOG : 등록된 bean과 autowiring된 것들을 생성 및 bean으로 등록된 controller load?
 pom.xml log4j mvnrepository is included in default
