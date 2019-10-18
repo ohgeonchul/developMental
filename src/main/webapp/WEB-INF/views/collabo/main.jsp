@@ -14,6 +14,7 @@
 	<div id="data"></div>
 </section>
 <script type="text/javascript">
+	sessionStorage.setItem("userId","kungsman");
 	let sock = new SockJS("<c:url value="/collabo/soc"/>");
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
@@ -32,7 +33,12 @@
     });
     // 메시지 전송
     function sendMessage() {
-           sock.send($("#message").val());
+    	var sendData = {};
+    	sendData.userId = "kungsman";
+    	sendData.message = $("#message").val();
+    	
+    	var jsonData = JSON.stringify(sendData);
+        sock.send(jsonData);
     }
 
     // 서버로부터 메시지를 받았을 때
