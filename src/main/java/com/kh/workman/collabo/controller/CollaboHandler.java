@@ -1,4 +1,4 @@
-package com.kh.spring.collabo.controller;
+package com.kh.workman.collabo.controller;
 
 import java.util.ArrayList;
 import java.util.List;

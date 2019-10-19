@@ -1,4 +1,4 @@
-package com.kh.spring.collabo.model.vo;
+package com.kh.workman.collabo.model.vo;
 
 import java.sql.Date;
 

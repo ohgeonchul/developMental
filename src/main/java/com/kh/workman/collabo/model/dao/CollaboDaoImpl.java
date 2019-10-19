@@ -1,4 +1,4 @@
-package com.kh.spring.collabo.model.dao;
+package com.kh.workman.collabo.model.dao;
 
 import org.springframework.stereotype.Repository;
 

@@ -15,7 +15,7 @@
 
   <!-- Appender : 파일에 로그 찍기 다른Append를 이용하면됨 -> DailyRollingFileAppender -->
   <appender name="filelogger" class="org.apache.log4j.DailyRollingFileAppender">
-    <param name="file" value="C://logs//spring//spring.log" />
+   <!--  <param name="file" value="C://logs//spring//spring.log" /> -->
     <!-- determine log append / replace -->
     <param name="Append" value="true" />
     <param name="dataPattern" value=".yyyy-MM-dd" />
@@ -25,7 +25,7 @@
   </appender>
 
   <!-- Application Loggers -->
-  <logger name="com.kh.dm">
+  <logger name="com.kh.workman">
     <!-- <level value="info" /> -->
     <level value="debug" />
     <!-- name에 해당 하는 패키지의 모든 로그가 level INFO이상의 로그를 찍음
