@@ -35,7 +35,9 @@
     function sendMessage() {
     	var sendData = {};
     	sendData.userId = "kungsman";
-    	sendData.message = $("#message").val();
+    	sendData.type = "list"
+    	sendData.roomNo = 24;
+    	sendData.content = $("#message").val();
     	
     	var jsonData = JSON.stringify(sendData);
         sock.send(jsonData);

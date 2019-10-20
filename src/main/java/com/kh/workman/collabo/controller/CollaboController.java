@@ -18,5 +18,10 @@ public class CollaboController {
 		mv.setViewName("collabo/main");
 		return mv;
 	}
+	
+	@RequestMapping("/collabo/detail.do")
+	public String connectCollaboDetail() {
+		return "/collabo/detail";
+	}
 
 }
