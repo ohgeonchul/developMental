@@ -2,11 +2,24 @@
 body { padding-top: 3.5rem; }
 
 #cover-section{
-  height: 50vh;
-  min-height: 350px;
-  background: no-repeat center center scroll;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  /* background-image: url("../images/cover.jpg"); */
+  background-size: cover !important;
+  background-position: center center !important;
+  height: 45vh !important;
+  display: flex !important;
+  margin-bottom: 0px;
+}
+.site-header a {
+  transition: ease-in-out color .15s;
+}
+
+@media (max-width: 700px) {
+  p.about-text {
+    font-size: 1.0rem !important;
+  }
+}
+@media (min-width: 700px) {
+  p.about-text{
+    font-size: 1.3rem !important;
+  }
 }
