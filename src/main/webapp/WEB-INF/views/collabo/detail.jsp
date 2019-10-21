@@ -7,6 +7,8 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="pageTitle" value=""/>
 </jsp:include>
+<!-- Popper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <!-- Noto Sans -->
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans&display=swap" rel="stylesheet">
 <section class="container-fluid" id="content" style="margin-top:58px;background-color:rgb(131, 140, 145);font-family: 'Noto Sans', sans-serif;">
@@ -15,117 +17,90 @@
 	</div>
 	<div class="board" style="display:flex">
 		<div class="list-wrapper" style="width:272px;height:732px;padding:10px 10px;margin-left:5px">
-			<div class="list-content" style="width:272px;background-color:#ebecf0;border-radius:5px;padding:5px 10px">
+			<div class="list-content" style="width:272px;background-color:#ebecf0;border-radius:5px;padding:5px 10px" >
 				<div class="list-header" style="padding:5px 5px;font-weight:bold;font-size:14px" >
 					리스트이름
 					<button type="button" class="fa fa-align-justify" onclick=""></button>
 				</div>
-				<div class="list-cards" style="margin-top:10px">
-					<div class="list-card" style="background-color:#ffffff;padding:5px 5px;font-size:14px">카드내용카드내용카드내용카드드내용카드내내용카드내용</div>
+				<div id="div1" class="list-cards" style="margin-top:10px;padding:3px 3px" ondrop="drop(this,event)" ondragover="return false;">
+					<div id="drag1" class="list-card" style="margin:5px 0px;background-color:#ffffff;padding:5px 5px;font-size:14px" ondrop="return false;" draggable="true" ondragstart="drag(this,event)">
+						<span class="card-content">
+							카드내용카드내용카드내용카드드내용카드내내용카드내용
+						</span>
+					</div>
+					<div id="drag2" class="list-card" style="margin:5px 0px;background-color:#ffffff;padding:5px 5px;font-size:14px" ondrop="return false;" draggable="true" ondragstart="drag(this,event)">
+						<span class="card-content">
+							카드내용카드내용카드내용카드드내용카드내내용카드내용
+						</span>
+					</div>
 				</div>
 				<div class="open-card" style="color:#5e6c84;font-size:14px;padding:5px 5px;margin-top:10px;">
-					<span class="fa fa-plus" style="margin-right:5px"></span>Add another card
+					<span class="fa fa-plus" style="margin-right:5px">Add another card</span>
 				</div>
 			</div>
 		</div>
-				<div class="list-wrapper" style="width:272px;height:732px;padding:10px 10px;margin-left:5px">
-			<div class="list-content" style="width:272px;background-color:#ebecf0;border-radius:5px;padding:5px 10px">
+		
+		<div class="list-wrapper" style="width:272px;height:732px;padding:10px 10px;margin-left:5px">
+			<div class="list-content" style="width:272px;background-color:#ebecf0;border-radius:5px;padding:5px 10px" >
 				<div class="list-header" style="padding:5px 5px;font-weight:bold;font-size:14px" >
 					리스트이름
 					<button type="button" class="fa fa-align-justify" onclick=""></button>
 				</div>
-				<div class="list-cards" style="margin-top:10px">
-					<div class="list-card" style="background-color:#ffffff;padding:5px 5px;font-size:14px">카드내용카드내용카드내용카드드내용카드내내용카드내용</div>
+				<div id="div3" class="list-cards" style="margin-top:10px;padding:3px 3px" ondrop="drop(this,event)" ondragover="return false;">
+					<div id="drag4" class="list-card" style="margin:5px 0px;background-color:#ffffff;padding:5px 5px;font-size:14px" ondrop="return false;" draggable="true" ondragstart="drag(this,event)">
+						<span class="card-content">
+							카드내용카드내용카드내용카드드내용카드내내용카드내용
+						</span>
+					</div>
+					<div id="drag24" class="list-card" style="margin:5px 0px;background-color:#ffffff;padding:5px 5px;font-size:14px" ondrop="return false;" draggable="true" ondragstart="drag(this,event)">
+						<span class="card-content">
+							카드내용카드내용카드내용카드드내용카드내내용카드내용
+						</span>
+					</div>
 				</div>
 				<div class="open-card" style="color:#5e6c84;font-size:14px;padding:5px 5px;margin-top:10px;">
-					<span class="fa fa-plus" style="margin-right:5px"></span>Add another card
+					<span class="fa fa-plus" style="margin-right:5px">Add another card</span>
 				</div>
 			</div>
 		</div>
-				<div class="list-wrapper" style="width:272px;height:732px;padding:10px 10px;margin-left:5px">
-			<div class="list-content" style="width:272px;background-color:#ebecf0;border-radius:5px;padding:5px 10px">
-				<div class="list-header" style="padding:5px 5px;font-weight:bold;font-size:14px" >
-					리스트이름
-					<button type="button" class="fa fa-align-justify" onclick=""></button>
+		<!-- Add another list -->
+		<div class="list-wrapper" style="width:272px;height:732px;padding:10px 10px;margin-left:5px">
+			<div class="list-content" style="width:272px;background-color:#ebecf0;border-radius:5px;padding:5px 10px" >
+			
+				<div class="dropdown" style="color:#5e6c84;font-size:14px;padding:5px 5px;margin-top:0px;">
+					<button type="button" onclick='$("#listTitle").val(" ");' name="btn_addList" class="dropdown" data-toggle="dropdown" style="border:0;background-color:#ebecf0;width:100%">
+						<span class="fa fa-plus" style="margin-right:5px">Add another list</span>
+					</button>
+					<div class="dropdown-menu">
+						<input type="text" id="listTitle" class="dropdown-item" placeholder="Input List Name"/>
+						<Button type="button" onclick="createList();" class="dropdown-item" style="background-color:#0069d9;color:white;">Create</Button>
+					</div>
 				</div>
-				<div class="list-cards" style="margin-top:10px">
-					<div class="list-card" style="background-color:#ffffff;padding:5px 5px;font-size:14px">카드내용카드내용카드내용카드드내용카드내내용카드내용</div>
-				</div>
-				<div class="open-card" style="color:#5e6c84;font-size:14px;padding:5px 5px;margin-top:10px;">
-					<span class="fa fa-plus" style="margin-right:5px"></span>Add another card
-				</div>
+				
 			</div>
 		</div>
-				<div class="list-wrapper" style="width:272px;height:732px;padding:10px 10px;margin-left:5px">
-			<div class="list-content" style="width:272px;background-color:#ebecf0;border-radius:5px;padding:5px 10px">
-				<div class="list-header" style="padding:5px 5px;font-weight:bold;font-size:14px" >
-					리스트이름
-					<button type="button" class="fa fa-align-justify" onclick=""></button>
-				</div>
-				<div class="list-cards" style="margin-top:10px">
-					<div class="list-card" style="background-color:#ffffff;padding:5px 5px;font-size:14px">카드내용카드내용카드내용카드드내용카드내내용카드내용</div>
-				</div>
-				<div class="open-card" style="color:#5e6c84;font-size:14px;padding:5px 5px;margin-top:10px;">
-					<span class="fa fa-plus" style="margin-right:5px"></span>Add another card
-				</div>
-			</div>
-		</div>
-				<div class="list-wrapper" style="width:272px;height:732px;padding:10px 10px;margin-left:5px">
-			<div class="list-content" style="width:272px;background-color:#ebecf0;border-radius:5px;padding:5px 10px">
-				<div class="list-header" style="padding:5px 5px;font-weight:bold;font-size:14px" >
-					리스트이름
-					<button type="button" class="fa fa-align-justify" onclick=""></button>
-				</div>
-				<div class="list-cards" style="margin-top:10px">
-					<div class="list-card" style="background-color:#ffffff;padding:5px 5px;font-size:14px">카드내용카드내용카드내용카드드내용카드내내용카드내용</div>
-				</div>
-				<div class="open-card" style="color:#5e6c84;font-size:14px;padding:5px 5px;margin-top:10px;">
-					<span class="fa fa-plus" style="margin-right:5px"></span>Add another card
-				</div>
-			</div>
-		</div>
-				<div class="list-wrapper" style="width:272px;height:732px;padding:10px 10px;margin-left:5px">
-			<div class="list-content" style="width:272px;background-color:#ebecf0;border-radius:5px;padding:5px 10px">
-				<div class="list-header" style="padding:5px 5px;font-weight:bold;font-size:14px" >
-					리스트이름
-					<button type="button" class="fa fa-align-justify" onclick=""></button>
-				</div>
-				<div class="list-cards" style="margin-top:10px">
-					<div class="list-card" style="background-color:#ffffff;padding:5px 5px;font-size:14px">카드내용카드내용카드내용카드드내용카드내내용카드내용</div>
-				</div>
-				<div class="open-card" style="color:#5e6c84;font-size:14px;padding:5px 5px;margin-top:10px;">
-					<span class="fa fa-plus" style="margin-right:5px"></span>Add another card
-				</div>
-			</div>
-		</div>
-				<div class="list-wrapper" style="width:272px;height:732px;padding:10px 10px;margin-left:5px">
-			<div class="list-content" style="width:272px;background-color:#ebecf0;border-radius:5px;padding:5px 10px">
-				<div class="list-header" style="padding:5px 5px;font-weight:bold;font-size:14px" >
-					리스트이름
-					<button type="button" class="fa fa-align-justify" onclick=""></button>
-				</div>
-				<div class="list-cards" style="margin-top:10px">
-					<div class="list-card" style="background-color:#ffffff;padding:5px 5px;font-size:14px">카드내용카드내용카드내용카드드내용카드내내용카드내용</div>
-				</div>
-				<div class="open-card" style="color:#5e6c84;font-size:14px;padding:5px 5px;margin-top:10px;">
-					<span class="fa fa-plus" style="margin-right:5px"></span>Add another card
-				</div>
-			</div>
-		</div>
-				<div class="list-wrapper" style="width:272px;height:732px;padding:10px 10px;margin-left:5px">
-			<div class="list-content" style="width:272px;background-color:#ebecf0;border-radius:5px;padding:5px 10px">
-				<div class="list-header" style="padding:5px 5px;font-weight:bold;font-size:14px" >
-					리스트이름
-					<button type="button" class="fa fa-align-justify" onclick=""></button>
-				</div>
-				<div class="list-cards" style="margin-top:10px">
-					<div class="list-card" style="background-color:#ffffff;padding:5px 5px;font-size:14px">카드내용카드내용카드내용카드드내용카드내내용카드내용</div>
-				</div>
-				<div class="open-card" style="color:#5e6c84;font-size:14px;padding:5px 5px;margin-top:10px;">
-					<span class="fa fa-plus" style="margin-right:5px"></span>Add another card
-				</div>
-			</div>
-		</div>
+		<!-- END  -->
 	</div>
 </section>
+<script>
+function createList(){
+	
+}
+
+function allowDrop(ev) {
+	  ev.preventDefault();
+	}
+
+function drag(element, ev) {
+  ev.dataTransfer.setData("text",element.id);
+  console.log(element.id);
+}
+
+function drop(element, ev) {
+	console.log(element.id);
+	 var id = ev.dataTransfer.getData("text");
+	 element.appendChild(document.getElementById(id));
+	 ev.preventDefault();
+	}
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/> 
