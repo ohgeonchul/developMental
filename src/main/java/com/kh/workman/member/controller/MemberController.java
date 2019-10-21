@@ -1,5 +1,6 @@
 package com.kh.workman.member.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.workman.member.model.service.MemberService;
 import com.kh.workman.member.model.vo.Member;
@@ -21,13 +23,15 @@ public class MemberController {
 	BCryptPasswordEncoder pwEncoder;
 	
 	@RequestMapping("login.do")
-	public String login(Member m, Model model, HttpSession session)
+	public ModelAndView login(Member m, HttpServletRequest request)
 	{
+		HttpSession session = request.getSession();
+		ModelAndView mv = new ModelAndView();
+		
 		String msg = "";
 		String loc = "/";
 		
 		Member loginMember = memberService.selectLogin(m);
-		
 		
 		System.out.println(m.getId());
 		System.out.println(m.getPw());
@@ -42,16 +46,21 @@ public class MemberController {
 			msg = "로그인 실패";
 		}
 		
-		model.addAttribute("msg", msg);
-		model.addAttribute("loc", loc);
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
 		
-		return "common/msg";
+		return mv;
+		
 	}
 	
 	@RequestMapping("logout.do")
-	public String logout(HttpSession session, Model model)
+	public String logout(Model model,HttpServletRequest request)
 	{
+		HttpSession session = request.getSession();
+		
 		session.invalidate();
+		
 		String msg = "로그아웃 완료";
 		String loc = "/";
 		
@@ -59,6 +68,12 @@ public class MemberController {
 		model.addAttribute("loc", loc);
 		
 		return "common/msg";
+	}
+	
+	@RequestMapping("signUp.do")
+	public String signUp()
+	{
+		return "member/signUpView";
 	}
 
 }
