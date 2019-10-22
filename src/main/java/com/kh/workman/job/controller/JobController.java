@@ -1,12 +1,17 @@
 package com.kh.workman.job.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import com.kh.workman.common.PageBarFactory;
+import com.kh.workman.job.model.service.JobService;
+import com.kh.workman.job.model.vo.JobBoard;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.kh.workman.job.model.service.JobService;
-import com.kh.workman.job.model.vo.JobBoard;
 
 @Controller
 public class JobController {
@@ -21,8 +26,23 @@ public class JobController {
   }
 
   @RequestMapping("/job/jobBoard")
-  public String jobBoardView() {
-    return "job/jobBoardView";
+  public ModelAndView jobBoardView(
+    @RequestParam(value="cPage", required=false, defaultValue="0") int cPage) {
+//    logger.debug("");
+
+    ModelAndView mv = new ModelAndView();
+    int numPerPage = 5;
+
+    List<Map<String, Object>> list = service.selectPageJobBoardList(cPage, numPerPage);
+    int totalCount = service.selectJobBoardCount();
+
+    mv.addObject("pageBar", PageBarFactory.getPageBar(totalCount, cPage, numPerPage, "/job/jobBoard"));
+    mv.addObject("count", totalCount);
+    mv.addObject("list", list);
+
+    mv.setViewName("job/jobBoardView");
+
+    return mv;
   }
 
   @RequestMapping("/job/jobBoardContent")
