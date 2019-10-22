@@ -22,7 +22,7 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
 	
-	@RequestMapping("login.do")
+	@RequestMapping("member/login.do")
 	public ModelAndView login(Member m, HttpServletRequest request)
 	{
 		HttpSession session = request.getSession();
@@ -54,7 +54,7 @@ public class MemberController {
 		
 	}
 	
-	@RequestMapping("logout.do")
+	@RequestMapping("member/logout.do")
 	public String logout(Model model,HttpServletRequest request)
 	{
 		HttpSession session = request.getSession();
@@ -74,6 +74,38 @@ public class MemberController {
 	public String signUp()
 	{
 		return "member/signUpView";
+	}
+	
+	@RequestMapping("member/mainPage.do")
+	public String mainPage()
+	{
+		return "redirect:/";
+	}
+	
+	@RequestMapping("/member/register.do")
+	public ModelAndView register(Member m, Model model)
+	{
+		m.setPw(pwEncoder.encode(m.getPw()));
+		int result = memberService.insertMember(m);
+				
+		String msg = "";
+		String loc = "/";
+		
+		ModelAndView mv = new ModelAndView();
+		
+		if(result > 0)
+		{
+			msg = "가입완료";
+		}else
+		{
+			msg = "가입실패";
+		}
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		
+		return mv;
 	}
 
 }
