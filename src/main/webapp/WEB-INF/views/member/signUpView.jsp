@@ -44,18 +44,20 @@
             <div class="card card-4">
                 <div class="card-body">
                     <h2 class="title">Registration Form</h2>
-                    <form method="POST">
+                    <form action="${path}/member/register.do" method="POST">
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
-                                    <label class="label">Full Name</label>
-                                    <input class="input--style-4" type="text" name="name" placeholder="이름을 입력하세요" required="required" >
+                                    <label class="label">이름</label>
+                                    <input class="input--style-4" type="text" name="name" placeholder="이름 2자리 이상 영문도 2자리 이상" required="required" >
+                                    <input type="hidden" id="nameValue" value="F" class="이름"/>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
-                                    <label class="label">Nick Name</label>
-                                    <input class="input--style-4" type="text" name="nickname" placeholder="닉네임을 입력하세요" required="required" >
+                                    <label class="label">닉네임</label>
+                                    <input class="input--style-4" type="text" name="nickname" placeholder="닉네임 2자리 이상 영문도 2자리 이상" required="required" >
+                                    <input type="hidden" id="nicknameValue" class="닉네임"" value="F"/>
                                 </div>
                             </div>
                         </div>
@@ -63,8 +65,9 @@
                         <div class="row row-space">
                             <div class="col-2">
                             	<div class="input-group">
-                                    <label class="label">ID</label>
-                                    <input class="input--style-4" type="text" name="id" placeholder="ID 입력하세요" required="required">
+                                    <label class="label">아이디</label>
+                                    <input class="input--style-4" type="text" name="id" placeholder="아이디 영문숫자만" required="required">
+                                    <input type="hidden" id="idValue" value="F" class="아이디"/>
                                 </div>
                                 <!--달력  -->
                                 <!-- <div class="input-group">
@@ -78,8 +81,9 @@
                             
                             <div class="col-2">
                             <div class="input-group">
-                                    <label class="label">Password</label>
-                                    <input class="input--style-4" type="text" name="pw" placeholder="비밀번호를 입력하세요" required="required">
+                                    <label class="label">비밀번호</label>
+                                    <input class="input--style-4" type="text" name="pw" placeholder="비밀번호 6자리 이상"" required="required">
+                                    <input type="hidden" id="pwValue" value="F" class="비밀번호"/>
                                 </div>
                             
                             <!-- 성별 -->
@@ -101,14 +105,16 @@
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
-                                    <label class="label">Email</label>
-                                    <input class="input--style-4" type="email" name="email">
+                                    <label class="label">이메일</label>
+                                    <input class="input--style-4" type="email" name="email" placeholder="ex) abc@abc.com">
+                                    <input type="hidden" id="emailValue" value="F" class="이메일"/>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
-                                    <label class="label">Phone Number</label>
-                                    <input class="input--style-4" type="text" name="phone">
+                                    <label class="label">핸드폰</label>
+                                    <input class="input--style-4" type="text" name="phone" placeholder="ex) 010-1234-5678">
+                                    <input type="hidden" id="phoneValue" value="F" class="핸드폰"/>
                                 </div>
                             </div>
                         </div>
@@ -129,21 +135,20 @@
                         <div class="row row-space">
                             <div class="col-0">
                                 <div class="input-group">
-                                    <label class="label">Address</label>            	
+                                    <label class="label">주소</label>            	
                                     <input class="input--style-4" type="text" name="addr" id="roadAddress" placeholder="주소를 입력하세요" required="required" >
-       								<!-- <input type="hidden" class="form-control" placeholder="extraAddress" id="extraAddress" name="extraAddress">
+                                    <input type="hidden" id="addrValue" value="F" class="주소"/>   
+                                    <!-- <input type="hidden" class="form-control" placeholder="extraAddress" id="extraAddress" name="extraAddress">
                                     <input type="hidden" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postCode" name="postCode">
                                     <input type="hidden" class="form-control" placeholder="jibunAddress" id="jibunAddress" name="jibunAddress"> -->
                                 </div>
                             </div>
                             <div class="col-4">
-                            <div class="input-group">
-                              <button class="btn btn--radius-2 btn--blue pull-right" style="height:50px; margin-top: 30px; margin-left: 5px; " onclick="postCode()"><i class="fa fa-search"></i></button>
-                              
+	                            <div class="input-group">
+	                              <button class="btn btn--radius-2 btn--blue pull-right" style="height:50px; margin-top: 30px; margin-left: 5px; " onclick="postCode()"><i class="fa fa-search"></i></button>                    
+	                            </div>
                             </div>
-                            </div>
-                        </div>
-                        
+                        </div>                   
                         <!-- selector -->
                        <!--  <div class="input-group">
                             <label class="label">Subject</label>
@@ -157,10 +162,16 @@
                                 <div class="select-dropdown"></div>
                             </div>
                         </div> -->
-                        <div></div>
+                         <div class="row row-space">
+                            <div class="col-0">
+                                <div class="input-group">
+                                    <label class="label"><input type="text" id="msg" style="color: red" value="dfddf" readonly/></label>
+                                </div>
+                            </div>
+                         </div>  
                         <div class="p-t-15">
-                            <button class="btn btn--radius-2 btn--blue pull-left" type="submit">Submit</button>
-                            <button class="btn btn--radius-2 btn--blue pull-right" type="button">Cancle</button>
+                            <button class="btn btn--radius-2 btn--blue pull-left" type="button" onclick="register()">가입</button>
+                            <button class="btn btn--radius-2 btn--blue pull-right" type="button" onclick="location.href='${path}/member/mainPage.do'">취소</button>
                         </div>
                         
                     </form>
@@ -190,6 +201,8 @@
 	}
 }) */
 
+
+// 주소 검색
 function postCode()
 {
 	daum.postcode.load(function(){
@@ -205,6 +218,160 @@ function postCode()
 }
 
 
+// 가입 버튼 이벤트
+function register()
+{
+	var form = $("form");
+	var msg = $("#msg");
+    var text = "";
+    var inputValue = new Array();
+    inputValue.push("name", "nickname","id","pw","email","phone","addr");
+
+    // for(var i = 0; i < inputValue.length; i++)
+    //     console.log(inputValue[i]);
+    
+
+    if( ($("#nameValue").val() == 'T') && 
+        ($("#nicknameValue").val() == 'T') && 
+        ($("#idValue").val() == 'T') && 
+        ($("#pwValue").val() == 'T') && 
+        ($("#emailValue").val() == 'T') &&
+        ($("#phoneValue").val() == 'T') &&
+        ($("#addrValue").val() == 'T') )
+    {
+        form.submit();
+    }
+    else
+    {
+       for(var i = 0; i < inputValue.length; i++)
+       {
+           var data = $('#'+inputValue[i]+'Value');
+           if(data.val() == 'F')
+           {            
+                text += data.attr("class")+ " ";
+           }
+       }
+       msg.val(text+"를 잘못 입력 하셨습니다. 다시 입력해주세요!");
+    }
+	
+}
+
+// 정규식 이름 체크
+function regExpCheck(data, inputName)
+{
+
+    if(inputName == 'name' || inputName == 'nickname')
+    {
+        var regExp = /^[가-힣]{2,4}||[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
+        return ( data !='' && data != 'undefined' && regExp.test(data) );
+    }
+    else if(inputName == 'email')
+    {
+        var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;   
+        return ( data !='' && data != 'undefined' && regExp.test(data) );
+    }
+    else if(inputName == 'phone')
+    {
+        var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
+        return ( data !='' && data != 'undefined' && regExp.test(data) );
+    }
+    else if(inputName == 'id')
+    {
+        var regExp = /^[0-9a-z]+$/;
+        return ( data !='' && data != 'undefined' && regExp.test(data) );
+    }
+    else if(inputName == 'pw')
+    {
+        var regExp =  /^[A-Za-z0-9]{6,12}$/;
+        return ( data !='' && data != 'undefined' && regExp.test(data) );
+    }
+    else if(inputName == 'addr')
+    {
+        var regExp = /^[가-힣]{4,30}||[a-zA-Z]{4,30}\s[a-zA-Z]{4,30}$/;
+        return ( data !='' && data != 'undefined' && regExp.test(data) );
+    }
+    
+}
+
+// 정규식 이메일 체크
+// function emailCheck(email)
+// {
+//     var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;   
+//     return ( email !='' && email != 'undefined' && regExp.test(email) );
+// }
+
+
+
+// 이름 이메일 등 정규식 표현이 맞거나 틀리면 이벤트 발생
+$(document).ready(function()
+{
+    //var msg = $("#msg").val();
+
+    $("input").focus(function(){
+        var inputName = $(this);
+        inputName.attr("placeholder","");
+    });
+
+
+    // 이름
+   $("input").blur(function(){
+        
+        var inputName = $(this); // input name명
+        var inputValue = $('#'+inputName.attr("name")+'Value'); // inputValue Class 명
+
+        console.log(inputValue.attr("class") + " 여기오긴해?");
+        console.log(inputName.val());
+        // 비었을 경우 return
+        if(inputName.val() == "null" || inputName.val() == "undefined" || inputName.val() == "NaN" || inputName.val() == '')
+        {
+
+            switch (inputName.attr("name")) {
+                case 'name': inputName.attr("placeholder","이름 2자리 이상 영문도 2자리 이상");    
+                    break;
+                case 'nickname': inputName.attr("placeholder","닉네임 2자리 이상 영문도 2자리 이상");    
+                    break;
+                case 'id': inputName.attr("placeholder","아이디 영문 숫자만");  
+                    break;
+                case 'pw': inputName.attr("placeholder","비밀번호 6자리 이상");    
+                    break;
+                case 'email': inputName.attr("placeholder","ex) abc@abc.com");  
+                    break;
+                case 'phone': inputName.attr("placeholder","ex) 010-1234-5678");
+                    break;
+                case 'addr': inputName.attr("placeholder","주소를 입력하세요");    
+                    break;          
+            }
+            //console.log("비어있따");
+            $("#msg").val("");
+
+            return;
+        }
+
+        if(!regExpCheck(inputName.val(), inputName.attr("name")))
+        {
+            //msg.val("이메일을 잘못 입력하셨습니다. 다시 입력해주세요!");
+            var text = " " + inputValue.attr("class") +" 잘못 입력 하셨습니다. 다시 입력해주세요! ";
+            $("#msg").val(text);
+           
+            //$(this).focus();
+            inputValue.val("F");
+            return false;
+        }else{
+            $("#msg").val("");
+            inputValue.val("T");
+        }
+    });
+
+});
+
+
+
+
+
+
+
+// 예전 쓰던 포스트 코드 (postCode +  도로명 + 예전주소)))
+// 현재는 도로명 주로만 쓰려고 간단하게 바꾼상태
 function execdaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {

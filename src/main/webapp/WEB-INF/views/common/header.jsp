@@ -232,7 +232,7 @@ aria-hidden="true" data-target="#LoginModalTitle">
            </div>
             <div class="modal-body login-form">
               
-				    <form action="${path}/login.do" method="post">
+				    <form action="${path}/member/login.do" method="post">
 				        <h2 class="text-center">Login</h2>   
 				        <div class="form-group has-error">
 				        	<input type="text" class="form-control" name="id" placeholder="id" required="required">
@@ -243,7 +243,7 @@ aria-hidden="true" data-target="#LoginModalTitle">
 				        <div class="form-group">
 				            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
 				        </div>
-				        <p><a href="${path}/signUp.do">Lost your Password?</a></p>
+				        <p><a href="${path}/member/fixPassword.do">Lost your Password?</a></p>
 					    <p class="text-center small">Don't have an account? <a href="${path}/signUp.do">Sign up here!</a></p>
 				    </form>
            	 </div>
