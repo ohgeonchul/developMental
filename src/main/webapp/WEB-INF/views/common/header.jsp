@@ -153,8 +153,8 @@
             </li>
 			<c:if test="${loginMember != null}">
 	            <li class="nav-item">
-	              <form action="${path}/logout.do" method="post">
-	               	<button type="button" class="btn btn-sm btn-light mt-2 mr-1" onclick="return logoutSnsAccount();" style="width: 200px;" disabled="disabled"><c:out value="${loginMember.id}님 환영합니다."/></button>
+	              <form action="${path}/member/logout.do" method="post">
+	               	<button type="button" class="btn btn-sm btn-light mt-2 mr-1" onclick="return logoutSnsAccount();" style="width: 200px;" disabled="disabled"><c:out value="${loginMember.nickname}님 환영합니다."/></button>
 	                <button type="submit" class="btn btn-sm btn-light mt-2 mr-1" onclick="return logoutSnsAccount();" style="width: 80px;">Log Out</button>
 	              </form>
 	            </li>		
@@ -239,7 +239,7 @@ aria-hidden="true" data-target="#LoginModalTitle">
 				        </div>
 						<div class="form-group">
 				            <input type="password" class="form-control" name="pw" placeholder="Password" required="required">
-				        </div>        
+				        </div>
 				        <div class="form-group">
 				            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
 				        </div>

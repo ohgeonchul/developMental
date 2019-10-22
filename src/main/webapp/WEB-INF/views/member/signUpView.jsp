@@ -113,8 +113,8 @@
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">핸드폰</label>
-                                    <input class="input--style-4" type="text" name="phone" placeholder="ex) 010-1234-5678">
-                                    <input type="hidden" id="phoneValue" value="F" class="핸드폰"/>
+                                    <input class="input--style-4" type="text" name="tel" placeholder="ex) 010-1234-5678">
+                                    <input type="hidden" id="telValue" value="F" class="핸드폰"/>
                                 </div>
                             </div>
                         </div>
@@ -225,7 +225,7 @@ function register()
 	var msg = $("#msg");
     var text = "";
     var inputValue = new Array();
-    inputValue.push("name", "nickname","id","pw","email","phone","addr");
+    inputValue.push("name", "nickname","id","pw","email","tel","addr");
 
     // for(var i = 0; i < inputValue.length; i++)
     //     console.log(inputValue[i]);
@@ -236,7 +236,7 @@ function register()
         ($("#idValue").val() == 'T') && 
         ($("#pwValue").val() == 'T') && 
         ($("#emailValue").val() == 'T') &&
-        ($("#phoneValue").val() == 'T') &&
+        ($("#telValue").val() == 'T') &&
         ($("#addrValue").val() == 'T') )
     {
         form.submit();
@@ -270,7 +270,7 @@ function regExpCheck(data, inputName)
         var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;   
         return ( data !='' && data != 'undefined' && regExp.test(data) );
     }
-    else if(inputName == 'phone')
+    else if(inputName == 'tel')
     {
         var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
         return ( data !='' && data != 'undefined' && regExp.test(data) );
@@ -336,7 +336,7 @@ $(document).ready(function()
                     break;
                 case 'email': inputName.attr("placeholder","ex) abc@abc.com");  
                     break;
-                case 'phone': inputName.attr("placeholder","ex) 010-1234-5678");
+                case 'tel': inputName.attr("placeholder","ex) 010-1234-5678");
                     break;
                 case 'addr': inputName.attr("placeholder","주소를 입력하세요");    
                     break;          
