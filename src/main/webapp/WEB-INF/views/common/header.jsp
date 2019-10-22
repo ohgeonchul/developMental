@@ -59,7 +59,7 @@
 		border-radius: 3px;
     	margin-bottom: 15px;
         background: #fff;
-        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        /* box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3); */
         padding: 30px;
     }
     .login-form .btn {        
@@ -87,7 +87,9 @@
 		text-decoration: underline;
 	}
 	
-
+	.modal-header {
+	    border-bottom: 0 none;
+	}
 
 	.modal-content.modal-80size {
   height: auto;
@@ -157,31 +159,26 @@
 
               </div>
             </li>
-            <c:if test="${SessionScope.loginMember.id != null}">
-            <li class="nav-item">  
-             <p id ="LoginID"><c:out value="${SessionScope.loginMember.id}"/> </p>
-            </li>
-            </c:if>
-	
-			<c:if test="${SessionScope.loginMember != null}">
+			<c:if test="${loginMember != null}">
 	            <li class="nav-item">
 	              <form action="${path}/logout.do" method="post">
+	               	<button type="button" class="btn btn-sm btn-light mt-2 mr-1" onclick="return logoutSnsAccount();" style="width: 200px;" disabled="disabled"><c:out value="${loginMember.id}님 환영합니다."/></button>
 	                <button type="submit" class="btn btn-sm btn-light mt-2 mr-1" onclick="return logoutSnsAccount();" style="width: 80px;">Log Out</button>
 	              </form>
 	            </li>		
 			</c:if>
 
-			<c:if test="${SessionScope.loginMember == null}">
+			<c:if test="${loginMember == null}">
 	            <li class="nav-item">		
 	                <button type="button" class="btn btn-sm btn-light mt-2 mr-1" id="login" style="width:67px;" >Log In</button>
-	            </li>
-			</c:if>
-			
+	            </li>	
             <li class="nav-item">
               <form action="${path }/signUp.do" method="post">
-              <button class="btn-sm btn-primary mt-2 mr-1" onclick='location.href="${path }/memberEnroll"' style="width:80px;">Sign Up</button>
+              <button class="btn-sm btn-primary mt-2 mr-1" onclick='location.href="${path}/signUp.do"' style="width:80px;">Sign Up</button>
               </form>
             </li>
+            </c:if>
+            
           </ul>
         </div>
       </div>
@@ -254,8 +251,8 @@ aria-hidden="true" data-target="#LoginModalTitle">
 				        <div class="form-group">
 				            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
 				        </div>
-				        <p><a href="#">Lost your Password?</a></p>
-					    <p class="text-center small">Don't have an account? <a href="#">Sign up here!</a></p>
+				        <p><a href="${path}/signUp.do">Lost your Password?</a></p>
+					    <p class="text-center small">Don't have an account? <a href="${path}/signUp.do">Sign up here!</a></p>
 				    </form>
            	 </div>
         </div>
