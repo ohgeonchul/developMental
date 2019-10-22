@@ -8,8 +8,10 @@
   <settings>
     <setting name="jdbcTypeForNull" value="NULL"/>
   </settings>
+
   <typeAliases>
     <typeAlias type="com.kh.workman.common.ArrayTypeHandler" alias="arrType" />
     <typeAlias type="com.kh.workman.job.model.vo.JobBoard" alias="jobBoard" />
  </typeAliases>
+
 </configuration>
