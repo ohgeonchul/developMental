@@ -165,7 +165,7 @@
 	                <button type="button" class="btn btn-sm btn-light mt-2 mr-1" id="login" style="width:67px;" >Log In</button>
 	            </li>	
             <li class="nav-item">
-              <form action="${path }/signUp.do" method="post">
+              <form action="${path}/member/signUp.do" method="post">
               <button class="btn-sm btn-primary mt-2 mr-1" onclick='location.href="${path}/signUp.do"' style="width:80px;">Sign Up</button>
               </form>
             </li>
@@ -244,7 +244,7 @@ aria-hidden="true" data-target="#LoginModalTitle">
 				            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
 				        </div>
 				        <p><a href="${path}/member/fixPassword.do">Lost your Password?</a></p>
-					    <p class="text-center small">Don't have an account? <a href="${path}/signUp.do">Sign up here!</a></p>
+					    <p class="text-center small">Don't have an account? <a href="${path}/member/signUp.do">Sign up here!</a></p>
 				    </form>
            	 </div>
         </div>

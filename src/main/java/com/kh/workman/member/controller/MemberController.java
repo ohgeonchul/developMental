@@ -58,7 +58,7 @@ public class MemberController {
 		
 	}
 	
-	@RequestMapping("member/logout.do")
+	@RequestMapping("/member/logout.do")
 	public String logout(Model model,HttpServletRequest request)
 	{
 		HttpSession session = request.getSession();
@@ -74,7 +74,7 @@ public class MemberController {
 		return "common/msg";
 	}
 	
-	@RequestMapping("signUp.do")
+	@RequestMapping("/member/signUp.do")
 	public String signUp()
 	{
 		return "member/signUpView";
