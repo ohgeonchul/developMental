@@ -14,9 +14,19 @@
   <jsp:param name="pageTitle" value="sidebar - mainview" />
 </jsp:include>
 
-  <div class="py-4 container submenu-container">
+  <style>
+    .container-1200 {
+      width: 100%;
+      min-width: 1200px;
+      padding-left: 15px;
+      padding-right: 15px;
+      margin: 0 auto;
+    }
+  </style>
 
-    <div class="card card-fluid">
+  <div class="py-4 col-lg-9 container submenu-container">
+
+    <div class="card card-fluid" id="job-listings">
 
       <h6 class="card-header">
         <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-primary rounded shadow-sm">
