@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="<%=request.getContextPath()%>"/>
+<script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="pageTitle" value=""/>
 </jsp:include>
@@ -87,8 +88,7 @@ function sendMessage(sendData) {
 
 // 서버로부터 메시지를 받았을 때
 function onMessage(msg) {
-       var data = msg.data;
-       $("#data").append(data + "<br/>");
+      console.log(msg);
 }
 // 서버와 연결을 끊었을 때
 function onClose(evt) {
@@ -184,61 +184,68 @@ function createCard(ele){
 function createList(){
 	var listTitle= $("#listTitle").val();
 	if(listTitle!=''){
+		var sendData = {};
+		sendData.collaboNo = 1;
+		sendData.type = "createList";
+		sendData.userId = "testuser1";
+		sendData.content = listTitle;
 		
-	var content = $("button[name=btn_cList]").parent().parent().parent();
-	var board = content.parent().parent();
-	content.empty();
-	
-	var listHeader = $('<div/>');
-	listHeader.attr("class","list-header");
-/* 	listHeader.css({
-		"padding":"5px 5px",
-		"font-weight":"bold",
-		"font-size":"14px"
-	}); */
-	var btnMenu = $('<button>');
-	btnMenu.attr("type","button");
-	btnMenu.attr("class","fa fa-align-justify btn-menu");
-	/* btnMenu.css({"margin-left":"3px"}); */
-	
-	/* <div id="div3" class="list-cards" style="margin-top:10px;padding:3px 3px" ondrop="drop(this,event)" ondragover="return false;"> */
-	
-	var listCards = $('<div/>');
-	listCards.attr("class","list-cards");
-	listCards.attr("ondrop","drop(this,event)");
-	listCards.attr("ondragover","return false;");
-	/* listCards.css({
-		"margin-top":"10px",
-		"padding":"3px 3px"
-	}); */
-	
-	
-	
-	var openCard = $('<div/>');
-	openCard.attr("class","open-card");
-	/* openCard.css({
-		"color":"#5e6c84",
-		"font-size":"14px",
-		"padding":"5px 5px",
-		"margin-top":"10px"
-	}); */
-	
-	var faplus = $('<span/>');
-	faplus.text("Add another card");
-	faplus.attr("onclick","createCard(this);");
-	faplus.attr("class","fa fa-plus");
-	/* faplus.css({"margin-right":"5px"}); */
-	
-	openCard.append(faplus);
-	
-	listHeader.append(listTitle);
-	listHeader.append(btnMenu);
-	
-	content.append(listHeader);
-	content.append(listCards);
-	content.append(openCard);
-	
-	createWrapper(board);
+		sendMessage(sendData);
+		
+		var content = $("button[name=btn_cList]").parent().parent().parent();
+		var board = content.parent().parent();
+		content.empty();
+		
+		var listHeader = $('<div/>');
+		listHeader.attr("class","list-header");
+	/* 	listHeader.css({
+			"padding":"5px 5px",
+			"font-weight":"bold",
+			"font-size":"14px"
+		}); */
+		var btnMenu = $('<button>');
+		btnMenu.attr("type","button");
+		btnMenu.attr("class","fa fa-align-justify btn-menu");
+		/* btnMenu.css({"margin-left":"3px"}); */
+		
+		/* <div id="div3" class="list-cards" style="margin-top:10px;padding:3px 3px" ondrop="drop(this,event)" ondragover="return false;"> */
+		
+		var listCards = $('<div/>');
+		listCards.attr("class","list-cards");
+		listCards.attr("ondrop","drop(this,event)");
+		listCards.attr("ondragover","return false;");
+		/* listCards.css({
+			"margin-top":"10px",
+			"padding":"3px 3px"
+		}); */
+		
+		
+		
+		var openCard = $('<div/>');
+		openCard.attr("class","open-card");
+		/* openCard.css({
+			"color":"#5e6c84",
+			"font-size":"14px",
+			"padding":"5px 5px",
+			"margin-top":"10px"
+		}); */
+		
+		var faplus = $('<span/>');
+		faplus.text("Add another card");
+		faplus.attr("onclick","createCard(this);");
+		faplus.attr("class","fa fa-plus");
+		/* faplus.css({"margin-right":"5px"}); */
+		
+		openCard.append(faplus);
+		
+		listHeader.append(listTitle);
+		listHeader.append(btnMenu);
+		
+		content.append(listHeader);
+		content.append(listCards);
+		content.append(openCard);
+		
+		createWrapper(board);
 	
 	}else{
 		alert("공백은안되요;");

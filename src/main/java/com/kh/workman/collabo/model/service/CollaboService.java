@@ -5,6 +5,6 @@ import java.util.Map;
 
 public interface CollaboService {
 
-	int createList(Map receiveMessage);
+	int createList(Map<String, String> receiveMessage);
 
 }

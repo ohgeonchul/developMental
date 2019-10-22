@@ -7,6 +7,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 public interface CollaboDao {
 
-	int createList(SqlSessionTemplate session, Map receiveMessage);
+	int createList(SqlSessionTemplate session, Map<String, String> receiveMessage);
 
 }

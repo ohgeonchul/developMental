@@ -1,5 +1,7 @@
 package com.kh.workman.collabo.controller;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +20,15 @@ public class CollaboController {
 		mv.setViewName("collabo/main");
 		return mv;
 	}
-	
+
 	@RequestMapping("/collabo/detail.do")
 	public String connectCollaboDetail() {
 		return "/collabo/detail";
+	}
+
+	public int createList(HashMap<String, String> receiveData) {
+		System.out.println(receiveData);
+		return service.createList(receiveData);
 	}
 
 }

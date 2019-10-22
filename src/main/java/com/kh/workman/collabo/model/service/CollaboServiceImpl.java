@@ -19,7 +19,7 @@ public class CollaboServiceImpl implements CollaboService {
 
 
 	@Override
-	public int createList(Map receiveMessage) {
+	public int createList(Map<String, String> receiveMessage) {
 		return dao.createList(session,receiveMessage);
 	}
 }

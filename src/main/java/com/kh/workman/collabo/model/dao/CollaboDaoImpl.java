@@ -5,12 +5,11 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
 public class CollaboDaoImpl implements CollaboDao {
 
 	@Override
-	public int createList(SqlSessionTemplate session, Map receiveMessage) {
+	public int createList(SqlSessionTemplate session, Map<String, String> receiveMessage) {
 		return session.insert("collabo.createList", receiveMessage);
 	}
 
