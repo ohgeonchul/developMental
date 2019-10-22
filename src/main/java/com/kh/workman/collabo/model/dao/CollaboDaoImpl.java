@@ -1,6 +1,6 @@
 package com.kh.workman.collabo.model.dao;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 public class CollaboDaoImpl implements CollaboDao {
 
 	@Override
-	public int createList(SqlSessionTemplate session, Map<String, String> receiveMessage) {
+	public int createList(SqlSessionTemplate session, HashMap receiveMessage) {
+		System.out.println("asdf");
 		return session.insert("collabo.createList", receiveMessage);
 	}
 

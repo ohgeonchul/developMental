@@ -185,7 +185,7 @@ function createList(){
 	var listTitle= $("#listTitle").val();
 	if(listTitle!=''){
 		var sendData = {};
-		sendData.collaboNo = 1;
+		sendData.collaboNo = "1";
 		sendData.type = "createList";
 		sendData.userId = "testuser1";
 		sendData.content = listTitle;

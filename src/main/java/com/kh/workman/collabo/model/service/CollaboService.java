@@ -1,10 +1,10 @@
 package com.kh.workman.collabo.model.service;
 
-import java.util.Map;
+import java.util.HashMap;
 
 
 public interface CollaboService {
 
-	int createList(Map<String, String> receiveMessage);
+	int createList(HashMap receiveMessage);
 
 }

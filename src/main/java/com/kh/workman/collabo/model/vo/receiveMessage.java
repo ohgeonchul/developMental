@@ -8,7 +8,8 @@ import lombok.ToString;
 public class receiveMessage {
 	private int type;
 	private String userId;
-	private int collaboNo;
+	//private int collaboNo;
+	private double collaboNo;
 	private String content;
 	private int listNo;
 	private int cardNo;
