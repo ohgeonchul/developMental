@@ -22,13 +22,13 @@
 	crossorigin="anonymous"></script>
 <!-- 사용자작성 css -->
 <%-- <link rel="stylesheet"
-	href="${pageContext.request.contextPath }/resources/css/style.css" /> --%>
+	href="${pageContext.request.contextPath}/resources/css/style.css" /> --%>
 
 </head>
 <body>
 	<script>
 		alert("${msg}");
-		location.href="${path}/${loc}";
+		location.href="${path}${loc}";
 	</script>
 
 </body>

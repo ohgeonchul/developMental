@@ -22,7 +22,7 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
 	
-	@RequestMapping("member/login.do")
+	@RequestMapping("/member/login.do")
 	public ModelAndView login(Member m, HttpServletRequest request)
 	{
 		HttpSession session = request.getSession();
@@ -35,8 +35,12 @@ public class MemberController {
 		
 		System.out.println(m.getId());
 		System.out.println(m.getPw());
+		System.out.println(m.getId().equals(loginMember.getId()));
+		System.out.println(pwEncoder.matches(m.getPw(), loginMember.getPw()));
 		
-		if(m.getId().equals(loginMember.getId()) && m.getPw().equals(loginMember.getPw()))
+		
+		
+		if(m.getId().equals(loginMember.getId()) && pwEncoder.matches(m.getPw(), loginMember.getPw()))
 		{
 			msg = "로그인 성공";
 			session.setAttribute("loginMember", loginMember);			
@@ -54,7 +58,7 @@ public class MemberController {
 		
 	}
 	
-	@RequestMapping("member/logout.do")
+	@RequestMapping("/member/logout.do")
 	public String logout(Model model,HttpServletRequest request)
 	{
 		HttpSession session = request.getSession();
@@ -70,7 +74,7 @@ public class MemberController {
 		return "common/msg";
 	}
 	
-	@RequestMapping("signUp.do")
+	@RequestMapping("/member/signUp.do")
 	public String signUp()
 	{
 		return "member/signUpView";

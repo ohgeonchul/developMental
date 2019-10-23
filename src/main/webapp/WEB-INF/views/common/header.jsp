@@ -24,10 +24,10 @@
  
 
   <!-- jQuery CDN -->
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-	crossorigin="anonymous"></script>
-<link rel="stylesheet" href="${path }/resources/css/header.css">
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="${path }/resources/css/header.css">
 
 <style type="text/css">
 	/* body {
@@ -153,8 +153,8 @@
             </li>
 			<c:if test="${loginMember != null}">
 	            <li class="nav-item">
-	              <form action="${path}/logout.do" method="post">
-	               	<button type="button" class="btn btn-sm btn-light mt-2 mr-1" onclick="return logoutSnsAccount();" style="width: 200px;" disabled="disabled"><c:out value="${loginMember.id}님 환영합니다."/></button>
+	              <form action="${path}/member/logout.do" method="post">
+	               	<button type="button" class="btn btn-sm btn-light mt-2 mr-1" onclick="return logoutSnsAccount();" style="width: 200px;" disabled="disabled"><c:out value="${loginMember.nickname}님 환영합니다."/></button>
 	                <button type="submit" class="btn btn-sm btn-light mt-2 mr-1" onclick="return logoutSnsAccount();" style="width: 80px;">Log Out</button>
 	              </form>
 	            </li>		
@@ -165,7 +165,7 @@
 	                <button type="button" class="btn btn-sm btn-light mt-2 mr-1" id="login" style="width:67px;" >Log In</button>
 	            </li>	
             <li class="nav-item">
-              <form action="${path }/signUp.do" method="post">
+              <form action="${path}/member/signUp.do" method="post">
               <button class="btn-sm btn-primary mt-2 mr-1" onclick='location.href="${path}/signUp.do"' style="width:80px;">Sign Up</button>
               </form>
             </li>
@@ -239,12 +239,12 @@ aria-hidden="true" data-target="#LoginModalTitle">
 				        </div>
 						<div class="form-group">
 				            <input type="password" class="form-control" name="pw" placeholder="Password" required="required">
-				        </div>        
+				        </div>
 				        <div class="form-group">
 				            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
 				        </div>
 				        <p><a href="${path}/member/fixPassword.do">Lost your Password?</a></p>
-					    <p class="text-center small">Don't have an account? <a href="${path}/signUp.do">Sign up here!</a></p>
+					    <p class="text-center small">Don't have an account? <a href="${path}/member/signUp.do">Sign up here!</a></p>
 				    </form>
            	 </div>
         </div>
