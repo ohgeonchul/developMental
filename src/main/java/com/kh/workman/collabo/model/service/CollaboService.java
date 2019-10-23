@@ -5,13 +5,12 @@ import java.util.List;
 
 import com.kh.workman.collabo.model.vo.CollaboList;
 
-
 public interface CollaboService {
 
-	int createList(HashMap<String, String> receiveMessage);
+	int createList(HashMap<String, Object> rm);
 
-	CollaboList selectCollaboListOne(HashMap<String, String> rm);
+	HashMap<String, Object> selectCollaboListOne(int target);
 
-	List<String> participation(int collaboNo);
+	List<HashMap> participation(int collaboNo);
 
 }

@@ -9,10 +9,10 @@ import com.kh.workman.collabo.model.vo.CollaboList;
 
 public interface CollaboDao {
 
-	int createList(SqlSessionTemplate session, HashMap<String, String> receiveMessage);
+	int createList(SqlSessionTemplate session, HashMap<String, Object> receiveMessage);
 
-	CollaboList selectCollaboListOne(SqlSessionTemplate session, HashMap<String, String> rm);
+	HashMap<String, Object> selectCollaboListOne(SqlSessionTemplate session, int target);
 
-	List<String> participation(SqlSessionTemplate session, int collaboNo);
+	List<HashMap> participation(SqlSessionTemplate session, int collaboNo);
 
 }

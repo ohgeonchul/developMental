@@ -62,13 +62,21 @@
 	</div>
 </section>
 <script>
-sessionStorage.setItem("userId","testuser1");
-sessionStorage.setItem("collaboNo",1);
+
+
 let sock = new SockJS("<c:url value="/collabo/soc"/>");
 sock.onmessage = onMessage;
 sock.onclose = onClose;
 
-$(document).ready(function() {
+userInfo = {};
+userInfo.userId = prompt("Input your ID");
+userInfo.collaboNo = 1;
+userInfo.type = "connect";
+
+console.log(sendMessage(userInfo));
+
+
+/* $(document).ready(function() {
        $("#sendBtn").click(function() {
                sendMessage();
                $('#message').val('')
@@ -79,7 +87,7 @@ $(document).ready(function() {
                       $('#message').val('')
                }
        });
-});
+}); */
 // 메시지 전송
 function sendMessage(sendData) {
 	var jsonData = JSON.stringify(sendData);
@@ -187,7 +195,7 @@ function createList(){
 		var sendData = {};
 		sendData.collaboNo = "1";
 		sendData.type = "createList";
-		sendData.userId = "testuser1";
+		sendData.userId = "testuser3";
 		sendData.content = listTitle;
 		
 		sendMessage(sendData);

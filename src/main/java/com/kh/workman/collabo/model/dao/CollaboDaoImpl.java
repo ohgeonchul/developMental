@@ -12,17 +12,17 @@ import com.kh.workman.collabo.model.vo.CollaboList;
 public class CollaboDaoImpl implements CollaboDao {
 
 	@Override
-	public int createList(SqlSessionTemplate session, HashMap<String, String> receiveMessage) {
+	public int createList(SqlSessionTemplate session, HashMap<String, Object> receiveMessage) {
 		return session.insert("collabo.createList", receiveMessage);
 	}
 
 	@Override
-	public CollaboList selectCollaboListOne(SqlSessionTemplate session, HashMap<String, String> rm) {
-		return session.selectOne("collabo.selectCollaboListOne", rm);
+	public HashMap<String, Object> selectCollaboListOne(SqlSessionTemplate session, int target) {
+		return session.selectOne("collabo.selectCollaboListOne", target);
 	}
 
 	@Override
-	public List<String> participation(SqlSessionTemplate session, int collaboNo) {
+	public List<HashMap> participation(SqlSessionTemplate session, int collaboNo) {
 		return session.selectList("collabo.participation", collaboNo);
 	}
 

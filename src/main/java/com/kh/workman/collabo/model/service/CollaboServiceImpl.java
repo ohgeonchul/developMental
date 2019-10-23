@@ -19,17 +19,17 @@ public class CollaboServiceImpl implements CollaboService {
 	SqlSessionTemplate session;
 
 	@Override
-	public int createList(HashMap<String, String> receiveMessage) {
+	public int createList(HashMap<String, Object> receiveMessage) {
 		return dao.createList(session, receiveMessage);
 	}
 
 	@Override
-	public CollaboList selectCollaboListOne(HashMap<String, String> rm) {
-		return dao.selectCollaboListOne(session, rm);
+	public HashMap<String, Object> selectCollaboListOne(int target) {
+		return dao.selectCollaboListOne(session, target);
 	}
 
 	@Override
-	public List<String> participation(int collaboNo) {
+	public List<HashMap> participation(int collaboNo) {
 		return dao.participation(session, collaboNo);
 	}
 }
