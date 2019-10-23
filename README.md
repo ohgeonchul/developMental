@@ -237,6 +237,18 @@ http://mybatis.org/dtd/mybatis-3-mapper.dtd
     </param-value>
   </context-param>
 ```
+```xml
+<!-- security-context.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="bcryptPasswordEncoder"
+    class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+</beans>
+```
 
 ## SPRING LOG : 등록된 bean과 autowiring된 것들을 생성 및 bean으로 등록된 controller load?
 pom.xml log4j mvnrepository is included in default
@@ -482,3 +494,65 @@ resultType update insert delete 은 디폴트로 _int이므로 생략
 ```xml
 <mapper namespace="dev"></mapper>
 ```
+
+## log4j
+
+## (AOP) Aspect Oriented Prorgramming
+```
+관점지향 프로그래밍 controller로 매칭 X method 명칭으로 mapping
+insert update delete (Service)메소드가 실행될떄, aop(관점지향)로 권한 판단
+소규모 프로젝트에서는 interceptor로 구현. interceptor는 controller 접근일때만 
+service나 dao도 쓸수 있는 interceptor.
+
+AOP는 oop를 더 oop스럽게 사용할 수 있게 하는 기술
+객체를 재사용함으로서 개발자들은 반복되는 코드를 많이 줄였지만,
+매요청마다 로그, 권한체크, 인증, 예외처리 등 필수요소는 반복될 수 밖에 없었음.
+AOP를 통해 비즈니스로직(주업무)과 공통모듈(보조업무)로 구분한 후 비지니스 로직
+코드외부에서 필요한 시점에 공통모듈을 삽입하여 실행하는 것.
+e.g. 자동 transaction 처리
+e.g. delete update메소드 실행 할때, aop를 통해 session에 있는
+     로그인 유저 정보를 테이블에 저장 및 로그 남김, 또는 session으로 권한 체크 등
+
+주요개념.
+a. 관점(aspect)
+  구현하고자 하는 횡단의 관심사의 기능, 클래스 단위
+b. Join point (적용가능한 지점)
+  관점을 삽입하여 Advice(적용될 코드/메소드 /기능)가 적용될 수 있는 위치 (before, after, around)
+c. Pointcut 어느클래스의 어느 메소드 전,후,전/후에 적용할지 패턴형식으로 작성하는 것을 말함
+d. Advice
+   공통 모듈 로직
+```
+
+```
+AOP적용
+1. 선언적방식 : XML에서 설정
+```
+e.g.
+```xml
+<!-- spring/appServlet/aspect-context.xml -->
+<aop:config>
+  <aop:aspect id="test" ref="loggerAspect" >
+    <aop:pointcut
+        expression="execution(접근제한자 클래스명(패키지포함) method param)" id="pc" />
+    <aop:after|before|around method="loggerAspect의 메소드" pointcut="pc" />
+  </aop:aspect>
+</aop:config>
+
+```
+2. Annotation : 클래스 내부에서 Annotation 구현
+annotation을 검색할수 있게 설정 *xml파일에 반드시 있어야함
+```xml
+<aop:aspectj-autoproxy/>
+```
+```java
+aop설정 메소드에 어노테이션 표시
+@Pointcut("execution(public**(..))")
+메소드명
+```
+
+## aop
+```
+AspectJ Weaver
+```
+
+## appServlet 밑에 spring bean configuration file (xml)

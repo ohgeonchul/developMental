@@ -6,12 +6,68 @@
 
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-  <jsp:param name="pageTitle" value="Homepage" />
-</jsp:include>
+  <jsp:include page="/WEB-INF/views/common/header.jsp">
+    <jsp:param name="pageTitle" value="Homepage" />
+  </jsp:include>
 
-  <section id="content">
-  	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/admin/selectMemberList.do">관리자메뉴</a>
-  </section>
+  <!-- CSS -->
+  <link rel="stylesheet" href="${path }/resources/css/mainpage.css">
+
+  <!-- Main page cover -->
+  <main role="main" id="page-container">
+    <!-- search area -->
+    <div class="jumbotron align-items-center justify-content-center text-white bg-dark" id="cover-section">
+      <div class="container">
+        <h3 class="text-white row justify-content-center">
+          <img src="${path }/resources/images/title.png" alt="">
+        </h3>
+        <div class="row justify-content-center my-5">
+          <a class="btn btn-light" href="${path }/mainView" role="button">
+            Learn more &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i>
+          </a>
+          <a class="btn btn-outline-light mx-1" href="${path }/mainView" role="button">
+            Explore more &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container my-5">
+      <div class="row">
+        <div class="col-md-4">
+          <h3>Developers By <img src="${path}/resources/images/icons8-pixel-heart-50.png" alt="https://icons8.com/icons/set/pixel-heart"></h3>massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-secondary" href="#" role="button">View details &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a></p>
+        </div>
+        <div class="col-md-4">
+            <h3>Every Programmer is an <img src="${path}/resources/images/author.png" alt=""></h3>tortor mauris condimentum nibh, magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-secondary" href="#" role="button">View details &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a></p>
+        </div>
+        <div class="col-md-4">
+            <h3>Talk is <img src="${path}/resources/images/cheap.png" alt=""> Show me the <img src="${path}/resources/images/code.png" alt=""></h3>
+          tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam . Donec sed odio dui. </p>
+          <p><a class="btn btn-secondary" href="#" role="button">View details &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a></p>
+        </div>
+      </div> <hr>
+    </div> <!-- /container -->
+
+    <div class="container my-5">
+      <div class="row">
+        <div class="col-md-4">
+          <h3>Developers By <img src="${path}/resources/images/icons8-pixel-heart-50.png" alt="https://icons8.com/icons/set/pixel-heart"></h3>massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-secondary" href="#" role="button">View details &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a></p>
+        </div>
+        <div class="col-md-4">
+            <h3>Every Programmer is an <img src="${path}/resources/images/author.png" alt=""></h3>tortor mauris condimentum nibh, magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-secondary" href="#" role="button">View details &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a></p>
+        </div>
+        <div class="col-md-4">
+            <h3>Talk is <img src="${path}/resources/images/cheap.png" alt=""> Show me the <img src="${path}/resources/images/code.png" alt=""></h3>
+          tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam . Donec sed odio dui. </p>
+          <p><a class="btn btn-secondary" href="#" role="button">View details &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a></p>
+        </div>
+      </div> <hr>
+    </div> <!-- /container -->
+  </main>
+
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

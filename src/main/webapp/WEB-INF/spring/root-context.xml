@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.0.xsd
+		http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
   
   <!-- root-context.xml
     defines shared resources visible to all other web components.
@@ -33,6 +39,11 @@
   <!-- SessionTemplate을 springbean으로 등록하여 활용 -->
   <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
     <constructor-arg index="0" ref="sqlSessionFactoryBean"/>
-  </bean>
-    
+  </bean> 
+  
+  <bean id="collaboHandler" class="com.kh.workman.collabo.controller.CollaboHandler"/>
+  <websocket:handlers>
+  	<websocket:mapping handler="collaboHandler" path="/collabo/soc"/>
+  	<websocket:sockjs/>
+  </websocket:handlers>
 </beans>

@@ -22,4 +22,12 @@
 	<select id="selectMember" resultType="map" parameterType="string">
 		SELECT * FROM MEMBER where ID=#{id}
 	</select>
+
+  <select id="selectLogin" parameterType="com.kh.workman.member.model.vo.Member" resultType="com.kh.workman.member.model.vo.Member">
+  	SELECT * FROM MEMBER WHERE status=1 and id=#{id}
+  </select>
+  
+  <insert id="insertMember" parameterType="com.kh.workman.member.model.vo.Member">
+  	INSERT INTO MEMBER VALUES(DEFAULT,#{id},#{pw},#{name},#{nickname},#{email},#{addr},#{tel},DEFAULT,DEFAULT,DEFAULT,DEFAULT,NULL,DEFAULT,0)
+  </insert>
 </mapper>
