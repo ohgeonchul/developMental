@@ -11,6 +11,7 @@
 </jsp:include>
 
   <section id="content">
+  	<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/admin/selectMemberList.do">관리자메뉴</a>
   </section>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

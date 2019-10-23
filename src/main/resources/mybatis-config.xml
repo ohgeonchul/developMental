@@ -6,5 +6,7 @@
   <typeAliases>
     <typeAlias type="com.kh.spring.dm.model.vo.Employee" alias="emp" />
     <typeAlias type="com.kh.spring.common.ArrayTypeHandler" alias="arrType" />
+    <typeAlias type="com.kh.spring.admin.model.vo.Member" alias="member" />
+    
  </typeAliases>
 </configuration>

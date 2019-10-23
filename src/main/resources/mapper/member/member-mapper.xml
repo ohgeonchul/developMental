@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="member">
+
+	<select id="selectMemberList" resultType="member">
+		SELECT * FROM MEMBER
+	</select>
+	
+	<!--
+		update쿼리 int
+		# 자료형 맞춰주는것
+		$ 무조건 문자열
+	 -->
+	<update id="statusUpdate" parameterType="map">
+		UPDATE MEMBER SET STATUS=#{status} WHERE NO=#{no}
+	</update>
+	
+	<delete id="deleteMember" parameterType="map">
+		DELETE FROM MEMBER WHERE ID=#{id}
+	</delete>
+	
+	<select id="selectMember" resultType="map" parameterType="string">
+		SELECT * FROM MEMBER where ID=#{id}
+	</select>
+</mapper>
