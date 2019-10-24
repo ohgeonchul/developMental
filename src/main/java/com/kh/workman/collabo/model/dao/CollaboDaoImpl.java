@@ -7,17 +7,18 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.workman.collabo.model.vo.CollaboList;
+import com.kh.workman.collabo.model.vo.DataPacket;
 
 @Repository
 public class CollaboDaoImpl implements CollaboDao {
 
 	@Override
-	public int createList(SqlSessionTemplate session, HashMap<String, Object> receiveMessage) {
-		return session.insert("collabo.createList", receiveMessage);
+	public int createList(SqlSessionTemplate session, DataPacket receive) {
+		return session.insert("collabo.createList", receive);
 	}
 
 	@Override
-	public HashMap<String, Object> selectCollaboListOne(SqlSessionTemplate session, int target) {
+	public CollaboList selectCollaboListOne(SqlSessionTemplate session, int target) {
 		return session.selectOne("collabo.selectCollaboListOne", target);
 	}
 

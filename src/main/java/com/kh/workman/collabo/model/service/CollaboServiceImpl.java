@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.workman.collabo.model.dao.CollaboDao;
 import com.kh.workman.collabo.model.vo.CollaboList;
+import com.kh.workman.collabo.model.vo.DataPacket;
 
 @Service
 public class CollaboServiceImpl implements CollaboService {
@@ -19,12 +20,12 @@ public class CollaboServiceImpl implements CollaboService {
 	SqlSessionTemplate session;
 
 	@Override
-	public int createList(HashMap<String, Object> receiveMessage) {
-		return dao.createList(session, receiveMessage);
+	public int createList(DataPacket receive) {
+		return dao.createList(session, receive);
 	}
 
 	@Override
-	public HashMap<String, Object> selectCollaboListOne(int target) {
+	public CollaboList selectCollaboListOne(int target) {
 		return dao.selectCollaboListOne(session, target);
 	}
 

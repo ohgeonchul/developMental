@@ -4,12 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.kh.workman.collabo.model.vo.CollaboList;
+import com.kh.workman.collabo.model.vo.DataPacket;
 
 public interface CollaboService {
 
-	int createList(HashMap<String, Object> rm);
+	int createList(DataPacket receive);
 
-	HashMap<String, Object> selectCollaboListOne(int target);
+	CollaboList selectCollaboListOne(int target);
 
 	List<HashMap> participation(int collaboNo);
 
