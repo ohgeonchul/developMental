@@ -19,8 +19,8 @@
 		<span style="font-size:18px;color:white;font-weight:bold;">대충 트렐로 메뉴</span>
 	</div>
 	<div class="board" >
-		<div class="list-wrapper">
-			<div class="list-content" >
+		<!-- <div class="list-wrapper">
+			<div class="list-content">
 				<div class="list-header">
 					리스트이름
 					<button type="button" class="fa fa-align-justify btn-menu" onclick=""></button>
@@ -38,10 +38,10 @@
 					</div>
 				</div>
 				<div class="open-card" >
-					<span onclick="createCard(this);" class="fa fa-plus btn-createCard" >Add another card</span>
+					<span onclick="requestCreateCard(this);" class="fa fa-plus btn-createCard" >Add another card</span>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		<!-- Add another list -->
 		<div class="list-wrapper" >
 			<div class="list-content" >
@@ -99,6 +99,11 @@ function onMessage(msg) {
       if(receive.type == 'list'){
     	  if(receive.method == 'create'){
     		  responseCreateList(receive);
+    	  }
+      }
+      if(receive.type== 'card'){
+    	  if(receive.method == 'create'){
+    		  responseCreateCard(receive);
     	  }
       }
 }
@@ -163,33 +168,39 @@ function createWrapper(ele){
 
 
 
-function createCard(ele){
-	var title= prompt("Card's Title ? ");
+function responseCreateCard(receive){
+	var listCards = $('div[name=listNo_'+receive.listNo+']');
 	
-	if(title!=null){
-	var listCards = $(ele).parent().parent().children('.list-cards');
 	
 	var card = $('<div/>');
 	var content = $('<span/>');
-	content.text(title);
+	content.text(receive.content);
 	
 	card.attr("class","list-card");
 	card.attr("ondrop","return false");
 	card.attr("draggable","true");
 	card.attr("ondragstart","drag(this,event)");
-	/* card.css({
-		"margin":"5px 0px",
-		"background-color":"#ffffff",
-		"padding":"5px 5px",
-		"font-size":"14px"
-	}); */
+	card.attr("id",receive.cardNo);
+	card.attr("name","cardNo_"+receive.cardNo);
 	
 	content.attr("class","card-content");
 	
 	card.append(content);
 	listCards.append(card);
-	}else{
-		alert("Cancel Make a Card");
+}
+function requestCreateCard(ele){
+	var content = prompt("Card's Title ? ");
+	var listNo = $(ele).parent().parent().children('.list-cards').attr('id');
+	if(content!=''){
+		var sendData = {
+				type : "card",
+				method : "create",
+				content : content,
+				userId : userId,
+				collaboNo : collaboNo,
+				listNo : listNo
+		};
+		sendMessage(sendData);
 	}
 }
 
@@ -213,8 +224,6 @@ function responseCreateList(receive){
 		var board = content.parent().parent();
 		content.empty();
 		
-		content.attr("id",receive.listNo);
-		
 		var listHeader = $('<div/>');
 		listHeader.attr("class","list-header");
 	
@@ -227,13 +236,15 @@ function responseCreateList(receive){
 		listCards.attr("class","list-cards");
 		listCards.attr("ondrop","drop(this,event)");
 		listCards.attr("ondragover","return false;");
+		listCards.attr("name","listNo_"+receive.listNo);
+		listCards.attr("id",receive.listNo);
 		
 		var openCard = $('<div/>');
 		openCard.attr("class","open-card");
 	
 		var faplus = $('<span/>');
 		faplus.text("Add another card");
-		faplus.attr("onclick","createCard(this);");
+		faplus.attr("onclick","requestCreateCard(this);");
 		faplus.attr("class","fa fa-plus");
 	
 		openCard.append(faplus);
