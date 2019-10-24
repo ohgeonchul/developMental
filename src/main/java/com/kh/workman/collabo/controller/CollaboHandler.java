@@ -30,7 +30,6 @@ public class CollaboHandler extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-
 	}
 
 	@Override
@@ -61,6 +60,7 @@ public class CollaboHandler extends TextWebSocketHandler {
 		case "card":
 			switch (receive.getMethod()) {
 			case "create":
+				createCard(receive, session);
 				break;
 			case "update":
 				break;
@@ -71,20 +71,10 @@ public class CollaboHandler extends TextWebSocketHandler {
 		}
 	}
 
-	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		sessionList.remove(session);
-		logger.debug("{} 연결종료", session.getId());
-	}
-
-	public boolean createList(DataPacket receive, WebSocketSession session) throws IOException {
-		boolean isCompleted = service.createList(receive) == 1 ? true : false;
-		System.out.println(receive);
+	private void createCard(DataPacket receive, WebSocketSession session) throws IOException {
+		boolean isCompleted = service.createCard(receive) == 1 ? true : false;
 		List<HashMap> collabos = service.participation(receive.getCollaboNo());
-		System.out.println(collabos);
-		CollaboList tempCollaboList = service.selectCollaboListOne(receive.getListNo() - 1);
-		System.out.println(tempCollaboList);
-		
+
 		if (isCompleted) {
 			for (String key : sessionList.keySet()) {
 				for (int i = 0; i < collabos.size(); i++) {
@@ -95,8 +85,33 @@ public class CollaboHandler extends TextWebSocketHandler {
 				}
 			}
 		}
+		logger.debug(
+				"Create Card Success [USER ID : " + receive.getUserId() + " CARD NO : " + receive.getCardNo() + "]");
+	}
 
-		return isCompleted;
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		sessionList.remove(session);
+		logger.debug("{} 연결종료", session.getId());
+	}
+
+	public void createList(DataPacket receive, WebSocketSession session) throws IOException {
+		boolean isCompleted = service.createList(receive) == 1 ? true : false;
+		List<HashMap> collabos = service.participation(receive.getCollaboNo());
+//		CollaboList tempCollaboList = service.selectCollaboListOne(receive.getListNo() - 1);
+
+		if (isCompleted) {
+			for (String key : sessionList.keySet()) {
+				for (int i = 0; i < collabos.size(); i++) {
+					if (key.equals(collabos.get(i).get("ID"))) {
+						sessionList.get(key).sendMessage(new TextMessage(toJson(receive)));
+						break;
+					}
+				}
+			}
+		}
+		logger.debug(
+				"Create List Success [USER ID : " + receive.getUserId() + " LIST NO : " + receive.getListNo() + "]");
 	}
 
 	public DataPacket parsingJson(String receiveMessage) {

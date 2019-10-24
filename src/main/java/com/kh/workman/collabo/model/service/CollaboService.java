@@ -14,4 +14,6 @@ public interface CollaboService {
 
 	List<HashMap> participation(int collaboNo);
 
+	int createCard(DataPacket receive);
+
 }

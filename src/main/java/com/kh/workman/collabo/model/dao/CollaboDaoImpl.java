@@ -27,4 +27,9 @@ public class CollaboDaoImpl implements CollaboDao {
 		return session.selectList("collabo.participation", collaboNo);
 	}
 
+	@Override
+	public int createCard(SqlSessionTemplate session, DataPacket receive) {
+		return session.insert("collabo.createCard", receive);
+	}
+
 }

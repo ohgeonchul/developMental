@@ -33,4 +33,9 @@ public class CollaboServiceImpl implements CollaboService {
 	public List<HashMap> participation(int collaboNo) {
 		return dao.participation(session, collaboNo);
 	}
+
+	@Override
+	public int createCard(DataPacket receive) {
+		return dao.createCard(session, receive);
+	}
 }

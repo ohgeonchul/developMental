@@ -16,4 +16,6 @@ public interface CollaboDao {
 
 	List<HashMap> participation(SqlSessionTemplate session, int collaboNo);
 
+	int createCard(SqlSessionTemplate session, DataPacket receive);
+
 }
