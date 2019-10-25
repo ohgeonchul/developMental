@@ -19,8 +19,13 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 	private SqlSessionTemplate session;
 
 	@Override
-	public List<AdminMember> selectMemberList() {
-		return dao.selectMemberList(session);
+	public List<AdminMember> selectMemberList(int cPage, int numPerpage) {
+		return dao.selectMemberList(session,cPage,numPerpage);
+	}
+
+	@Override
+	public int selectMemberCount() {
+		return dao.selectMemberCount(session);
 	}
 
 	@Override
@@ -37,6 +42,18 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 	public Map<String, String> memberView(String id) {
 		return dao.memberView(session, id);
 	}
+
+	@Override
+	public List<AdminMember> listAll(String searchType, String keyword) {
+		return dao.listAll(session, searchType, keyword);
+	}
+
+	@Override
+	public int countArticle(String searchType, String keyword) {
+		return dao.countArticle(session, searchType, keyword);
+	}
+	
+	
 	
 	
 	

@@ -7,13 +7,19 @@ import com.kh.workman.admin.model.vo.AdminMember;
 
 public interface AdminMemberService {
 
-	List<AdminMember> selectMemberList();
+	int selectMemberCount();
+	List<AdminMember> selectMemberList(int cPage,int numPerpage);
 
 	int statusUpdate(Map<String, Object> model);
 
 	int deleteMember(Map<String, Object> map);
 
 	Map<String, String> memberView(String id);
+	
+	
+	List<AdminMember> listAll(String searchType, String keyword);
+	int countArticle(String searchType, String keyword);
+
 	
 	
 }

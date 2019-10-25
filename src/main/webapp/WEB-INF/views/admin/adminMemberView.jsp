@@ -9,6 +9,7 @@
 
 <section id="faq-container" class="container">
 	<div class="col-sm-9">
+		<br/><br/><br/>
 		<center><p class="title" style="color: #6a60a9;">회원 상세</p></center>
 		<table id="tbl-faq" class="table table-bordered">
 			<tr>
@@ -90,8 +91,19 @@
 					</c:choose>
 				</td>
 			</tr>
+			<tr>
+				<td>
+					<input type="button" class="btn btn-outline-secondary" onclick="moveBack();" value="Back"/>
+				</td>
+			</tr>
 		</table>
 	</div>
 	
 </section>
+
+<script>
+	function moveBack() {
+		history.back();
+	}
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

@@ -13,84 +13,129 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.workman.admin.model.service.AdminMemberService;
 import com.kh.workman.admin.model.vo.AdminMember;
+import com.kh.workman.common.PageBarFactory;
 
 @Controller
 public class AdminMemberController {
 
 	@Autowired
 	private AdminMemberService service;
-
-	@RequestMapping("/admin/member.do")
-	public String member() {
-		System.out.println("/admin/member 입니다.");
-		return "admin/member";
+	
+	@RequestMapping("/admin/adminMain")
+	public String admin() {
+		return "admin/adminMain";
+	}
+	
+	
+	@RequestMapping("/admin/memberSearch.do")
+	public ModelAndView list(@RequestParam(defaultValue="id") String searchType, 
+								@RequestParam(defaultValue="") String keyword) {
+		
+		System.out.println("searchType : "+searchType);
+		System.out.println("keyword : "+keyword);
+		
+		List<AdminMember> list = service.listAll(searchType, keyword);
+		//검색레코드 수
+		int count = service.countArticle(searchType, keyword);
+		
+		ModelAndView mv = new ModelAndView();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("count", count);
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		
+		mv.addObject("map", map);
+		System.out.println("map : "+map);
+		
+		mv.setViewName("admin/adminMemberList");
+		
+		return mv;
 	}
 
 	@RequestMapping("/admin/selectMemberList.do")
-	public String selectMemberList(Model model) {
-		List<AdminMember> list = service.selectMemberList();
-		model.addAttribute("list", list);
-		return "admin/memberList";
+	public ModelAndView selectMemberList(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage,
+											@RequestParam(defaultValue="id") String searchType, 
+											@RequestParam(defaultValue="") String keyword, Model model) {
+		ModelAndView mv = new ModelAndView();
+		
+		//검색
+		List<AdminMember> list2 = service.listAll(searchType, keyword);
+		int count = service.countArticle(searchType, keyword);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list2);
+		map.put("count", count);
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		
+		mv.addObject("map", map);
+		//검색 끝
+		
+		//페이징처리를 위한 것
+		int numPerPage=10;
+		List<AdminMember> list = service.selectMemberList(cPage,numPerPage);
+		
+		int totalCount=service.selectMemberCount();
+				
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalCount, cPage, numPerPage, "/admin/selectMemberList.do"));
+		mv.addObject("count",totalCount);
+		mv.addObject("list",list);
+		mv.setViewName("admin/adminMemberList");
+		
+		return mv;
 	}
 
-//	@RequestMapping("/admin/statusUpdate")
-//	public String statusUpdate(@RequestParam Map<String, String> map) {
-//		
-//		 
-//		System.out.println("BEFORE : " + map.toString());
-//		System.out.println(map.get("status"));
-//
-//		int status = Boolean.getBoolean(map.get("status")) ? 1 : 0;
-//		map.put("status", String.valueOf(status));
-//		System.out.println("AFTER : " + map.toString());
-//
-//		Map<String, Object> data = new HashMap<String, Object>();
-//		data.put("status", status);
-//		data.put("no", Integer.parseInt(map.get("no")));
-//
-//		int num = service.statusUpdate(data);
-//		String msg = "";
-//
-//		if (num == 1) {
-//			msg += "회원정보 수정 완료";
-//		} else {
-//			msg += "회원정보 수정 실패";
-//		}
-//		System.out.println(msg);
-//		return "admin/memberList";
-//	}
-
 	@RequestMapping("/admin/statusUpdate")
-	public String statusUpdate(@RequestParam int status, @RequestParam int no) {
+	public String statusUpdate(@RequestParam int status, @RequestParam int no, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		map.put("status", status);
 		map.put("no", no);
-
-		String msg = "";
+		
 		int num = service.statusUpdate(map);
-		if (num == 1) {
-			msg += "회원정보 수정 완료";
-		} else {
-			msg += "회원정보 수정 실패";
+		String msg="";
+		String loc="";
+		if(num==1) {
+			msg+="성공하였습니다.";
+			loc+="selectMemberList.do";
+			model.addAttribute("msg", msg);
+			model.addAttribute("loc", loc);
 		}
-		System.out.println(msg);
-
-		return "admin/selectMemberList.do";
+		else {
+			msg+="실패하였습니다. 관리자 문의요망";
+			loc+="selectMemberList.do";
+			model.addAttribute("msg", msg);
+			model.addAttribute("loc", loc);
+		}
+		
+		return "common/msg";
 	}
 
 	@RequestMapping("/admin/memberDelete")
-	public String memberDelete(@RequestParam String id) {
+	public String memberDelete(@RequestParam String id, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		
 		int num = service.deleteMember(map);
 		
 		String msg="";
-		if(num==1) msg+="회원 삭제 완료";
-		else msg+="회원 삭제 실패";
+		String loc="";
+		if(num==1) {
+			msg+="회원 삭제 완료";
+			loc+="selectMemberList.do";
+			model.addAttribute("msg", msg);
+			model.addAttribute("loc", loc);
+		}
+		else {
+			msg+="회원 삭제 실패";
+			loc+="selectMemberList.do";
+			model.addAttribute("msg", msg);
+			model.addAttribute("loc", loc);
+		}
 		
-		return "";
+		return "common/msg";
 	}
 	
 	@RequestMapping("/admin/memberView")
@@ -100,10 +145,12 @@ public class AdminMemberController {
 		Map<String, String> member = service.memberView(id);
 		
 		mv.addObject("member", member);
-		mv.setViewName("admin/memberView");
+		mv.setViewName("admin/adminMemberView");
 		
 		return mv;
 		
 	}
+	
+	
 
 }

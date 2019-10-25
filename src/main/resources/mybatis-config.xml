@@ -11,9 +11,8 @@
 
   <typeAliases>
 
-    <typeAlias type="com.kh.spring.dm.model.vo.Employee" alias="emp" />
-    <typeAlias type="com.kh.spring.common.ArrayTypeHandler" alias="arrType" />
-    <typeAlias type="com.kh.spring.admin.model.vo.Member" alias="member" />
+    <typeAlias type="com.kh.workman.common.ArrayTypeHandler" alias="arrType" />
+    <typeAlias type="com.kh.workman.admin.model.vo.AdminMember" alias="member" />
 
     <typeAlias type="com.kh.workman.job.model.vo.JobBoard" alias="jobBoard" />
 
