@@ -256,6 +256,7 @@ function register()
 	
 }
 
+
 // 정규식 이름 체크
 function regExpCheck(data, inputName)
 {

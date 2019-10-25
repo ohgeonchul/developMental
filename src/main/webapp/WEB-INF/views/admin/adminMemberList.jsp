@@ -23,7 +23,7 @@
 <section id="content">
 	<br/><br/><br/>
 	<div class="form-inline">
-		<form name="form1" method="post" action="${path }/admin/selectMemberList.do">
+		<form name="form1" method="post" action="${path }/admin/memberSearch.do">
 			<select id="searchType" name="searchType">
 				<option value="all">Search Type</option>
 				<option value="id">ID</option>
@@ -49,8 +49,7 @@
 			url : url,
 			dataType : "html",
 			success : function(data){
-				
-				
+							
 			},
 			error : function(){
 				console.log("error!!");

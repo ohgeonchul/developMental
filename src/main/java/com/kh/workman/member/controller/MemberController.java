@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.workman.member.model.service.MemberService;
 import com.kh.workman.member.model.vo.Member;
 
-@RestController
+@Controller
 public class MemberController {
 	
 	@Autowired
@@ -25,7 +25,7 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
 	
-	@PostMapping("/member/login.do")
+	@RequestMapping("/member/login.do")
 	public ModelAndView login(Member m, HttpServletRequest request)
 	{
 		HttpSession session = request.getSession();

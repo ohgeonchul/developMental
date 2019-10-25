@@ -56,22 +56,9 @@ public class AdminMemberController {
 
 	@RequestMapping("/admin/selectMemberList.do")
 	public ModelAndView selectMemberList(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage,
-											@RequestParam(defaultValue="id") String searchType, 
+											@RequestParam(defaultValue="id", required = false) String searchType, 
 											@RequestParam(defaultValue="") String keyword, Model model) {
 		ModelAndView mv = new ModelAndView();
-		
-		//검색
-		List<AdminMember> list2 = service.listAll(searchType, keyword);
-		int count = service.countArticle(searchType, keyword);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list2);
-		map.put("count", count);
-		map.put("searchType", searchType);
-		map.put("keyword", keyword);
-		
-		mv.addObject("map", map);
-		//검색 끝
 		
 		//페이징처리를 위한 것
 		int numPerPage=10;
