@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.workman.collabo.model.dao.CollaboDao;
+import com.kh.workman.collabo.model.vo.CollaboCard;
 import com.kh.workman.collabo.model.vo.CollaboList;
 import com.kh.workman.collabo.model.vo.DataPacket;
 
@@ -37,5 +38,15 @@ public class CollaboServiceImpl implements CollaboService {
 	@Override
 	public int createCard(DataPacket receive) {
 		return dao.createCard(session, receive);
+	}
+
+	@Override
+	public List<CollaboList> selectCollaboLists(int collaboNo) {
+		return dao.selectCollaboLists(session, collaboNo);
+	}
+
+	@Override
+	public List<CollaboCard> selectCollaboCards(int collaboNo) {
+		return dao.selectCollaboCards(session, collaboNo);
 	}
 }

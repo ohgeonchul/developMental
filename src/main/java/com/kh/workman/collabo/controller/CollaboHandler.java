@@ -13,11 +13,9 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.workman.collabo.model.service.CollaboService;
-import com.kh.workman.collabo.model.vo.CollaboList;
 import com.kh.workman.collabo.model.vo.DataPacket;
 
 public class CollaboHandler extends TextWebSocketHandler {
@@ -30,6 +28,12 @@ public class CollaboHandler extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+	}
+
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		sessionList.remove(session);
+		logger.debug("{} 연결종료", session.getId());
 	}
 
 	@Override
@@ -87,12 +91,6 @@ public class CollaboHandler extends TextWebSocketHandler {
 		}
 		logger.debug(
 				"Create Card Success [USER ID : " + receive.getUserId() + " CARD NO : " + receive.getCardNo() + "]");
-	}
-
-	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		sessionList.remove(session);
-		logger.debug("{} 연결종료", session.getId());
 	}
 
 	public void createList(DataPacket receive, WebSocketSession session) throws IOException {
