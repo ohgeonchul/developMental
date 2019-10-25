@@ -165,9 +165,9 @@
 	                <button type="button" class="btn btn-sm btn-light mt-2 mr-1" id="login" style="width:67px;" >Log In</button>
 	            </li>	
             <li class="nav-item">
-              <form action="${path}/member/signUp.do" method="post">
-              <button class="btn-sm btn-primary mt-2 mr-1" onclick='location.href="${path}/signUp.do"' style="width:80px;">Sign Up</button>
-              </form>
+              <button class="btn-sm btn-primary mt-2 mr-1" onclick='location.href="${path}/member/signUp.do"' style="width:80px;">Sign Up</button>
+              <%-- <form action="${path}/member/signUp.do" method="post">
+              </form> --%>
             </li>
             </c:if>
             
