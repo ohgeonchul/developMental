@@ -49,4 +49,9 @@ public class CollaboServiceImpl implements CollaboService {
 	public List<CollaboCard> selectCollaboCards(int collaboNo) {
 		return dao.selectCollaboCards(session, collaboNo);
 	}
+
+	@Override
+	public int moveCard(DataPacket receive) {
+		return dao.moveCard(session, receive);
+	}
 }

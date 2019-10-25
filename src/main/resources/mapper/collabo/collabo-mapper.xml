@@ -42,4 +42,8 @@
 			SELECT LISTNO FROM COLLABO_LIST WHERE COLLABONO = #{collaboNo})
 		ORDER BY LISTNO ASC, PLACENO ASC
 	</select>
+	
+	<update id="moveCard" parameterType="map" resultType="_int">
+		
+	</update>
 </mapper>
