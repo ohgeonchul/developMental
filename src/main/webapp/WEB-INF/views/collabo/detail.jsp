@@ -10,8 +10,11 @@
 </jsp:include>
 <!-- Popper -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!-- Google material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 <!-- collabo/detail.css -->
-<link href="${path }/resources/css/collabo/detail.css?ver=1.1" rel="stylesheet"/>
+<link href="${path }/resources/css/collabo/detail.css?ver=1.3" rel="stylesheet"/>
 <!-- Noto Sans -->
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans&display=swap" rel="stylesheet">
 <section class="container-fluid" id="content">
@@ -36,6 +39,7 @@
 											<span class="card-content">
 												${card.content }
 											</span>
+											<span class="material-icons btn-edit">edit</span>
 										</div>
 									</c:if>
 								</c:forEach>
