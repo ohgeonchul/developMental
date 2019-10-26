@@ -114,7 +114,7 @@ public class CollaboHandler extends TextWebSocketHandler {
 	}
 
 	public void moveCard(DataPacket receive, WebSocketSession session) throws IOException {
-		boolean isCompleted = service.createList(receive) == 1 ? true : false;
+		boolean isCompleted = service.moveCard(receive) == 1 ? true : false;
 		List<HashMap> collabos = service.participation(receive.getCollaboNo());
 
 		if (isCompleted) {

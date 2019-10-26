@@ -43,7 +43,7 @@
 		ORDER BY LISTNO ASC, PLACENO ASC
 	</select>
 	
-	<update id="moveCard" parameterType="map" resultType="_int">
+	<update id="moveCard" parameterType="map">
 		
 	</update>
 </mapper>
