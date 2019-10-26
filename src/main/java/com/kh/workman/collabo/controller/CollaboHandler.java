@@ -71,6 +71,7 @@ public class CollaboHandler extends TextWebSocketHandler {
 			case "delete":
 				break;
 			case "move":
+				moveCard(receive, session);
 				break;
 			}
 			break;
@@ -127,8 +128,7 @@ public class CollaboHandler extends TextWebSocketHandler {
 				}
 			}
 		}
-		logger.debug(
-				"Create List Success [USER ID : " + receive.getUserId() + " LIST NO : " + receive.getListNo() + "]");
+		logger.debug("Move Card Success [USER ID : " + receive.getUserId() + " Card NO : " + receive.getCardNo() + "]");
 	}
 
 	public DataPacket parsingJson(String receiveMessage) {

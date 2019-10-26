@@ -28,7 +28,7 @@
 								${list.title }
 								<button type="button" class="fa fa-align-justify btn-menu" onclick=""></button>
 							</div>
-						<div id="${list.listNo }" name="listNo_${list.listNo }" class="list-cards"  ondrop="cardDrop(this,event)" ondragover="return false;">
+						<div id="${list.listNo }" name="listNo_${list.listNo }" class="list-cards"  ondrop="requestMoveCard(this,event)" ondragover="return false;">
 							<c:if test="${collaboCards != null }">
 								<c:forEach items="${collaboCards }" var="card">
 									<c:if test="${list.listNo == card.listNo }">
@@ -114,6 +114,9 @@ function onMessage(msg) {
       if(receive.type== 'card'){
     	  if(receive.method == 'create'){
     		  responseCreateCard(receive);
+    	  }
+    	  if(receive.method == 'move'){
+    		  responseMoveCard(receive);
     	  }
       }
 }
@@ -244,7 +247,7 @@ function responseCreateList(receive){
 		
 		var listCards = $('<div/>');
 		listCards.attr("class","list-cards");
-		listCards.attr("ondrop","cardDrop(this,event)");
+		listCards.attr("ondrop","requestMoveCard(this,event)");
 		listCards.attr("ondragover","return false;");
 		listCards.attr("name","listNo_"+receive.listNo);
 		listCards.attr("id",receive.listNo);
@@ -269,10 +272,30 @@ function responseCreateList(receive){
 		createWrapper(board);
 	
 }
-function requestMoveCard(){
-	var 
+function requestMoveCard(element, ev){
+	var cardNo = ev.dataTransfer.getData("text");
+	var listNo = element.id;
+	var sendData = {
+			type : "card",
+			method : "move",
+			userId : userId,
+			collaboNo : collaboNo,
+			cardNo : cardNo,
+			listNo : listNo
+	};
+	sendMessage(sendData);
 }
 
+function responseMoveCard(receive){
+	var listNo = receive.listNo+"";
+	var cardNo = receive.cardNo+"";
+	
+	console.log("listNo : " + listNo);
+	console.log("cardNo : " + cardNo);
+	
+	/* $("#listNo").append(document.getElementById(cardNo)); */
+	document.getElementById(listNo).appendChild(document.getElementById(cardNo));
+}
 
 function allowDrop(ev) {
 	  ev.preventDefault();
@@ -280,12 +303,12 @@ function allowDrop(ev) {
 
 function cardDrag(element, ev) {
   ev.dataTransfer.setData("text",element.id);
-  console.log(element.id);
 }
 
+
 function cardDrop(element, ev) {
-	console.log(element.id);
 	 var id = ev.dataTransfer.getData("text");
+	 console.log(id + " -> " + element.id);
 	 element.appendChild(document.getElementById(id));
 	 ev.preventDefault();
 }

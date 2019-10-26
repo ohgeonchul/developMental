@@ -44,6 +44,8 @@
 	</select>
 	
 	<update id="moveCard" parameterType="map">
-		
+			UPDATE COLLABO_CARD SET LISTNO = ${listNo}, PLACENO= (
+				SELECT COUNT(*) FROM COLLABO_CARD WHERE LISTNO = #{listNo}
+			) WHERE CARDNO = #{cardNo}
 	</update>
 </mapper>
