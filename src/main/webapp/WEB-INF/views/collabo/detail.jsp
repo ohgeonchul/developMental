@@ -8,18 +8,20 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="pageTitle" value=""/>
 </jsp:include>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- Popper -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <!-- Google material Icons -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
 <!-- collabo/detail.css -->
-<link href="${path }/resources/css/collabo/detail.css?ver=1.3" rel="stylesheet"/>
+<link href="${path }/resources/css/collabo/detail.css?ver=1.5" rel="stylesheet"/>
 <!-- Noto Sans -->
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans&display=swap" rel="stylesheet">
 <section class="container-fluid" id="content">
 	<div class="row collabo-header" >
 		<span style="font-size:18px;color:white;font-weight:bold;">대충 트렐로 메뉴</span>
+		<button type="button" data-toggle="modal" data-target="#cardModal">모달테스트</button>
 	</div>
 	<div class="board" >
 		<c:if test="${loginMember != null}">
@@ -28,18 +30,20 @@
 					<div class="list-wrapper">
 						<div class="list-content">
 							<div class="list-header">
-								${list.title }
+								<span class="list-title">
+									${list.title }
+								</span>
 								<button type="button" class="fa fa-align-justify btn-menu" onclick=""></button>
 							</div>
-						<div id="${list.listNo }" name="listNo_${list.listNo }" class="list-cards"  ondrop="requestMoveCard(this,event)" ondragover="return false;">
+						<div id="listNo_${list.listNo }" name="listNo_${list.listNo }" class="list-cards"  ondrop="requestMoveCard(this,event)" ondragover="return false;">
 							<c:if test="${collaboCards != null }">
 								<c:forEach items="${collaboCards }" var="card">
 									<c:if test="${list.listNo == card.listNo }">
-										<div id="${card.cardNo }" name="cardNo_${card.cardNo }" class="list-card" ondrop="return false;" draggable="true" ondragstart="cardDrag(this,event)">
+										<div id="cardNo_${card.cardNo }" name="cardNo_${card.cardNo }" class="list-card" ondrop="return false;" draggable="true" ondragstart="cardDrag(this,event)">
 											<span class="card-content">
 												${card.content }
 											</span>
-											<span class="material-icons btn-edit">edit</span>
+											<span data-toggle="modal" data-test="cardNo_${card.cardNo }" data-target="#cardModal" class="material-icons btn-edit">edit</span>
 										</div>
 									</c:if>
 								</c:forEach>
@@ -73,9 +77,51 @@
 		</div>
 		</c:if>
 		<!-- END  -->
-	</div>
+		 <!-- The Modal -->
+ 
+</div>
+  <!-- The Modal -->
+  <div class="modal fade" id="cardModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h3 class="modal-title"><span class="material-icons">dvr</span><span id="modal-title"></span></h3>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+        <hr>
+          <h5><span id="modal-content"></span></h5>
+          <div style="float:right">
+	          <button class="btn btn-sm btn-primary" type="button">edit</button>
+	          <button class="btn btn-sm btn-primary" type="button">move</button>
+	          <button class="btn btn-sm btn-primary" type="button">delete</button>
+          </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
 </section>
 <script>
+$("#cardModal").on('show.bs.modal',function(e){
+	var data=$(e.relatedTarget).data('test');
+	var card = $("#"+data);
+	var title = $("#modal-title");
+	var content = $("#modal-content");
+	title.text(card.children('.card-content').parent().parent().parent().children('.list-header').children('.list-title').text());
+	content.text(card.children('.card-content').text());
+});
+
 var userId =  "${loginMember.id}";
 var collaboNo = 1;
 let sock = new SockJS("<c:url value="/collabo/soc"/>");
@@ -127,7 +173,9 @@ function onMessage(msg) {
 // 서버와 연결을 끊었을 때
 function onClose(evt) {
       
-}	
+}
+
+
 </script>
 
 <script> 
@@ -197,7 +245,7 @@ function responseCreateCard(receive){
 	card.attr("ondrop","return false");
 	card.attr("draggable","true");
 	card.attr("ondragstart","cardDrag(this,event)");
-	card.attr("id",receive.cardNo);
+	card.attr("id","cardNo_"+receive.cardNo);
 	card.attr("name","cardNo_"+receive.cardNo);
 	
 	content.attr("class","card-content");
@@ -207,7 +255,7 @@ function responseCreateCard(receive){
 }
 function requestCreateCard(ele){
 	var content = prompt("Card's Title ? ");
-	var listNo = $(ele).parent().parent().children('.list-cards').attr('id');
+	var listNo = parseInt($(ele).parent().parent().children('.list-cards').attr('id').substring(7));
 	if(content!=''){
 		var sendData = {
 				type : "card",
@@ -243,6 +291,10 @@ function responseCreateList(receive){
 		
 		var listHeader = $('<div/>');
 		listHeader.attr("class","list-header");
+		
+		var listTitle = $('<span/>');
+		listTitle.attr("class","list-title");
+		listTitle.text(receive.content);
 	
 		var btnMenu = $('<button>');
 		btnMenu.attr("type","button");
@@ -254,7 +306,8 @@ function responseCreateList(receive){
 		listCards.attr("ondrop","requestMoveCard(this,event)");
 		listCards.attr("ondragover","return false;");
 		listCards.attr("name","listNo_"+receive.listNo);
-		listCards.attr("id",receive.listNo);
+		listCards.attr("id","listNo_"+receive.listNo);
+		
 		
 		var openCard = $('<div/>');
 		openCard.attr("class","open-card");
@@ -266,7 +319,7 @@ function responseCreateList(receive){
 	
 		openCard.append(faplus);
 		
-		listHeader.append(receive.content);
+		listHeader.append(listTitle);
 		listHeader.append(btnMenu);
 		
 		content.append(listHeader);
@@ -277,8 +330,8 @@ function responseCreateList(receive){
 	
 }
 function requestMoveCard(element, ev){
-	var cardNo = ev.dataTransfer.getData("text");
-	var listNo = element.id;
+	var cardNo = parseInt(ev.dataTransfer.getData("text").substring(7));
+	var listNo = parseInt(element.id.substring(7));
 	var sendData = {
 			type : "card",
 			method : "move",
@@ -298,7 +351,7 @@ function responseMoveCard(receive){
 	console.log("cardNo : " + cardNo);
 	
 	/* $("#listNo").append(document.getElementById(cardNo)); */
-	document.getElementById(listNo).appendChild(document.getElementById(cardNo));
+	document.getElementById("listNo_"+listNo).appendChild(document.getElementById("cardNo_"+cardNo));
 }
 
 function allowDrop(ev) {
@@ -317,4 +370,5 @@ function cardDrop(element, ev) {
 	 ev.preventDefault();
 }
 </script>
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/> 
+<%-- <jsp:include page="/WEB-INF/views/common/footer.jsp"/> 
+ --%>
