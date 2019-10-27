@@ -10,6 +10,7 @@ import com.kh.workman.common.CustomJsonDateDeserializer;
  * @since 19.10.26
  * @author jnuho@outlook.com
  * @implNote this vo is used to create instances from github job API call result columns
+ *   JobGithub is NOT inserted into Oracle database UNTIL member applies for it!
  */
 public class JobGithub {
   private String id; //job listing id
