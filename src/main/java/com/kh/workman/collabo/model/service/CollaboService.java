@@ -6,6 +6,7 @@ import java.util.List;
 import com.kh.workman.collabo.model.vo.CollaboCard;
 import com.kh.workman.collabo.model.vo.CollaboList;
 import com.kh.workman.collabo.model.vo.DataPacket;
+import com.kh.workman.member.model.vo.Member;
 
 public interface CollaboService {
 
@@ -22,5 +23,7 @@ public interface CollaboService {
 	List<CollaboCard> selectCollaboCards(int collaboNo);
 
 	int moveCard(DataPacket receive);
+
+	List<Member> selectCollaboMembers(int collaboNo);
 
 }

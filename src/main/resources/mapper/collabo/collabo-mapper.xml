@@ -48,4 +48,10 @@
 				SELECT COUNT(*) FROM COLLABO_CARD WHERE LISTNO = #{listNo}
 			) WHERE CARDNO = #{cardNo}
 	</update>
+	
+	<select id="selectCollaboMembers" resultType="member" parameterType="_int">
+		SELECT NO,ID,NICKNAME FROM MEMBER WHERE NO IN (
+			SELECT MEMBER FROM COLLABO_MEMBER WHERE NO = #{collaboNo}
+		)
+	</select>
 </mapper>

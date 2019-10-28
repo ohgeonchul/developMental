@@ -11,6 +11,7 @@ import com.kh.workman.collabo.model.dao.CollaboDao;
 import com.kh.workman.collabo.model.vo.CollaboCard;
 import com.kh.workman.collabo.model.vo.CollaboList;
 import com.kh.workman.collabo.model.vo.DataPacket;
+import com.kh.workman.member.model.vo.Member;
 
 @Service
 public class CollaboServiceImpl implements CollaboService {
@@ -53,5 +54,10 @@ public class CollaboServiceImpl implements CollaboService {
 	@Override
 	public int moveCard(DataPacket receive) {
 		return dao.moveCard(session, receive);
+	}
+
+	@Override
+	public List<Member> selectCollaboMembers(int collaboNo) {
+		return dao.selectCollaboMembers(session, collaboNo);
 	}
 }

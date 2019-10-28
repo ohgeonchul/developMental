@@ -43,6 +43,7 @@
 											<span class="card-content">
 												${card.content }
 											</span>
+											<input type="hidden" name="cardWriter" value="${card.writer }"/>
 											<span data-toggle="modal" data-test="cardNo_${card.cardNo }" data-target="#cardModal" class="material-icons btn-edit">edit</span>
 										</div>
 									</c:if>
@@ -87,18 +88,40 @@
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title"><span class="material-icons">dvr</span><span id="modal-title"></span></h3>
+          <h3 class="modal-title"><span class="material-icons">dvr</span>[Title]<span id="modal-title"></span></h3>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
         <!-- Modal body -->
         <div class="modal-body">
+      <h4>[Writer]<span id="modal-writer"></span></h4>
+      <input type="hidden" id="modalCardNo" value=""/>
         <hr>
-          <h5><span id="modal-content"></span></h5>
-          <div style="float:right">
-	          <button class="btn btn-sm btn-primary" type="button">edit</button>
+          <div class="panel-group">
+          	<div class="panel panel-default">
+          		<div class="panel-heading">
+          			<h5 class="panel-title">
+          				<span id="modal-content"></span>
+          			</h5>
+          		</div>
+          		<div id="modifyContent" class="panel-collapse collapse">
+          			<div class="panel-body">
+          				<textarea id="editContent" rows="3" cols="92"></textarea>
+          				<br>
+          				<button onclick="requestUpdateCard(this);"type="button" class="btn btn-sm btn-primary" style="margin-top:10px;">Update!</button>
+          			</div>
+          		</div>
+          	</div>
+          </div>
+          <div style="float:right;margin-top:30px;">
+	          <button id="bnt_edit" class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#modifyContent">edit</button>
 	          <button class="btn btn-sm btn-primary" type="button">move</button>
 	          <button class="btn btn-sm btn-primary" type="button">delete</button>
+          </div>
+          <div style="margin-top:70px;padding:10px 2px;">
+          	<h5>Comments</h5>
+          	<hr>
+          		<textarea id="editArea" rows="3" cols="92"></textarea>
           </div>
         </div>
         
@@ -113,14 +136,12 @@
   
 </section>
 <script>
-$("#cardModal").on('show.bs.modal',function(e){
-	var data=$(e.relatedTarget).data('test');
-	var card = $("#"+data);
-	var title = $("#modal-title");
-	var content = $("#modal-content");
-	title.text(card.children('.card-content').parent().parent().parent().children('.list-header').children('.list-title').text());
-	content.text(card.children('.card-content').text());
-});
+function requestUpdateCard(target){
+	var content = $(target).parent().children("#editContent").val();
+	var cardNo = $("#modalCardNo").val();
+	console.log(cardNo);
+	console.log(content);
+}
 
 var userId =  "${loginMember.id}";
 var collaboNo = 1;
@@ -175,10 +196,39 @@ function onClose(evt) {
       
 }
 
-
 </script>
 
 <script> 
+$("#modifyContent").on('show.bs.collapse',function(){
+	var editArea = $("#editArea");
+	editArea.attr("value",'');
+	editArea.val('');
+	editArea.text('');
+	editArea.html('');
+});
+
+
+$("#cardModal").on('show.bs.modal',function(e){
+	var data=$(e.relatedTarget).data('test');
+	var cardNo = $(e.relatedTarget).data('test').substring(7);
+	var card = $("#"+data);
+	var title = $("#modal-title");
+	var content = $("#modal-content");
+	var writer = $("#modal-writer");
+	$("#editArea").val('');
+	
+	//$("#modalCardNo").val(cardNo);
+	$("#modalCardNo").val(cardNo);
+	title.text(card.children('.card-content').parent().parent().parent().children('.list-header').children('.list-title').text());
+	content.text(card.children('.card-content').text());
+	 
+	<c:forEach items="${collaboMembers}" var="m">
+		if(${m.no} == (parseInt(card.children('input[name=cardWriter]').val()))){
+			writer.text("${m.nickname}");
+		}
+	</c:forEach>
+});
+
 function createWrapper(ele){
 	var wrapper=$("<div/>");
 	wrapper.attr("class","list-wrapper");
@@ -347,11 +397,12 @@ function responseMoveCard(receive){
 	var listNo = receive.listNo+"";
 	var cardNo = receive.cardNo+"";
 	
-	console.log("listNo : " + listNo);
-	console.log("cardNo : " + cardNo);
-	
 	/* $("#listNo").append(document.getElementById(cardNo)); */
 	document.getElementById("listNo_"+listNo).appendChild(document.getElementById("cardNo_"+cardNo));
+}
+
+function responseUpdateCard(receive){
+	
 }
 
 function allowDrop(ev) {

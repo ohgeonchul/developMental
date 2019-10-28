@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.workman.collabo.model.vo.CollaboCard;
 import com.kh.workman.collabo.model.vo.CollaboList;
 import com.kh.workman.collabo.model.vo.DataPacket;
+import com.kh.workman.member.model.vo.Member;
 
 @Repository
 public class CollaboDaoImpl implements CollaboDao {
@@ -46,6 +47,11 @@ public class CollaboDaoImpl implements CollaboDao {
 	@Override
 	public int moveCard(SqlSessionTemplate session, DataPacket receive) {
 		return session.update("collabo.moveCard", receive);
+	}
+
+	@Override
+	public List<Member> selectCollaboMembers(SqlSessionTemplate session, int collaboNo) {
+		return session.selectList("collabo.selectCollaboMembers",collaboNo);
 	}
 
 }

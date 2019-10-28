@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import com.kh.workman.collabo.model.vo.CollaboCard;
 import com.kh.workman.collabo.model.vo.CollaboList;
 import com.kh.workman.collabo.model.vo.DataPacket;
+import com.kh.workman.member.model.vo.Member;
 
 public interface CollaboDao {
 
@@ -24,5 +25,7 @@ public interface CollaboDao {
 	List<CollaboCard> selectCollaboCards(SqlSessionTemplate session, int collaboNo);
 
 	int moveCard(SqlSessionTemplate session, DataPacket receive);
+
+	List<Member> selectCollaboMembers(SqlSessionTemplate session, int collaboNo);
 
 }
