@@ -24,6 +24,7 @@ public class MemberController {
 	
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
+
 	
 	@RequestMapping("/member/login.do")
 	public ModelAndView login(Member m, HttpServletRequest request)
@@ -83,7 +84,7 @@ public class MemberController {
 		return "member/signUpView";
 	}
 	
-	@RequestMapping("member/mainPage.do")
+	@RequestMapping("/member/mainPage.do")
 	public String mainPage()
 	{
 		return "redirect:/";
@@ -111,6 +112,30 @@ public class MemberController {
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.setViewName("common/msg");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/member/setting.do")
+	public ModelAndView setting(HttpServletRequest request)
+	{
+		HttpSession session = request.getSession();
+		String msg = "";
+		String loc = "/";
+		
+		ModelAndView mv = new ModelAndView();
+		
+		if(session.getAttribute("loginMember") == null)
+		{
+			msg = "로그인 후 이용 가능";
+			mv.addObject("msg", msg);
+			mv.addObject("loc", loc);
+			mv.setViewName("common/msg");
+			
+		}else
+		{
+			mv.setViewName("member/myPage");
+		}
 		
 		return mv;
 	}
