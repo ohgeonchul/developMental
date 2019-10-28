@@ -11,7 +11,11 @@
 </script>
   
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="pageTitle" value="admin test"/>
+  <jsp:param name="pageTitle" value="" />
+</jsp:include>
+
+<jsp:include page="/WEB-INF/views/common/adminSidebar.jsp">
+  <jsp:param name="pageTitle" value="AdminMain" />
 </jsp:include>
 <style>
 	table#table{  
@@ -20,10 +24,10 @@
 	}
 </style>
 
-<section id="content">
+<div id="content">
 	<br/><br/><br/>
 	<div class="form-inline">
-		<form name="form1" method="post" action="${path }/admin/selectMemberList.do">
+		<form name="form1" method="post" action="${path }/admin/memberSearch.do">
 			<select id="searchType" name="searchType">
 				<option value="all">Search Type</option>
 				<option value="id">ID</option>
@@ -33,85 +37,83 @@
 				<option value="email">Email</option>
 			</select>&nbsp;&nbsp;
 			<input class="form-control" type="text" id="keyword" name="keyword" value="" placeholder="input search_keyword">&nbsp;&nbsp;
-			<input class="btn btn-primary" type="submit" value="Search">
+			<input class="btn btn-primary" type="button" id="BtnSearch" value="Search" onclick="keywordConfirm();"/>
 		</form>
 	</div>
-<script>
-	function ajaxSearchList(pageNo, searchType, keyword) {
-		var url;
-		console.log(searchType);
-		console.log(keyword);
-		console.log(pageNo);
-		url = "${path}/admin/memberSearch.do?cPage="+pageNo+"&searchType="+searchType+"&keyword="+keyword;
-		
-		$.ajax({
-			type : "POST",
-			url : url,
-			dataType : "html",
-			success : function(data){
-				
-				
-			},
-			error : function(){
-				console.log("error!!");
-			}
-		})
-	}
-</script>
 	<br/>
 	<table class="table">
-		<tr>
-			<th scope="col">번호</th>
-			<th scope="col">계정상태</th>
-			<th scope="col">회원번호</th>
-			<th scope="col">아이디</th>
-			<th scope="col">회원명</th>
-			<th scope="col">닉네임</th>
-			<th scope="col">이메일</th>
-			<th scope="col">주소</th>
-			<th scope="col">전화번호</th>
-			<th scope="col">SNS</th>
-			<th scope="col">신고카운트</th>
-			<th colspan=3>지원버튼</th>
-		</tr>
-		<c:forEach items="${list }" var="m" varStatus="s">
-		<tr>
-			<td>${s.count }</td>
-			<td>
-				<!-- status가 1이면 이용가능(Y), 0이면 이용 불가 -->
-				<c:if test="${m.status==1}">
-					<input type="radio" name="${m.id }_status" value="Y" checked/>Y
-					<input type="radio" name="${m.id }_status" value="N"/>N
-				</c:if>
-				<c:if test="${m.status==0}">
-					<input type="radio" name="${m.id }_status" value="Y"/>Y
-					<input type="radio" name="${m.id }_status" value="N" checked/>N
-				</c:if>
-			</td>
-			<td>${m.no }</td>
-			<td>${m.id }</td>
-			<td>${m.name}</td>
-			<td>${m.nickName }</td>
-			<td>${m.email }</td>
-			<td>${m.addr }</td>
-			<td>${m.tel }</td>
-			<td>${m.sns }</td>
-			<td>${m.rmessage }</td>
-			<td>
-				<button type="button" name="btn_s" class="btn btn-outline-secondary" >회원 상태변경</button>
-			</td>
-			<td>
-				<button type="button" name="btn_d" class="btn btn-outline-secondary" >삭제</button>
-			</td>
-			<td>
-				<button type="button" name="btn_v" class="btn btn-outline-secondary" >정보 열람</button>
-			</td>
-		</tr>
-		</c:forEach>
-		
+		<thead>
+			<tr>
+				<th scope="col">번호</th>
+				<th scope="col">계정상태</th>
+				<th scope="col">회원번호</th>
+				<th scope="col">아이디</th>
+				<th scope="col">회원명</th>
+				<th scope="col">닉네임</th>
+				<th scope="col">이메일</th>
+				<th scope="col">주소</th>
+				<th scope="col">전화번호</th>
+				<th scope="col">SNS</th>
+				<th scope="col">신고카운트</th>
+				<th colspan=3>지원버튼</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${list }" var="m" varStatus="s">
+			<tr>
+				<td>${s.count }</td>
+				<td>
+					<!-- status가 1이면 이용가능(Y), 0이면 이용 불가 -->
+					<c:if test="${m.status==1}">
+						<input type="radio" name="${m.id }_status" value="Y" checked/>Y
+						<input type="radio" name="${m.id }_status" value="N"/>N
+					</c:if>
+					<c:if test="${m.status==0}">
+						<input type="radio" name="${m.id }_status" value="Y"/>Y
+						<input type="radio" name="${m.id }_status" value="N" checked/>N
+					</c:if>
+				</td>
+				<td>${m.no }</td>
+				<td>${m.id }</td>
+				<td>${m.name}</td>
+				<td>${m.nickName }</td>
+				<td>${m.email }</td>
+				<td>${m.addr }</td>
+				<td>${m.tel }</td>
+				<td>${m.sns }</td>
+				<td>${m.rmessage }</td>
+				<td>
+					<button type="button" name="btn_s" class="btn btn-outline-secondary" >회원 상태변경</button>
+				</td>
+				<td>
+					<button type="button" name="btn_d" class="btn btn-outline-secondary" >삭제</button>
+				</td>
+				<td>
+					<button type="button" name="btn_v" class="btn btn-outline-secondary" >정보 열람</button>
+				</td>
+<!-- 					function ajaxSearchList(pageNo, searchType, keyword) { -->
+<!-- 						var url; -->
+<%-- 						url = "${path}/admin/memberSearch.do?cPage="+pageNo+"&searchType="+searchType+"&keyword="+keyword; --%>
+<!-- 						$.ajax({ -->
+<!-- 							type : "POST", -->
+<!-- 							url : url, -->
+<!-- 							dataType : "html", -->
+<!-- 							success : function(data){ -->
+								
+								
+<!-- 							}, -->
+<!-- 							error : function(){ -->
+<!-- 								console.log("error!!"); -->
+<!-- 							} -->
+<!-- 						}) -->
+<!-- 					} -->
+				
+			</tr>
+			</c:forEach>
+		</tbody>
 	</table>
 	${pageBar }
-</section>
+</div>
 
 <script>
 	$("button[name=btn_s]").click(function(){
@@ -154,5 +156,30 @@ $("button[name=btn_v]").click(function(){
 	}
 });
 
+function keywordConfirm(){
+	var inputName = $("#searchType").val();
+	var inputkeyword = $("#keyword").val();
+	console.log(inputName);
+	console.log(inputkeyword);
+	if(inputkeyword == "null" || inputkeyword == "undefined" || inputkeyword == "NaN" || inputkeyword == ''){
+		alert("검색어를 입력하세요.");		
+		console.log("null");
+	}else{
+		var form = $('form');
+		form.submit();
+	}
+	
+	
+}
+
+// <form name="form1" method="post" action="${path }/admin/memberSearch.do">
+// <select id="searchType" name="searchType">
+// 	<option value="all">Search Type</option>
+// 	<option value="id">ID</option>
+// 	<option value="name">Name</option>
+// 	<option value="nickname">NickName</option>
+// 	<option value="status">Status</option>
+// 	<option value="email">Email</option>
+// </select>&nbsp;&nbsp;
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
