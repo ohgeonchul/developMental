@@ -54,4 +54,9 @@ public class CollaboDaoImpl implements CollaboDao {
 		return session.selectList("collabo.selectCollaboMembers",collaboNo);
 	}
 
+	@Override
+	public int updateCard(SqlSessionTemplate session, DataPacket receive) {
+		return session.update("collabo.updateCard",receive);
+	}
+
 }

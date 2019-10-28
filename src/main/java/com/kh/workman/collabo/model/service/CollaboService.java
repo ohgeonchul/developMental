@@ -26,4 +26,6 @@ public interface CollaboService {
 
 	List<Member> selectCollaboMembers(int collaboNo);
 
+	int updateCard(DataPacket receive);
+
 }

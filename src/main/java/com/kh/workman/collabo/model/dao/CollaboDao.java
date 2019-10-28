@@ -28,4 +28,6 @@ public interface CollaboDao {
 
 	List<Member> selectCollaboMembers(SqlSessionTemplate session, int collaboNo);
 
+	int updateCard(SqlSessionTemplate session, DataPacket receive);
+
 }

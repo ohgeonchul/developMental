@@ -101,7 +101,7 @@
           	<div class="panel panel-default">
           		<div class="panel-heading">
           			<h5 class="panel-title">
-          				<span id="modal-content"></span>
+          				<span id="modalContent"></span>
           			</h5>
           		</div>
           		<div id="modifyContent" class="panel-collapse collapse">
@@ -114,7 +114,7 @@
           	</div>
           </div>
           <div style="float:right;margin-top:30px;">
-	          <button id="bnt_edit" class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#modifyContent">edit</button>
+	          <button id="btn_edit" class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#modifyContent">edit</button>
 	          <button class="btn btn-sm btn-primary" type="button">move</button>
 	          <button class="btn btn-sm btn-primary" type="button">delete</button>
           </div>
@@ -139,8 +139,16 @@
 function requestUpdateCard(target){
 	var content = $(target).parent().children("#editContent").val();
 	var cardNo = $("#modalCardNo").val();
-	console.log(cardNo);
-	console.log(content);
+	var sendData ={
+		type:"card",
+		userId:userId,
+		method : "update",
+		collaboNo : collaboNo,
+		content : content,
+		cardNo : cardNo
+	};
+	
+	sendMessage(sendData);
 }
 
 var userId =  "${loginMember.id}";
@@ -189,6 +197,9 @@ function onMessage(msg) {
     	  if(receive.method == 'move'){
     		  responseMoveCard(receive);
     	  }
+    	  if(receive.method == 'update'){
+    		  responseUpdateCard(receive);
+    	  }
       }
 }
 // 서버와 연결을 끊었을 때
@@ -199,12 +210,22 @@ function onClose(evt) {
 </script>
 
 <script> 
+function responseUpdateCard(receive){
+	var card = $('#cardNo_'+receive.cardNo).children('.card-content');
+	var modalCard = $("#modalContent");
+	
+	modalCard.text(receive.content);
+	card.text(receive.content);
+	
+	var btnEdit = $("#btn_edit");
+	btnEdit.click();
+	
+}
+
 $("#modifyContent").on('show.bs.collapse',function(){
-	var editArea = $("#editArea");
-	editArea.attr("value",'');
-	editArea.val('');
-	editArea.text('');
-	editArea.html('');
+	/* var editArea = document.getElementById('edit').innerHTML = ""; */
+	var editContent = $("#editContent");
+	editContent.val('');
 });
 
 
@@ -213,7 +234,7 @@ $("#cardModal").on('show.bs.modal',function(e){
 	var cardNo = $(e.relatedTarget).data('test').substring(7);
 	var card = $("#"+data);
 	var title = $("#modal-title");
-	var content = $("#modal-content");
+	var content = $("#modalContent");
 	var writer = $("#modal-writer");
 	$("#editArea").val('');
 	
@@ -399,10 +420,6 @@ function responseMoveCard(receive){
 	
 	/* $("#listNo").append(document.getElementById(cardNo)); */
 	document.getElementById("listNo_"+listNo).appendChild(document.getElementById("cardNo_"+cardNo));
-}
-
-function responseUpdateCard(receive){
-	
 }
 
 function allowDrop(ev) {

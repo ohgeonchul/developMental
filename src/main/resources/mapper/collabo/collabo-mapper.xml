@@ -54,4 +54,8 @@
 			SELECT MEMBER FROM COLLABO_MEMBER WHERE NO = #{collaboNo}
 		)
 	</select>
+	
+	<update id="updateCard" parameterType="map">
+		UPDATE COLLABO_CARD SET CONTENT = #{content} WHERE CARDNO = #{cardNo}
+	</update>
 </mapper>
