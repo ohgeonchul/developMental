@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="member">
 	
+	<select id="selectFindEmail" parameterType="String" resultType="com.kh.workman.member.model.vo.Member">
+		SELECT * FROM MEMBER WHERE EMAIL=#{tomail}
+	</select>
+	
+	
 	<select id="selectMemberCount" resultType="_int">
 		SELECT COUNT(*) FROM Member
 	</select>

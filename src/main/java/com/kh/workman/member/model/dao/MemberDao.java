@@ -8,4 +8,5 @@ public interface MemberDao {
 	
 	Member selectLogin(SqlSessionTemplate session, Member m);
 	int insertMember(SqlSessionTemplate session, Member m);
+	Member selectFindEmail(SqlSessionTemplate session, String tomail);
 }
