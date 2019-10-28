@@ -16,14 +16,14 @@
 
   <style>
     #main-container{
-      margin-left: 230px;
+      margin-left: 190px;
       margin-top: 58px;
     }
   </style>
 
   <main id="main-container" class="p-0 w-100">
-    <a class="btn btn-sm btn-outline-dark" href="javascript:;" onclick="ajaxJobPage('${path }/job/jobBoard');">Board View</a><br>
-    <a class="btn btn-sm btn-outline-dark my-1" href="javascript:;" onclick="ajaxJobPage('${path }/job/jobApply');">Apply View</a><br>
+    <a class="btn btn-sm btn-outline-dark" href="javascript: ajaxJobPage('${path }/job/jobBoardList');">Board View</a><br>
+    <a class="btn btn-sm btn-outline-dark my-1" href="javascript: ajaxJobPage('${path }/job/jobApplyList');">Apply View</a><br>
   </main>
 
 </div> <!-- row -->

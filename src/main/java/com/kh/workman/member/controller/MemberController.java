@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.workman.member.model.service.MemberService;
@@ -17,10 +20,11 @@ import com.kh.workman.member.model.vo.Member;
 public class MemberController {
 	
 	@Autowired
-	MemberService memberService;
+	MemberService service;
 	
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
+
 	
 	@RequestMapping("/member/login.do")
 	public ModelAndView login(Member m, HttpServletRequest request)
@@ -31,7 +35,7 @@ public class MemberController {
 		String msg = "";
 		String loc = "/";
 		
-		Member loginMember = memberService.selectLogin(m);
+		Member loginMember = service.selectLogin(m);
 		
 		System.out.println(m.getId());
 		System.out.println(m.getPw());
@@ -80,7 +84,7 @@ public class MemberController {
 		return "member/signUpView";
 	}
 	
-	@RequestMapping("member/mainPage.do")
+	@RequestMapping("/member/mainPage.do")
 	public String mainPage()
 	{
 		return "redirect:/";
@@ -90,7 +94,7 @@ public class MemberController {
 	public ModelAndView register(Member m, Model model)
 	{
 		m.setPw(pwEncoder.encode(m.getPw()));
-		int result = memberService.insertMember(m);
+		int result = service.insertMember(m);
 				
 		String msg = "";
 		String loc = "/";
@@ -108,6 +112,30 @@ public class MemberController {
 		mv.addObject("msg", msg);
 		mv.addObject("loc", loc);
 		mv.setViewName("common/msg");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/member/setting.do")
+	public ModelAndView setting(HttpServletRequest request)
+	{
+		HttpSession session = request.getSession();
+		String msg = "";
+		String loc = "/";
+		
+		ModelAndView mv = new ModelAndView();
+		
+		if(session.getAttribute("loginMember") == null)
+		{
+			msg = "로그인 후 이용 가능";
+			mv.addObject("msg", msg);
+			mv.addObject("loc", loc);
+			mv.setViewName("common/msg");
+			
+		}else
+		{
+			mv.setViewName("member/myPage");
+		}
 		
 		return mv;
 	}

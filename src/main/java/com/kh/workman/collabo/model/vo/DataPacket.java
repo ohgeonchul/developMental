@@ -5,10 +5,12 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class receiveMessage {
+public class DataPacket {
 	private String type;
 	private String userId;
-	private int roomNo;
+	private String method;
+	private int collaboNo;
 	private String content;
-	
+	private int listNo;
+	private int cardNo;
 }
