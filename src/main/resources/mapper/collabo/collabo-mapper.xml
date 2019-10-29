@@ -70,4 +70,8 @@
 	<delete id="deleteListToCards" parameterType="map">
 		DELETE COLLABO_CARD WHERE LISTNO = #{listNo}
 	</delete>
+	
+	<update id="updateList" parameterType="map">
+		UPDATE COLLABO_LIST SET TITLE = #{content} WHERE LISTNO = #{listNo}
+	</update>
 </mapper>

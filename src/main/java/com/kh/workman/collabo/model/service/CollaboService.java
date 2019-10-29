@@ -34,4 +34,6 @@ public interface CollaboService {
 
 	int deleteListToCards(DataPacket receive);
 
+	int updateList(DataPacket receive);
+
 }

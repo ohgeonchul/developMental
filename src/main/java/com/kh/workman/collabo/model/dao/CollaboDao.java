@@ -36,4 +36,6 @@ public interface CollaboDao {
 
 	int deleteListToCards(SqlSessionTemplate session, DataPacket receive);
 
+	int updateList(SqlSessionTemplate session, DataPacket receive);
+
 }

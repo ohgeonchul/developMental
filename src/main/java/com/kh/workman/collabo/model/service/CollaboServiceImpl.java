@@ -80,4 +80,9 @@ public class CollaboServiceImpl implements CollaboService {
 	public int deleteListToCards(DataPacket receive) {
 		return dao.deleteListToCards(session, receive);
 	}
+
+	@Override
+	public int updateList(DataPacket receive) {
+		return dao.updateList(session, receive);
+	}
 }

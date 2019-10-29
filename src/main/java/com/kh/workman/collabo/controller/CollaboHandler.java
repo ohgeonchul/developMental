@@ -56,6 +56,7 @@ public class CollaboHandler extends TextWebSocketHandler {
 				createList(receive, session);
 				break;
 			case "update":
+				updateList(receive, session);
 				break;
 			case "delete":
 				deleteList(receive, session);
@@ -79,6 +80,23 @@ public class CollaboHandler extends TextWebSocketHandler {
 			}
 			break;
 		}
+	}
+
+	private void updateList(DataPacket receive, WebSocketSession session) throws IOException {
+		boolean isCompleted = service.updateList(receive) == 1 ? true : false;
+		List<HashMap> collabos = service.participation(receive.getCollaboNo());
+
+		if (isCompleted) {
+			for (String key : sessionList.keySet()) {
+				for (int i = 0; i < collabos.size(); i++) {
+					if (key.equals(collabos.get(i).get("ID"))) {
+						sessionList.get(key).sendMessage(new TextMessage(toJson(receive)));
+						break;
+					}
+				}
+			}
+		}
+		logger.debug("Move Card Success [USER ID : " + receive.getUserId() + " Card NO : " + receive.getCardNo() + "]");
 	}
 
 	private void deleteList(DataPacket receive, WebSocketSession session) throws IOException {
