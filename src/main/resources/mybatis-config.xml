@@ -12,7 +12,6 @@
   <typeAliases>
 
     <typeAlias type="com.kh.workman.common.ArrayTypeHandler" alias="arrType" />
-    
     <typeAlias type="com.kh.workman.admin.model.vo.AdminMember" alias="adminMember" />
 	 <typeAlias type="com.kh.workman.member.model.vo.Member" alias="member"/>
 	 
