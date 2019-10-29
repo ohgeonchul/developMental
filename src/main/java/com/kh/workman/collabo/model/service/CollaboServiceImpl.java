@@ -65,4 +65,9 @@ public class CollaboServiceImpl implements CollaboService {
 	public int updateCard(DataPacket receive) {
 		return dao.updateCard(session, receive);
 	}
+
+	@Override
+	public int deleteCard(DataPacket receive) {
+		return dao.deleteCard(session, receive);
+	}
 }

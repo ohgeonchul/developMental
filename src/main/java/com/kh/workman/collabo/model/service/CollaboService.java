@@ -28,4 +28,6 @@ public interface CollaboService {
 
 	int updateCard(DataPacket receive);
 
+	int deleteCard(DataPacket receive);
+
 }

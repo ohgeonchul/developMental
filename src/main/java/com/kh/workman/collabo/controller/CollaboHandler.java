@@ -70,6 +70,7 @@ public class CollaboHandler extends TextWebSocketHandler {
 				updateCard(receive, session);
 				break;
 			case "delete":
+				deleteCard(receive, session);
 				break;
 			case "move":
 				moveCard(receive, session);
@@ -77,6 +78,23 @@ public class CollaboHandler extends TextWebSocketHandler {
 			}
 			break;
 		}
+	}
+
+	private void deleteCard(DataPacket receive, WebSocketSession session) throws IOException {
+		boolean isCompleted = service.deleteCard(receive) == 1 ? true : false;
+		List<HashMap> collabos = service.participation(receive.getCollaboNo());
+
+		if (isCompleted) {
+			for (String key : sessionList.keySet()) {
+				for (int i = 0; i < collabos.size(); i++) {
+					if (key.equals(collabos.get(i).get("ID"))) {
+						sessionList.get(key).sendMessage(new TextMessage(toJson(receive)));
+						break;
+					}
+				}
+			}
+		}
+		logger.debug("Move Card Success [USER ID : " + receive.getUserId() + " Card NO : " + receive.getCardNo() + "]");
 	}
 
 	private void updateCard(DataPacket receive, WebSocketSession session) throws IOException {
@@ -95,7 +113,6 @@ public class CollaboHandler extends TextWebSocketHandler {
 		}
 		logger.debug("Move Card Success [USER ID : " + receive.getUserId() + " Card NO : " + receive.getCardNo() + "]");
 	}
-		
 
 	private void createCard(DataPacket receive, WebSocketSession session) throws IOException {
 		boolean isCompleted = service.createCard(receive) == 1 ? true : false;
@@ -115,7 +132,7 @@ public class CollaboHandler extends TextWebSocketHandler {
 				"Create Card Success [USER ID : " + receive.getUserId() + " CARD NO : " + receive.getCardNo() + "]");
 	}
 
-	public void createList(DataPacket receive, WebSocketSession session) throws IOException {
+	private void createList(DataPacket receive, WebSocketSession session) throws IOException {
 		boolean isCompleted = service.createList(receive) == 1 ? true : false;
 		List<HashMap> collabos = service.participation(receive.getCollaboNo());
 
@@ -133,7 +150,7 @@ public class CollaboHandler extends TextWebSocketHandler {
 				"Create List Success [USER ID : " + receive.getUserId() + " LIST NO : " + receive.getListNo() + "]");
 	}
 
-	public void moveCard(DataPacket receive, WebSocketSession session) throws IOException {
+	private void moveCard(DataPacket receive, WebSocketSession session) throws IOException {
 		boolean isCompleted = service.moveCard(receive) == 1 ? true : false;
 		List<HashMap> collabos = service.participation(receive.getCollaboNo());
 
@@ -150,13 +167,13 @@ public class CollaboHandler extends TextWebSocketHandler {
 		logger.debug("Move Card Success [USER ID : " + receive.getUserId() + " Card NO : " + receive.getCardNo() + "]");
 	}
 
-	public DataPacket parsingJson(String receiveMessage) {
+	private DataPacket parsingJson(String receiveMessage) {
 		Gson gson = new GsonBuilder().create();
 		DataPacket temp = gson.fromJson(receiveMessage, DataPacket.class);
 		return temp;
 	}
 
-	public String toJson(Object obj) {
+	private String toJson(Object obj) {
 		Gson gson = new GsonBuilder().create();
 		return gson.toJson(obj);
 	}

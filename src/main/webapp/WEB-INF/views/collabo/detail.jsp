@@ -114,9 +114,9 @@
           	</div>
           </div>
           <div style="float:right;margin-top:30px;">
-	          <button id="btn_edit" class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#modifyContent">edit</button>
-	          <button class="btn btn-sm btn-primary" type="button">move</button>
-	          <button class="btn btn-sm btn-primary" type="button">delete</button>
+	          <button id="btnEdit" class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#modifyContent">edit</button>
+	          <!-- <button class="btn btn-sm btn-primary" type="button">move</button> -->
+	          <button id="btnDelete" class="btn btn-sm btn-primary" onclick="requestDeletCard(this);" type="button">delete</button>
           </div>
           <div style="margin-top:70px;padding:10px 2px;">
           	<h5>Comments</h5>
@@ -127,7 +127,7 @@
         
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button name="btnModalClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
         
       </div>
@@ -136,6 +136,22 @@
   
 </section>
 <script>
+function requestDeletCard(target){
+	var isDelete = confirm("Are you delete this card?");
+	if(isDelete){
+		var cardNo = $("#modalCardNo").val();
+		var sendData ={
+			type:"card",
+			method:"delete",
+			userId:userId,
+			collaboNo:collaboNo,
+			cardNo:cardNo
+		};
+		sendMessage(sendData);
+	}
+}
+
+
 function requestUpdateCard(target){
 	var content = $(target).parent().children("#editContent").val();
 	var cardNo = $("#modalCardNo").val();
@@ -200,16 +216,27 @@ function onMessage(msg) {
     	  if(receive.method == 'update'){
     		  responseUpdateCard(receive);
     	  }
+    	  if(receive.method == 'delete'){
+			  responseDeleteCard(receive);
+    	  }
       }
 }
 // 서버와 연결을 끊었을 때
 function onClose(evt) {
-      
+	
 }
 
 </script>
 
 <script> 
+function responseDeleteCard(receive){
+	var card = $('#cardNo_'+receive.cardNo).children('.card-content').parent();
+	card.remove();
+	
+	var btnClose = $("button[name=btnModalClose]");
+	btnClose.click();
+}
+
 function responseUpdateCard(receive){
 	var card = $('#cardNo_'+receive.cardNo).children('.card-content');
 	var modalCard = $("#modalContent");
@@ -217,7 +244,7 @@ function responseUpdateCard(receive){
 	modalCard.text(receive.content);
 	card.text(receive.content);
 	
-	var btnEdit = $("#btn_edit");
+	var btnEdit = $("#btnEdit");
 	btnEdit.click();
 	
 }
@@ -310,6 +337,15 @@ function responseCreateCard(receive){
 	
 	var card = $('<div/>');
 	var content = $('<span/>');
+	var button = $("<span/>");
+	button.attr("class",'material-icons btn-edit');
+	button.attr("data-toggle","modal");
+	button.attr("data-test","cardNo_"+receive.cardNo);
+	button.attr("data-target","#cardModal");
+	button.text("edit");
+	
+	
+	
 	content.text(receive.content);
 	
 	card.attr("class","list-card");
@@ -322,6 +358,7 @@ function responseCreateCard(receive){
 	content.attr("class","card-content");
 	
 	card.append(content);
+	card.append(button);
 	listCards.append(card);
 }
 function requestCreateCard(ele){
