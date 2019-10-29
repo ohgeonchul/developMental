@@ -18,8 +18,8 @@
         <h3><a href="${path }/admin/adminMain">Admin Menu</a></h3>
       </div>
   
+        <p>Menus</p><!-- 안되면 위치 두칸아래로 -->
       <ul class="list-unstyled components">
-        <p>Menus</p>
         
         <li class="active">
           <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">Management</a>
@@ -53,8 +53,5 @@
       </ul>
     </nav>
   </div>
-    
 
 
-  <script>
-  </script>

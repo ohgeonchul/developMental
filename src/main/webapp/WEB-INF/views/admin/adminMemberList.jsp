@@ -4,12 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-<!-- <script -->
-<!--   src="https://code.jquery.com/jquery-3.4.1.js" -->
-<!--   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" -->
-<!--   crossorigin="anonymous"> -->
-<!-- </script> -->
-  
+
 <jsp:include page="/WEB-INF/views/common/header.jsp">
   <jsp:param name="pageTitle" value="Job - Board" />
 </jsp:include>
@@ -28,10 +23,6 @@
     #table-container {
     	margin-left:240px;
     }
-/* 	table#table{   */
-/* 		margin:0 auto; */
-/* 		width:50%; */
-/* 	} */
 </style>
 
 <div class="py-4 col-lg-10 container submenu-container" id="table-container">
@@ -107,60 +98,58 @@
 	</table>
 	${pageBar }
 </div>
-
 <script>
-	$("button[name=btn_s]").click(function(){
-	var tr = $(this).parent().parent();
-	var td = tr.children();
-	
-	var no = td.eq(2).text();
-	var status=td.eq(1).children().prop("checked")?1:0;
-	
-		if(status==1){
-			if(confirm("계정을 활성화 합니다.")){
-			location.href="${pageContext.request.contextPath}/admin/statusUpdate?no="+no+"&status="+status;
-			}
-		}else if(status==0){
-			if(confirm("계정을 비활성화 합니다.")){
+	$("button[name=btn_s]").click(function() {
+		var tr = $(this).parent().parent();
+		var td = tr.children();
+		
+		var no = td.eq(2).text();
+		var status=td.eq(1).children().prop("checked")?1:0;
+		
+			if(status==1){
+				if(confirm("계정을 활성화 합니다.")){
 				location.href="${pageContext.request.contextPath}/admin/statusUpdate?no="+no+"&status="+status;
+				}
+			}else if(status==0){
+				if(confirm("계정을 비활성화 합니다.")){
+					location.href="${pageContext.request.contextPath}/admin/statusUpdate?no="+no+"&status="+status;
+				}
+			}else{
+				alert("오류! 관리자에게 문의하세요");
 			}
-		}else{
-			alert("오류! 관리자에게 문의하세요");
+	}); 
+		
+	$("button[name=btn_d]").click(function(){
+		var tr = $(this).parent().parent();
+		var td = tr.children();
+		
+		var id=td.eq(3).text();
+		if(confirm("삭제된 계정정보는 복구되지 않습니다. 정말로 삭제합니까?")){
+			location.href="${pageContext.request.contextPath}/admin/memberDelete?id="+id;
 		}
-}); 
+	});
 	
-$("button[name=btn_d]").click(function(){
-	var tr = $(this).parent().parent();
-	var td = tr.children();
+	$("button[name=btn_v]").click(function(){
+		var tr = $(this).parent().parent();
+		var td = tr.children();
+		
+		var id = td.eq(3).text();
+		if(confirm("회원정보는 열람만 가능하며 수정할 수 없습니다.")){
+			location.href="${pageContext.request.contextPath}/admin/memberView?id="+id;
+		}
+	});
 	
-	var id=td.eq(3).text();
-	if(confirm("삭제된 계정정보는 복구되지 않습니다. 정말로 삭제합니까?")){
-		location.href="${pageContext.request.contextPath}/admin/memberDelete?id="+id;
+	function keywordConfirm(){
+		var inputName = $("#searchType").val();
+		var inputkeyword = $("#keyword").val();
+		if( inputName =='all' || (inputkeyword == "null" || inputkeyword == "undefined" || inputkeyword == "NaN" || inputkeyword == '')){
+			alert("검색 타입을 설정하시거나 검색어를 입력하세요.");		
+			console.log("null");
+		}else{
+			var form = $('form');
+			form.submit();
+		}
+		
 	}
-});
-
-$("button[name=btn_v]").click(function(){
-	var tr = $(this).parent().parent();
-	var td = tr.children();
-	
-	var id = td.eq(3).text();
-	if(confirm("회원정보는 열람만 가능하며 수정할 수 없습니다.")){
-		location.href="${pageContext.request.contextPath}/admin/memberView?id="+id;
-	}
-});
-
-function keywordConfirm(){
-	var inputName = $("#searchType").val();
-	var inputkeyword = $("#keyword").val();
-	if( inputName =='all' || (inputkeyword == "null" || inputkeyword == "undefined" || inputkeyword == "NaN" || inputkeyword == '')){
-		alert("검색 타입을 설정하시거나 검색어를 입력하세요.");		
-		console.log("null");
-	}else{
-		var form = $('form');
-		form.submit();
-	}
-	
-	
-}
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

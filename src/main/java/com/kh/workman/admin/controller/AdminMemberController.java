@@ -31,14 +31,10 @@ public class AdminMemberController {
 	public ModelAndView list(@RequestParam(required=false, defaultValue="") String searchType, 
 								@RequestParam(required=false, defaultValue="") String keyword) {
 		List<AdminMember> list = service.listAll(searchType, keyword);
-		//검색레코드 수
-//		int count = service.countArticle(searchType, keyword);
-		
 		ModelAndView mv = new ModelAndView();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
-//		map.put("count", count);
 		map.put("searchType", searchType);
 		map.put("keyword", keyword);
 		
