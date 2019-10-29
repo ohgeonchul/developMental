@@ -252,7 +252,7 @@ aria-hidden="true" data-target="#LoginModalTitle">
 				        <div class="form-group">
 				            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
 				        </div>
-				        <p><a href="${path}/member/fixPassword.do">Lost your Password?</a></p>
+				        <p><a href="${path}/member/sendingEmail.do">Lost your Password?</a></p>
 					    <p class="text-center small">Don't have an account? <a href="${path}/member/signUp.do">Sign up here!</a></p>
 				    </form>
            	 </div>
