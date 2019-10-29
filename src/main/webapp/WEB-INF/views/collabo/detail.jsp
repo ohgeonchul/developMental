@@ -4,20 +4,22 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="<%=request.getContextPath()%>"/>
-<script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="pageTitle" value=""/>
 </jsp:include>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
 <!-- Popper -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <!-- Google material Icons -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!-- collabo/detail.css -->
 <link href="${path }/resources/css/collabo/detail.css?ver=1.5" rel="stylesheet"/>
 <!-- Noto Sans -->
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans&display=swap" rel="stylesheet">
+<!-- Socket -->
+<script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
 <section class="container-fluid" id="content">
 	<div class="row collabo-header" >
 		<span style="font-size:18px;color:white;font-weight:bold;">대충 트렐로 메뉴</span>
@@ -33,7 +35,15 @@
 								<span class="list-title">
 									${list.title }
 								</span>
-								<button type="button" class="fa fa-align-justify btn-menu" onclick=""></button>
+									<button type="button" class="fa fa-align-justify btn-menu" data-toggle="dropdown"></button>
+									<div class="dropdown-menu">
+										<div class="dropdown-item">
+											<span style="text-align:center;margin-left:17px">List Actions</span>
+											<hr>
+											<button type="button" class="btn btn-sm btn-primary">Edit</button>
+											<button type="button" class="btn btn-sm btn-primary">Remove</button>
+										</div>
+									</div>
 							</div>
 						<div id="listNo_${list.listNo }" name="listNo_${list.listNo }" class="list-cards"  ondrop="requestMoveCard(this,event)" ondragover="return false;">
 							<c:if test="${collaboCards != null }">
@@ -69,8 +79,10 @@
 						<span class="fa fa-plus" >Add another list</span>
 					</button>
 					<div class="dropdown-menu">
-						<input type="text" id="listTitle" class="dropdown-item" placeholder="Input List Name"/>
-						<Button class="btn-createList dropdown-item" type="button" name="btn_cList" onclick="requestCreateList();" >Create</Button>
+						<div class="dropdown-item">
+							<input type="text" id="listTitle" placeholder="Input List Name"/>
+							<Button class="btn-createList btn-sm btn btn-primary" type="button" name="btn_cList" onclick="requestCreateList();" >Create</Button>
+						</div>
 					</div>
 				</div>
 				
@@ -306,26 +318,33 @@ function createWrapper(ele){
 	dropdiv.append(dropmenu);
 	
 	var listTitle = $("<input/>");
-	listTitle.attr("class","dropdown-item");
 	listTitle.attr("type","text");
 	listTitle.attr("id","listTitle");
 	listTitle.attr("placeholder","Input List Name");
 	
-	dropmenu.append(listTitle);
 	
 	var btncList = $("<button/>");
 	btncList.text("Create");
-	btncList.attr("class","btn-createList dropdown-item");
+	btncList.attr("class","btn btn-sm btn-primary");
 	btncList.attr("type","button");
 	btncList.attr("name","btn_cList");
 	btncList.attr("onclick","requestCreateList();");
 	
-	dropmenu.append(btncList);
+
+	var dropItem=$("<div/>");
+	dropItem.attr("class","dropdown-item");
+	
+	dropItem.append(listTitle);
+	dropItem.append(btncList);
+	
+	dropmenu.append(dropItem);
 	
 	content.append(dropdiv);
 	
 	wrapper.append(content);
 	
+	
+	console.log(ele);
 	ele.append(wrapper);
 }
 
@@ -394,7 +413,8 @@ function requestCreateList(){
 
 function responseCreateList(receive){
 		var content = $("button[name=btn_cList]").parent().parent().parent();
-		var board = content.parent().parent();
+		var board = $("button[name=btn_cList]").parent().parent().parent().parent().parent().parent();
+		console.log(board);
 		content.empty();
 		
 		var listHeader = $('<div/>');
