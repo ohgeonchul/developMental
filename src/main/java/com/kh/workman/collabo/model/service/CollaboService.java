@@ -30,4 +30,8 @@ public interface CollaboService {
 
 	int deleteCard(DataPacket receive);
 
+	int deleteList(DataPacket receive);
+
+	int deleteListToCards(DataPacket receive);
+
 }

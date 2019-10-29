@@ -260,8 +260,7 @@ function onClose(evt) {
 
 <script>
 function responseDeleteList(receive){
-	var list = $("#listNo_"+receive.listNo).parent().parent();
-	list.remove();
+	
 }
 
 

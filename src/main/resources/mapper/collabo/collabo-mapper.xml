@@ -62,4 +62,12 @@
 	<delete id="deleteCard" parameterType="map">
 		DELETE COLLABO_CARD WHERE CARDNO = #{cardNo}
 	</delete>
+	
+	<delete id="deleteList" parameterType="map">
+		DELETE COLLABO_LIST WHERE LISTNO = #{listNo}
+	</delete>
+	
+	<delete id="deleteListToCards" parameterType="map">
+		DELETE COLLABO_CARD WHERE LISTNO = #{listNo}
+	</delete>
 </mapper>

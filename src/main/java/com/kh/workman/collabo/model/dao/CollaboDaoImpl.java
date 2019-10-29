@@ -64,4 +64,14 @@ public class CollaboDaoImpl implements CollaboDao {
 		return session.delete("collabo.deleteCard", receive);
 	}
 
+	@Override
+	public int deleteList(SqlSessionTemplate session, DataPacket receive) {
+		return session.delete("collabo.deleteList", receive);
+	}
+
+	@Override
+	public int deleteListToCards(SqlSessionTemplate session, DataPacket receive) {
+		return session.delete("collabo.deleteListToCards", receive);
+	}
+
 }

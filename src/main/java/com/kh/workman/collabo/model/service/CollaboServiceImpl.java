@@ -70,4 +70,14 @@ public class CollaboServiceImpl implements CollaboService {
 	public int deleteCard(DataPacket receive) {
 		return dao.deleteCard(session, receive);
 	}
+
+	@Override
+	public int deleteList(DataPacket receive) {
+		return dao.deleteList(session, receive);
+	}
+
+	@Override
+	public int deleteListToCards(DataPacket receive) {
+		return dao.deleteListToCards(session, receive);
+	}
 }
