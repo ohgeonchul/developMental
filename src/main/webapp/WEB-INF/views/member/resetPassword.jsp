@@ -269,7 +269,7 @@ $(document).ready(function()
         inputName.attr("placeholder","");
     });
 
-    $("#password2").keyup(function(){
+    $("#pw2").keyup(function(){
 
         var inputPassword = $("#pw").val();
         var inputPassword2 = $("#pw2").val();

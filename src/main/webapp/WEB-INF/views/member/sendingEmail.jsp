@@ -105,7 +105,7 @@
                                 <div class="input-group">
                                     <label class="label">이메일</label>
                                     <input class="input--style-4" type="email" name="email" id="email" placeholder="ex) abc@abc.com">
-                                    <input type="text" id="emailValue" value="F" class="이메일"/>
+                                    <input type="hidden" id="emailValue" value="F" class="이메일"/>
                                 </div>
                             </div>
                             <input type="hidden" />
@@ -115,7 +115,7 @@
                                 <div class="input-group">
                                     <label class="label">이메일 확인</label>
                                     <input class="input--style-4" type="email" name="email2" id="email2" placeholder="ex) abc@abc.com">
-                                    <input type="text" id="email2Value" value="F" class="이메일"/>
+                                    <input type="hidden" id="email2Value" value="F" class="이메일"/>
                                 </div>
                             </div>
                             <input type="hidden" />
