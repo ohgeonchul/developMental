@@ -4,6 +4,8 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpRequest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.workman.member.model.service.MemberService;
 import com.kh.workman.member.model.vo.Member;
 
+@PropertySource("classpath:/properties/config.properties")
 @Controller
 public class MailController {
 	
@@ -27,6 +30,9 @@ public class MailController {
 
 	@Autowired
 	private MemberService service;
+	
+	@Value("${gmail}")
+	private String gmail;
 	
 	@RequestMapping("/member/mailSending.do")
 	public ModelAndView mailSending(HttpServletRequest request)
@@ -44,13 +50,14 @@ public class MailController {
 		//System.out.println(requestURL.replaceAll(request.getRequestURI(), ""));	
 		//requestURL = requestURL.substring(0, requestURL.indexOf('/'));
 		
+		System.out.println("gmail" + gmail);
 		
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message,
 					true, "UTF-8");
 
-			messageHelper.setFrom("yeosong92@gmail.com"); // 보내는사람 생략하면 정상작동을 안함
+			messageHelper.setFrom(gmail); // 보내는사람 생략하면 정상작동을 안함
 			messageHelper.setTo(toemail); // 받는사람 이메일
 			messageHelper.setSubject(title); // 메일제목은 생략이 가능하다.
 			messageHelper.setText(content,true);// 메일 내용

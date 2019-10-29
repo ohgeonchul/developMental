@@ -35,12 +35,16 @@
     <property name="configLocation" value="classpath:mybatis-config.xml"/>
   </bean>
   
+  <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+  	<property name="Location" value="classpath:/properties/config.properties"/>
+  </bean>
+  
    <!-- Gmail -->
   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
     <property name="host" value="smtp.gmail.com" />
     <property name="port" value="587" />
-    <property name="username" value="dbsduthd2@gmail.com" />
-    <property name="password" value="" />
+    <property name="username" value="${gmail}" />
+    <property name="password" value="${pw}" />
     <property name="javaMailProperties">
     <props>
       <prop key="mail.smtp.auth">true</prop>
