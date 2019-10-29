@@ -4,27 +4,37 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-<script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous">
-</script>
+<!-- <script -->
+<!--   src="https://code.jquery.com/jquery-3.4.1.js" -->
+<!--   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" -->
+<!--   crossorigin="anonymous"> -->
+<!-- </script> -->
   
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-  <jsp:param name="pageTitle" value="" />
+  <jsp:param name="pageTitle" value="Job - Board" />
 </jsp:include>
 
 <jsp:include page="/WEB-INF/views/common/adminSidebar.jsp">
-  <jsp:param name="pageTitle" value="AdminMain" />
+  <jsp:param name="pageTitle" value="sidebar - mainview" />
 </jsp:include>
+
 <style>
-	table#table{  
-		margin:0 auto;
-		width:50%;
-	}
+	.container-1200 {
+      width: 100%;
+      min-width: 1200px;
+      padding-left: 15px; padding-right: 15px;
+      margin: 0 auto;
+    }
+    #table-container {
+    	margin-left:240px;
+    }
+/* 	table#table{   */
+/* 		margin:0 auto; */
+/* 		width:50%; */
+/* 	} */
 </style>
 
-<div id="content">
+<div class="py-4 col-lg-10 container submenu-container" id="table-container">
 	<br/><br/><br/>
 	<div class="form-inline">
 		<form name="form1" method="post" action="${path }/admin/memberSearch.do">
@@ -90,24 +100,7 @@
 				</td>
 				<td>
 					<button type="button" name="btn_v" class="btn btn-outline-secondary" >정보 열람</button>
-				</td>
-<!-- 					function ajaxSearchList(pageNo, searchType, keyword) { -->
-<!-- 						var url; -->
-<%-- 						url = "${path}/admin/memberSearch.do?cPage="+pageNo+"&searchType="+searchType+"&keyword="+keyword; --%>
-<!-- 						$.ajax({ -->
-<!-- 							type : "POST", -->
-<!-- 							url : url, -->
-<!-- 							dataType : "html", -->
-<!-- 							success : function(data){ -->
-								
-								
-<!-- 							}, -->
-<!-- 							error : function(){ -->
-<!-- 								console.log("error!!"); -->
-<!-- 							} -->
-<!-- 						}) -->
-<!-- 					} -->
-				
+				</td>				
 			</tr>
 			</c:forEach>
 		</tbody>
@@ -159,10 +152,8 @@ $("button[name=btn_v]").click(function(){
 function keywordConfirm(){
 	var inputName = $("#searchType").val();
 	var inputkeyword = $("#keyword").val();
-	console.log(inputName);
-	console.log(inputkeyword);
-	if(inputkeyword == "null" || inputkeyword == "undefined" || inputkeyword == "NaN" || inputkeyword == ''){
-		alert("검색어를 입력하세요.");		
+	if( inputName =='all' || (inputkeyword == "null" || inputkeyword == "undefined" || inputkeyword == "NaN" || inputkeyword == '')){
+		alert("검색 타입을 설정하시거나 검색어를 입력하세요.");		
 		console.log("null");
 	}else{
 		var form = $('form');
@@ -171,15 +162,5 @@ function keywordConfirm(){
 	
 	
 }
-
-// <form name="form1" method="post" action="${path }/admin/memberSearch.do">
-// <select id="searchType" name="searchType">
-// 	<option value="all">Search Type</option>
-// 	<option value="id">ID</option>
-// 	<option value="name">Name</option>
-// 	<option value="nickname">NickName</option>
-// 	<option value="status">Status</option>
-// 	<option value="email">Email</option>
-// </select>&nbsp;&nbsp;
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

@@ -15,19 +15,12 @@
   <div class="d-flex">
     <nav id="sidebar" class="p-0 flex-shrink-1">
       <div class="sidebar-header">
-        <h3><a href="${path }/mainView">${ param.pageTitle }</a></h3>
+        <h3><a href="${path }/admin/adminMain">Admin Menu</a></h3>
       </div>
   
       <ul class="list-unstyled components">
         <p>Menus</p>
-        <!-- <li class="active">
-          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">Home</a>
-          <ul class="collapse list-unstyled" id="homeSubmenu">
-            <li>
-              <a href="#">Home 1</a>
-            </li>
-          </ul>
-        </li> -->
+        
         <li class="active">
           <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">Management</a>
           <ul class="collapse list-unstyled" id="pageSubmenu">
@@ -35,7 +28,16 @@
               <a href="${path }/admin/selectMemberList.do" id="">Member</a>
             </li>
             <li>
-              <a href="javascript: ajaxJobPage('${path }');" id="jobApplyBtn">Apply</a>
+              <a href="${path }/admin/adminBoard" id="">Board</a>
+            </li>
+          </ul>
+          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">Notice</a>
+          <ul class="collapse list-unstyled" id="pageSubmenu">
+            <li>
+              <a href="${path }/admin/noticeList" id="">Notice List</a>
+            </li>
+            <li>
+              <a href="${path }/admin/noticeInsert.do" id="">Notice Registration</a>
             </li>
           </ul>
         </li>
@@ -50,8 +52,9 @@
         </li>
       </ul>
     </nav>
+  </div>
+    
 
 
   <script>
-
   </script>
