@@ -248,7 +248,6 @@ function sendMessage(sendData) {
 // 서버로부터 메시지를 받았을 때
 function onMessage(msg) {
       var receive = JSON.parse(msg.data);
-      console.log(receive);
       if(receive.type == 'list'){
     	  if(receive.method == 'create'){
     		  responseCreateList(receive);
@@ -268,6 +267,7 @@ function onMessage(msg) {
     		  responseMoveCard(receive);
     	  }
     	  if(receive.method == 'update'){
+    		  
     		  responseUpdateCard(receive);
     	  }
     	  if(receive.method == 'delete'){
@@ -284,9 +284,14 @@ function onClose(evt) {
 
 <script>
 function responseDeleteList(receive){
-	console.log(receive);
 	var list = $("#listNo_"+receive.listNo).parent().parent();
-	list.remove();
+	console.log(list.attr("class"));
+	if(list.attr("class")== 'list-wrapper'){
+		list.remove();
+	}
+	if(list.attr("class") == 'list-content'){
+		list.parent().remove();
+	}
 }
 
 
@@ -393,7 +398,6 @@ function createWrapper(ele){
 	wrapper.append(content);
 	
 	
-	console.log(ele);
 	ele.append(wrapper);
 }
 
@@ -463,7 +467,6 @@ function requestCreateList(){
 function responseCreateList(receive){
 		var content = $("button[name=btn_cList]").parent().parent().parent();
 		var board = $("button[name=btn_cList]").parent().parent().parent().parent().parent().parent();
-		console.log(board);
 		content.empty();
 		
 		var listHeader = $('<div/>');
@@ -578,7 +581,6 @@ function cardDrag(element, ev) {
 
 function cardDrop(element, ev) {
 	 var id = ev.dataTransfer.getData("text");
-	 console.log(id + " -> " + element.id);
 	 element.appendChild(document.getElementById(id));
 	 ev.preventDefault();
 }
