@@ -29,8 +29,8 @@
 		<c:if test="${loginMember != null}">
 			<c:if test="${collaboLists != null}">
 				<c:forEach items="${collaboLists }" var="list">
-					<div class="list-wrapper">
-						<div class="list-content">
+					<div class="list-wrapper" ondrop="requestMoveList(this,event)" ondragover="return false;">
+						<div class="list-content" draggable="true" ondrop="return false" ondragstart="listDrag(this,event)">
 							<div class="list-header">
 								<span class="list-title">
 									${list.title }
@@ -148,6 +148,21 @@
   
 </section>
 <script>
+function requestMoveList(element, ev){
+	/* document.getElementById("listNo_"+listNo).appendChild(document.getElementById("cardNo_"+cardNo)); */
+ 	var listNo = $("#"+ev.dataTransfer.getData("text")).attr("id").substring(7);
+	var targetListNo = $(element).children().children('.list-cards').attr("id").substring(7);
+	var sendData = {
+		type : "list",
+		method : "move",
+		listNo : listNo,
+		userId : userId,
+		collaboNo : collaboNo,
+		targetNo : targetListNo
+	};
+	sendMessage(sendData); 
+}
+
 function responseUpdateList(receive){
 	var targetList = $("#listNo_"+receive.listNo).parent().children().children('.list-title');
 	targetList.text(receive.content);
@@ -548,6 +563,9 @@ function responseCreateList(receive){
 		createWrapper(board);
 	
 }
+
+
+
 function requestMoveCard(element, ev){
 	var cardNo = parseInt(ev.dataTransfer.getData("text").substring(7));
 	var listNo = parseInt(element.id.substring(7));
@@ -566,7 +584,6 @@ function responseMoveCard(receive){
 	var listNo = receive.listNo+"";
 	var cardNo = receive.cardNo+"";
 	
-	/* $("#listNo").append(document.getElementById(cardNo)); */
 	document.getElementById("listNo_"+listNo).appendChild(document.getElementById("cardNo_"+cardNo));
 }
 
@@ -577,7 +594,9 @@ function allowDrop(ev) {
 function cardDrag(element, ev) {
   ev.dataTransfer.setData("text",element.id);
 }
-
+function listDrag(element, ev){
+	ev.dataTransfer.setData("text",$(element).children('.list-cards').attr("id"));
+}
 
 function cardDrop(element, ev) {
 	 var id = ev.dataTransfer.getData("text");
