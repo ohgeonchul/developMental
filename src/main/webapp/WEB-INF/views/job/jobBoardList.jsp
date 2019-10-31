@@ -34,6 +34,7 @@
       }
     }
 
+
   </style>
 
   <!-- CSS -->
@@ -47,7 +48,7 @@
           <i class="fa fa-briefcase text-white mr-3 my-2" style="font-size:42px;"></i>
           <div class="lh-100 ml-2">
             <p class="h5 mb-0 text-white lh-100">&nbsp;&nbsp;Job Board</p>
-            <small>Since 2019.09</small>
+            <small>Since 2019.10</small>
           </div>
         </div>
       </h6>
@@ -55,16 +56,67 @@
       <div class="card-body">
         <div class="media mb-2">
           <div class="media-body d-flex pl-3 my-0 py-0">
-            <div>
+            <div class="">
               <h3 class="card-title">Job list</h3>
               <h6 class="card-subtitle text-muted">Total of <b>0</b> listings</h6>
+              <!-- search form -->
+              <div id="apiCallFrm" class="form form form-inline" >
+                <input type="text" class="form-control form-control-sm" placeholder="Skill Keyword" id="skillTxt" required />
+                <input type="text" class="form-control form-control-sm mx-2" placeholder="Location" id="locTxt" required />
+                <button type="button" class="btn btn-outline-light text-dark border-dark" id="apiCallBtn" value="Search github">
+                  <i class="fa fa-github" aria-hidden="true"></i>&nbsp;Call API data
+                </button>
+
+              </div>
+            </div>
+            <div class="ml-auto">
+              <a class="ml-auto mr-3 align-self-center btn float-left btn-outline-primary" href="javascript: ajaxJobPage('${path}/job/jobEnroll');">Write</a>
             </div>
 
-            <button class="ml-auto mr-3 align-self-center btn btn-outline-primary" onclick="ajaxJobPage('${path}/job/postJob.do');">Write</button>
           </div>
         </div>
-        <!-- form -->
-        <table class="table table-sm table-hover" id='jobmodal-tbl' style="font-size:14px;">
+        <table class="table table-sm table-hover jobmodal-tbl2" style="font-size:14px;">
+          <c:if test="${newList == null}">
+            <div class="container card my-1 py-2 text-center"><i>No Github Job List! Please type keyword and location.</i></div>
+          </c:if>
+          <c:if test="${newList != null}">
+            <thead>
+              <tr>
+                <th class="text-center">Logo</th>
+                <th class="text-center">Company</th>
+                <th class="text-center">Title</th>
+                <th class="text-center">Content</th>
+                <th class="text-center">RegDate</th>
+                <th class="text-center">Count</th>
+                <!-- <th class="text-center">Status</th> -->
+                <th class="text-center">
+                  <img src="${path}/resources/images/icons8-queue-48.png" width="33px" height="33px" alt="">
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <c:forEach var="j" items="${newList}" varStatus="status">
+                <tr class="table-info">
+                  <td class="text-center">
+                    <c:if test="${fn:substring(j['imageURL'],2,6) =='path'}" >
+                      <img src="${path}${j['imageURL']}" class="img-fluid" alt="">
+                    </c:if>
+                    <img src="${j['imageURL']}" class="imageURL img-fluid" alt="">
+                  </td>
+                  <td class="text-center">${j['WRITER']}</td>
+                  <td class="text-center job-title">${j['TITLE']}</td>
+                  <td class="hide-html-tag">${j['CONTENT']}</td>
+                  <!-- <td class="text-center"><fmt:formatDate value="${j['REGDATE']}" pattern="yy-MM-dd" /></td> -->
+                  <td class="text-center">${j['REGDATE']}</td>
+                  <td class="text-center">${j['COUNT']}</td>
+                  <!-- <td class="text-center">${j['STATUS']}</td> -->
+                  <td class="text-center">${j['APPLICANTS']}</td>
+                </tr>
+              </c:forEach>
+            </tbody>
+          </c:if>
+        </table>
+        <table class="table table-sm table-hover jobmodal-tbl1" style="font-size:14px;">
           <thead>
             <tr>
               <th class="text-center">NO.</th>
@@ -95,24 +147,6 @@
                 <td class="text-center">${j['APPLICANTS']}</td>
               </tr>
             </c:forEach>
-            <c:forEach var="j" items="${newList}" varStatus="status">
-              <tr>
-                <td class="text-center">
-                  <c:if test="${fn:substring(j['imageURL'],2,6) =='path'}" >
-                    <img src="${path}${j['imageURL']}" class="img-fluid" alt="">
-                  </c:if>
-                  <img src="${j['imageURL']}" class="imageURL img-fluid" alt="">
-                </td>
-                <td class="text-center">${j['WRITER']}</td>
-                <td class="text-center job-title">${j['TITLE']}</td>
-                <td class="hide-html-tag">${j['CONTENT']}</td>
-                <!-- <td class="text-center"><fmt:formatDate value="${j['REGDATE']}" pattern="yy-MM-dd" /></td> -->
-                <td class="text-center">${j['REGDATE']}</td>
-                <td class="text-center">${j['COUNT']}</td>
-                <!-- <td class="text-center">${j['STATUS']}</td> -->
-                <td class="text-center">${j['APPLICANTS']}</td>
-              </tr>
-            </c:forEach>
           </tbody>
         </table>
         <small class="d-block text-right mt-3"><a href="#">All updates</a></small>
@@ -125,14 +159,25 @@
     </div>
 
     <style>
+      td img {
+        height: 10px;
+        width: 50%;
+        object-fit: cover;
+      }
       td {
         max-width: 0;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        padding: 0px;
       }
       table { width:500px;table-layout:fixed; }
       table tr { height:1em;  }
+      /* table tr {
+        line-height: 25px;
+        min-height: 25px;
+        height: 25px;
+      } */
       @media (max-width: 768px) { /* use the max to specify at each container level */
         .job-title {    
           width:100px;  /* adjust to desired wrapping */
@@ -176,11 +221,10 @@
           'display': 'none',
         })
 
-        $('#jobmodal-tbl tbody tr').css({
-          'cursor': 'pointer',
-        });
+        $('.jobmodal-tbl1 tbody tr').css({ 'cursor': 'pointer', });
+        $('.jobmodal-tbl2 tbody tr').css({ 'cursor': 'pointer', });
 
-        $('table#jobmodal-tbl > tbody  > tr').on('click', function() {
+        $('.jobmodal-tbl1 > tbody  > tr').on('click', function() {
 
           ajaxGithubJobContent($(this));
 
@@ -196,7 +240,53 @@
           });
         });
 
+        $('.jobmodal-tbl2 > tbody  > tr').on('click', function() {
+
+          ajaxGithubJobContent($(this));
+
+          $('#jobmodal').modal({
+            backdrop: false,
+            keyboard: false,
+            show: true,
+          });
+
+          $('.modal-dialog').draggable({
+            handle: ".modal-content",
+            // containment: "window",
+          });
+        });
+
+        $('#apiCallBtn').click(function(){
+
+          var apiParams = {
+            "skill": $('#skillTxt').val(),
+            "loc": $('#locTxt').val(),
+          };
+
+          if($('#skillTxt').val() =="" || $('#locTxt').val() =="") {
+            alert("Fill out search fields!");
+            return;
+          }
+
+          $.ajax({
+            type: "POST",
+            url: "${path}/job/jobBoardList",
+            data: apiParams,
+            dataType: "html",
+            success: function(data) {
+              console.log("success!");
+              html = $('<div>').html(data);
+              $('#main-container').html(html.find('div.submenu-container'));
+            },
+            error: function(status, error) {
+              alert("ajax api parameter call Error!");
+            }
+          });
+        });
+
+
       });
+
 
       function ajaxJobPage(urlMapping, data){
         $.ajax({
@@ -217,28 +307,19 @@
         var githubData = {};
         var no,writer,title,content,regDate,count,status,applicants;
         tr.each(function (i, el) {
-          var tds = $(this).find('td'),
-            no= (tds.eq(0).text()).trim(),
-            writer= tds.eq(1).text(),
-            title= tds.eq(2).text(),
-            content= tds.eq(3).text(),
-            regDate= tds.eq(4).text(),
-            count= tds.eq(5).text(),
-            status= tds.eq(6).text(),
-            applicants= tds.eq(7).text();
+          var tds = $(this).find('td');
 
-          var imageURL= tds.eq(0).find('img.imageURL').attr("src");
+          githubData = {};
 
-          githubData = {
-            "no": no==""? 0:no,
-            "writer": writer,
-            "title": title,
-            "content": content,
-            // "regDate": regDate, //ERROR!!!
-            "count": count,
-            "status": status,
-            "imageURL": imageURL,
-          };
+          githubData["no"]= (tds.eq(0).text()).trim() ==""? 0:no;
+          githubData["writer"]= tds.eq(1).text();
+          githubData["title"]= tds.eq(2).text();
+          githubData["content"]= tds.eq(3).text();
+          // githubData["regDate"]= new Date(tds.eq(4).text());
+          githubData["count"]= tds.eq(5).text();
+          githubData["status"]= tds.eq(6).text();
+          githubData["applicants"]= tds.eq(7).text();
+          githubData["imageURL"]= tds.eq(0).find('img.imageURL').attr("src");
         });
 
         console.log(githubData);
@@ -248,15 +329,6 @@
           url: "${path }/job/jobContentView.do",
           dataType: "html",
           data: githubData,
-          // data: {
-          //   "no": githubData["no"],
-          //   "writer": githubData["writer"],
-          //   "title": githubData["title"],
-          //   "content": githubData["content"],
-          //   "regDate": githubData["regDate"],
-          //   "count": githubData["count"],
-          //   "status": githubData["status"],
-          // },
           success: function(data){
             var html = $('<div>').html(data);
             $('.modal-dialog').html(html.find('#jobmodal-content'));
@@ -268,8 +340,6 @@
       }
     </script>
 
-    <!-- <script src="${path }/resources/js/jobmodal.js"></script> -->
-    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#jobmodal" data-whatever="@fat">Open modal for @fat</button> -->
   </div>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
