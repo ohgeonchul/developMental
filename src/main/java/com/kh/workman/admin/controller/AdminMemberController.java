@@ -47,19 +47,12 @@ public class AdminMemberController {
 	}
 
 	@RequestMapping("/admin/selectMemberList.do")
-<<<<<<< HEAD
 	public ModelAndView selectMemberList(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage,
 											@RequestParam(defaultValue="id", required = false) String searchType, 
 											@RequestParam(defaultValue="") String keyword, Model model) {
 		ModelAndView mv = new ModelAndView();
 		
 		//페이징처리를 위한 것
-=======
-	public ModelAndView selectMemberList(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage, 
-												Model model) {
-		ModelAndView mv = new ModelAndView();
-		
->>>>>>> 036c9cf9a6fd199974bcbc87e3c07a134fed1aec
 		int numPerPage=10;
 		List<AdminMember> list = service.selectMemberList(cPage,numPerPage);
 		
