@@ -146,6 +146,32 @@
   
 </section>
 <script>
+var userId =  "${loginMember.id}";
+var collaboNo = 1;
+let sock = new SockJS("<c:url value="/collabo/soc"/>");
+sock.onmessage = onMessage;
+sock.onclose = onClose;
+
+
+if(userId == ""){
+	history.back();
+}
+
+sock.onopen = function(){
+	var sendData ={
+		type : "connect",
+		userId : userId,
+		collaboNo : collaboNo
+	};
+	sendMessage(sendData);
+}
+
+
+
+
+
+
+
 function requestMoveList(element, ev){
 	/* document.getElementById("listNo_"+listNo).appendChild(document.getElementById("cardNo_"+cardNo)); */
  	var listNo = $("#"+ev.dataTransfer.getData("text")).attr("id").substring(7);
@@ -228,20 +254,7 @@ function requestUpdateCard(target){
 	sendMessage(sendData);
 }
 
-var userId =  "${loginMember.id}";
-var collaboNo = 1;
-let sock = new SockJS("<c:url value="/collabo/soc"/>");
-sock.onmessage = onMessage;
-sock.onclose = onClose;
 
-sock.onopen = function(){
-	var sendData ={
-		type : "connect",
-		userId : userId,
-		collaboNo : collaboNo
-	};
-	sendMessage(sendData);
-}
 
 // 메시지 전송
 function sendMessage(sendData) {
@@ -355,7 +368,7 @@ $("#cardModal").on('show.bs.modal',function(e){
 	var cardNo = $(e.relatedTarget).data('test').substring(7);
 	var card = $("#"+data);
 	var title = $("#modal-title");
-	var content = $("#modalContent");
+	var content = $("#modalContent");			
 	var writer = $("#modal-writer");
 	$("#editArea").val('');
 	
