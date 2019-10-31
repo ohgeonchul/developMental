@@ -22,8 +22,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
 <section class="container-fluid" id="content">
 	<div class="row collabo-header" >
-		<span style="font-size:18px;color:white;font-weight:bold;">대충 트렐로 메뉴</span>
-		<button type="button" data-toggle="modal" data-target="#cardModal">모달테스트</button>
 	</div>
 	<div class="board" >
 		<c:if test="${loginMember != null}">
@@ -302,10 +300,6 @@ function onClose(evt) {
 
 <script>
 function responseMoveList(receive){
-	/* var listNo = receive.listNo+"";
-	var cardNo = receive.cardNo+"";
-	
-	document.getElementById("listNo_"+listNo).appendChild(document.getElementById("cardNo_"+cardNo)); */
 	var listNo = $("#listNo_"+receive.listNo); 
 	var wrapper = $("#listNo_"+receive.targetNo).parent().parent();
 	
@@ -376,13 +370,18 @@ $("#cardModal").on('show.bs.modal',function(e){
 		}
 	</c:forEach>
 });
-
 function createWrapper(ele){
 	var wrapper=$("<div/>");
 	wrapper.attr("class","list-wrapper");
+	wrapper.attr("ondrop","requestMoveList(this,event)");
+	wrapper.attr("ondragover","return false");
+	
 	
 	var content=$("<div/>");
 	content.attr("class","list-content");
+	content.attr("draggable","true");
+	content.attr("ondrop","return false;");
+	content.attr("ondragstart","listDrag(this,event)");
 	
 	var dropdiv=$("<div/>");
 	dropdiv.attr("class","dropdown div-drop");
