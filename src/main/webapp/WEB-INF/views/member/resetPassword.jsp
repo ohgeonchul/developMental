@@ -41,7 +41,7 @@
         <div class="wrapper wrapper--w680">
             <div class="card card-4">
                 <div class="card-body">
-                   <h2 class="title">ReSet PassWord</h2> 
+                   <h2 class="title">비밀번호 변경</h2> 
 	              
                 <form action="${path}/member/resetPasswordEnd.do" method="POST">
                         <!-- <div class="row row-space">

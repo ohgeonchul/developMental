@@ -43,7 +43,7 @@
         <div class="wrapper wrapper--w680">
             <div class="card card-4">
                 <div class="card-body">
-                    <h2 class="title">Registration Form</h2>
+                    <h2 class="title">회원 등록</h2>
                     <form action="${path}/member/register.do" method="POST">
                         <div class="row row-space">
                             <div class="col-2">
@@ -113,7 +113,7 @@
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">핸드폰</label>
-                                    <input class="input--style-4" type="text" name="tel" placeholder="ex) 010-1234-5678">
+                                    <input class="input--style-4" type="text" name="tel" id="tel" placeholder="ex) 010-1234-5678">
                                     <input type="hidden" id="telValue" value="F" class="핸드폰"/>
                                 </div>
                             </div>
@@ -165,7 +165,7 @@
                          <div class="row row-space">
                             <div class="col-0">
                                 <div class="input-group">
-                                    <label class="label"><input type="text" id="msg" style="color: red" value="dfddf" readonly/></label>
+                                    <label class="label"><input type="text" id="msg" style="color: red" value="" readonly/></label>
                                 </div>
                             </div>
                          </div>  
@@ -201,7 +201,6 @@
 	}
 }) */
 
-
 // 주소 검색
 function postCode()
 {
@@ -216,6 +215,31 @@ function postCode()
         }).open();
     });		
 }
+
+
+$("#tel").keyup(function(e){
+    var inputTel = $(this);
+    // 010-1234-1234
+    console.log(inputTel);
+    console.log(inputTel.val().length);
+    var text = "-";
+
+    // backSpace
+    if(e.keyCode == 8)
+        return;
+
+    if(inputTel.val().length < 11)
+    {
+        if(inputTel.val().length == 3)
+        {
+            inputTel.val(inputTel.val()+text);
+        }else if(inputTel.val().length == 8)
+        {
+            inputTel.val(inputTel.val()+text);
+        }
+    }
+});
+
 
 
 // 가입 버튼 이벤트

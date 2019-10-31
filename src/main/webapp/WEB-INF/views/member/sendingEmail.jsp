@@ -40,7 +40,7 @@
         <div class="wrapper wrapper--w680">
             <div class="card card-4">
                 <div class="card-body">
-                   <h2 class="title">Send Email</h2> 
+                   <h2 class="title">이메일 보내기</h2> 
 	              
                 <form action="${path}/member/mailSending.do" method="POST">
                         <!-- <div class="row row-space">

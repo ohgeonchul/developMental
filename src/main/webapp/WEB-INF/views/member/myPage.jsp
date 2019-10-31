@@ -44,31 +44,30 @@
         <div class="wrapper wrapper--w680">
             <div class="card card-4">
                 <div class="card-body">
-                    
+                    <h2 class="title">회원정보 수정</h2>
             	<!-- avatar -->
 	            <div class="avatar-wrapper my-0 mx-3">
 	            <c:if test="${loginMember.profile != null}">             
 	              <img class="profile-pic" src="${loginMember.profile}" />
 	             </c:if>
 	             <c:if test="${loginMember.profile}">
-	              <img class="profile-pic" src="" />
-	             
+	              <img class="profile-pic" src="" />         
 	             </c:if>
 	             
 			          <div class="upload-button">
 		                <i class="fa fa-camera" aria-hidden="true"></i>
 		              </div> 
 		              <input class="file-upload form-control stretched-link" type="file" accept="image/*" name="new_up_file" />
-		              <input class="" type="hidden" name="old_up_file_ori" value="${loginMember.profile}" />
+		              <input class="" type="hidden" name="profile" value="${loginMember.profile}" />
 	             
 	              </div>
 	              
-               <form action="${path}/member/register.do" method="POST">
+               <form action="${path}/member/changeData.do" method="POST">
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">이름</label>
-                                    <input class="input--style-4" type="text" name="name" placeholder="이름 2자리 이상 영문도 2자리 이상" required="required" >
+                                    <input class="input--style-4" type="text" name="name" placeholder="이름 2자리 이상 영문도 2자리 이상" readonly="readonly" >
                                     <input type="hidden" id="nameValue" value="F" class="이름"/>
                                 </div>
                             </div>
@@ -85,7 +84,7 @@
                             <div class="col-2">
                             	<div class="input-group">
                                     <label class="label">아이디</label>
-                                    <input class="input--style-4" type="text" name="id" placeholder="아이디 영문숫자만" required="required">
+                                    <input class="input--style-4" type="text" name="id" placeholder="아이디 영문숫자만" readonly="readonly">
                                     <input type="hidden" id="idValue" value="F" class="아이디"/>
                                 </div>
                                 <!--달력  -->
@@ -125,14 +124,14 @@
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">이메일</label>
-                                    <input class="input--style-4" type="email" name="email" placeholder="ex) abc@abc.com">
+                                    <input class="input--style-4" type="email" name="email" placeholder="ex) abc@abc.com" readonly="readonly">
                                     <input type="hidden" id="emailValue" value="F" class="이메일"/>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">핸드폰</label>
-                                    <input class="input--style-4" type="text" name="tel" placeholder="ex) 010-1234-5678">
+                                    <input class="input--style-4" type="text" name="tel" id="tel" placeholder="ex) 010-1234-5678">
                                     <input type="hidden" id="telValue" value="F" class="핸드폰"/>
                                 </div>
                             </div>
@@ -189,7 +188,7 @@
                             </div>
                          </div>  
                         <div class="p-t-15">
-                            <button class="btn btn--radius-2 btn--blue pull-left" type="button" onclick="register()">가입</button>
+                            <button class="btn btn--radius-2 btn--blue pull-left" type="button" onclick="changeData()">변경하기</button>
                             <button class="btn btn--radius-2 btn--blue pull-right" type="button" onclick="location.href='${path}/member/mainPage.do'">취소</button>
                         </div>
                         
@@ -222,6 +221,7 @@
 }) */
 
 
+
 // 주소 검색
 function postCode()
 {
@@ -237,9 +237,31 @@ function postCode()
     });		
 }
 
+$("#tel").keyup(function(e){
+    var inputTel = $(this);
+    // 010-1234-1234
+    console.log(inputTel);
+    console.log(inputTel.val().length);
+    var text = "-";
+
+    // backSpace
+    if(e.keyCode == 8)
+        return;
+
+    if(inputTel.val().length < 11)
+    {
+        if(inputTel.val().length == 3)
+        {
+            inputTel.val(inputTel.val()+text);
+        }else if(inputTel.val().length == 8)
+        {
+            inputTel.val(inputTel.val()+text);
+        }
+    }
+});
 
 // 가입 버튼 이벤트
-function register()
+function changeData()
 {
 	var form = $("form");
 	var msg = $("#msg");
