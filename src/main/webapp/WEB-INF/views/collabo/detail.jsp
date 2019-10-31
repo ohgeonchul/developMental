@@ -273,6 +273,9 @@ function onMessage(msg) {
     	  if(receive.method == 'update'){
     		  responseUpdateList(receive);
     	  }
+    	  if(receive.method == 'move'){
+    		  responseMoveList(receive);
+    	  }
       }
       if(receive.type== 'card'){
     	  if(receive.method == 'create'){
@@ -298,6 +301,22 @@ function onClose(evt) {
 </script>
 
 <script>
+function responseMoveList(receive){
+	/* var listNo = receive.listNo+"";
+	var cardNo = receive.cardNo+"";
+	
+	document.getElementById("listNo_"+listNo).appendChild(document.getElementById("cardNo_"+cardNo)); */
+	var listNo = $("#listNo_"+receive.listNo); 
+	var wrapper = $("#listNo_"+receive.targetNo).parent().parent();
+	
+	listNo.parent().parent().append(wrapper.children());
+	wrapper.append(listNo.parent());
+	
+	console.log(wrapper);
+	console.log(listNo);
+}
+
+
 function responseDeleteList(receive){
 	var list = $("#listNo_"+receive.listNo).parent().parent();
 	console.log(list.attr("class"));
