@@ -28,26 +28,18 @@ public class AdminMemberController {
 	
 	
 	@RequestMapping("/admin/memberSearch.do")
-	public ModelAndView list(@RequestParam(defaultValue="id") String searchType, 
-								@RequestParam(defaultValue="") String keyword) {
-		
-		System.out.println("searchType : "+searchType);
-		System.out.println("keyword : "+keyword);
-		
+	public ModelAndView list(@RequestParam(required=false, defaultValue="") String searchType, 
+								@RequestParam(required=false, defaultValue="") String keyword) {
 		List<AdminMember> list = service.listAll(searchType, keyword);
-		//검색레코드 수
-		int count = service.countArticle(searchType, keyword);
-		
 		ModelAndView mv = new ModelAndView();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
-		map.put("count", count);
 		map.put("searchType", searchType);
 		map.put("keyword", keyword);
 		
+		mv.addObject("list", list);
 		mv.addObject("map", map);
-		System.out.println("map : "+map);
 		
 		mv.setViewName("admin/adminMemberList");
 		
@@ -66,7 +58,7 @@ public class AdminMemberController {
 		
 		int totalCount=service.selectMemberCount();
 				
-		mv.addObject("pageBar",PageBarFactory.getPageBar(totalCount, cPage, numPerPage, "/admin/selectMemberList.do"));
+		mv.addObject("pageBar",PageBarFactory.getAdminPageBar(totalCount, cPage, numPerPage, "/admin/selectMemberList.do"));
 		mv.addObject("count",totalCount);
 		mv.addObject("list",list);
 		mv.setViewName("admin/adminMemberList");

@@ -6,12 +6,16 @@
 		SELECT * FROM MEMBER WHERE EMAIL=#{tomail}
 	</select>
 	
+	<update id="updateMemberEmail" parameterType="com.kh.workman.member.model.vo.Member">
+		UPDATE MEMBER SET PW=#{pw} WHERE status=1 and EMAIL=#{email}
+	</update>
+	
 	
 	<select id="selectMemberCount" resultType="_int">
 		SELECT COUNT(*) FROM Member
 	</select>
 	
-	<select id="selectMemberList" resultType="member">
+	<select id="selectMemberList" resultType="adminMember">
 		SELECT * FROM MEMBER ORDER BY NO
 	</select>
 	<!--
@@ -31,7 +35,7 @@
 		SELECT * FROM MEMBER where ID=#{id}
 	</select>
 	
-	<select id="listAll" resultType="member">
+	<select id="listAll" resultType="adminMember">
 		SELECT * FROM MEMBER
 			<include refid="search"></include>
 	</select>

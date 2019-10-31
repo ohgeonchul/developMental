@@ -4,9 +4,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
-<%-- jsp:include page="/WEB-INF/views/common/header.jsp">
-   <jsp:param name="pageTitle" value=""/>
-</jsp:include> --%>
 
 
 <head>
@@ -31,9 +28,9 @@
     <link href="${path}/resources/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="${path}/resources/css/signUp.css" rel="stylesheet" media="all">
-    
-    <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+    <link href="${path}/resources/css/resetPassword.css" rel="stylesheet" media="all">
+    <link href="${path}/resources/css/avatar.css" rel="stylesheet" media="all">
+ 
 </head>
 
 <section id="content">
@@ -43,9 +40,10 @@
         <div class="wrapper wrapper--w680">
             <div class="card card-4">
                 <div class="card-body">
-                    <h2 class="title">회원 등록</h2>
-                    <form action="${path}/member/register.do" method="POST">
-                        <div class="row row-space">
+                   <h2 class="title">이메일 보내기</h2> 
+	              
+                <form action="${path}/member/mailSending.do" method="POST">
+                        <!-- <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">이름</label>
@@ -60,15 +58,15 @@
                                     <input type="hidden" id="nicknameValue" class="닉네임"" value="F"/>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         
-                        <div class="row row-space">
+                        <!-- <div class="row row-space">
                             <div class="col-2">
                             	<div class="input-group">
                                     <label class="label">아이디</label>
                                     <input class="input--style-4" type="text" name="id" placeholder="아이디 영문숫자만" required="required">
                                     <input type="hidden" id="idValue" value="F" class="아이디"/>
-                                </div>
+                                </div> -->
                                 <!--달력  -->
                                 <!-- <div class="input-group">
                                     <label class="label">Birthday</label>
@@ -77,14 +75,14 @@
                                         <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
                                     </div>
                                 </div> -->
-                            </div>
+                           <!--  </div>
                             
                             <div class="col-2">
                             <div class="input-group">
                                     <label class="label">비밀번호</label>
-                                    <input class="input--style-4" type="password" name="pw" placeholder="비밀번호 6자리 이상"" required="required">
+                                    <input class="input--style-4" type="text" name="pw" placeholder="비밀번호 6자리 이상"" required="required">
                                     <input type="hidden" id="pwValue" value="F" class="비밀번호"/>
-                                </div>
+                                </div> -->
                             
                             <!-- 성별 -->
                                 <!-- <div class="input-group">
@@ -100,23 +98,27 @@
                                         </label>
                                     </div>
                                 </div> -->
-                            </div>
-                        </div>
+                            <!-- </div> -->
+                       <!--  </div> -->
                         <div class="row row-space">
-                            <div class="col-2">
+                            <div class="col-1">
                                 <div class="input-group">
                                     <label class="label">이메일</label>
-                                    <input class="input--style-4" type="email" name="email" placeholder="ex) abc@abc.com">
+                                    <input class="input--style-4" type="email" name="email" id="email" placeholder="ex) abc@abc.com">
                                     <input type="hidden" id="emailValue" value="F" class="이메일"/>
                                 </div>
                             </div>
-                            <div class="col-2">
+                            <input type="hidden" />
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-1">
                                 <div class="input-group">
-                                    <label class="label">핸드폰</label>
-                                    <input class="input--style-4" type="text" name="tel" id="tel" placeholder="ex) 010-1234-5678">
-                                    <input type="hidden" id="telValue" value="F" class="핸드폰"/>
+                                    <label class="label">이메일 확인</label>
+                                    <input class="input--style-4" type="email" name="email2" id="email2" placeholder="ex) abc@abc.com">
+                                    <input type="hidden" id="email2Value" value="F" class="이메일"/>
                                 </div>
                             </div>
+                            <input type="hidden" />
                         </div>
                          <!-- <div class="row row-space">
                             <div class="col-2">
@@ -132,15 +134,15 @@
                                 </div>
                             </div>
                         </div> -->
-                        <div class="row row-space">
+                       <!--  <div class="row row-space">
                             <div class="col-0">
                                 <div class="input-group">
                                     <label class="label">주소</label>            	
                                     <input class="input--style-4" type="text" name="addr" id="roadAddress" placeholder="주소를 입력하세요" required="required" >
                                     <input type="hidden" id="addrValue" value="F" class="주소"/>   
-                                    <!-- <input type="hidden" class="form-control" placeholder="extraAddress" id="extraAddress" name="extraAddress">
+                                    <input type="hidden" class="form-control" placeholder="extraAddress" id="extraAddress" name="extraAddress">
                                     <input type="hidden" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postCode" name="postCode">
-                                    <input type="hidden" class="form-control" placeholder="jibunAddress" id="jibunAddress" name="jibunAddress"> -->
+                                    <input type="hidden" class="form-control" placeholder="jibunAddress" id="jibunAddress" name="jibunAddress">
                                 </div>
                             </div>
                             <div class="col-4">
@@ -148,7 +150,7 @@
 	                              <button class="btn btn--radius-2 btn--blue pull-right" style="height:50px; margin-top: 30px; margin-left: 5px; " onclick="postCode()"><i class="fa fa-search"></i></button>                    
 	                            </div>
                             </div>
-                        </div>                   
+                        </div> -->                   
                         <!-- selector -->
                        <!--  <div class="input-group">
                             <label class="label">Subject</label>
@@ -170,7 +172,7 @@
                             </div>
                          </div>  
                         <div class="p-t-15">
-                            <button class="btn btn--radius-2 btn--blue pull-left" type="button" onclick="register()">가입</button>
+                            <button class="btn btn--radius-2 btn--blue pull-left" type="button" onclick="sendEmail()">메일 보내기</button>
                             <button class="btn btn--radius-2 btn--blue pull-right" type="button" onclick="location.href='${path}/member/mainPage.do'">취소</button>
                         </div>
                         
@@ -189,6 +191,7 @@
 
     <!-- Main JS-->
     <script src="${path}/resources/js/global.js"></script>
+   
 
 <!-- This templates was made by Colorlib (https://colorlib.com) -->
 
@@ -201,67 +204,24 @@
 	}
 }) */
 
-// 주소 검색
-function postCode()
-{
-	daum.postcode.load(function(){
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-                // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-                var addr = data.roadAddress;
-                document.getElementById("roadAddress").value = addr;
-            }
-        }).open();
-    });		
-}
-
-
-$("#tel").keyup(function(e){
-    var inputTel = $(this);
-    // 010-1234-1234
-    console.log(inputTel);
-    console.log(inputTel.val().length);
-    var text = "-";
-
-    // backSpace
-    if(e.keyCode == 8)
-        return;
-
-    if(inputTel.val().length < 11)
-    {
-        if(inputTel.val().length == 3)
-        {
-            inputTel.val(inputTel.val()+text);
-        }else if(inputTel.val().length == 8)
-        {
-            inputTel.val(inputTel.val()+text);
-        }
-    }
-});
 
 
 
 // 가입 버튼 이벤트
-function register()
+function sendEmail()
 {
 	var form = $("form");
 	var msg = $("#msg");
     var text = "";
     var inputValue = new Array();
-    inputValue.push("name", "nickname","id","pw","email","tel","addr");
+    inputValue.push("email","email2");
 
     // for(var i = 0; i < inputValue.length; i++)
     //     console.log(inputValue[i]);
     
 
-    if( ($("#nameValue").val() == 'T') && 
-        ($("#nicknameValue").val() == 'T') && 
-        ($("#idValue").val() == 'T') && 
-        ($("#pwValue").val() == 'T') && 
-        ($("#emailValue").val() == 'T') &&
-        ($("#telValue").val() == 'T') &&
-        ($("#addrValue").val() == 'T') )
+    if( ($("#emailValue").val() == 'T') && 
+        ($("#email2Value").val() == 'T') )
     {
         form.submit();
     }
@@ -285,37 +245,11 @@ function register()
 function regExpCheck(data, inputName)
 {
 
-    if(inputName == 'name' || inputName == 'nickname')
-    {
-        var regExp = /^[가-힣]{2,4}||[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
-        return ( data !='' && data != 'undefined' && regExp.test(data) );
-    }
-    else if(inputName == 'email')
+    if(inputName == 'email2' || 'email')
     {
         var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;   
         return ( data !='' && data != 'undefined' && regExp.test(data) );
     }
-    else if(inputName == 'tel')
-    {
-        var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
-        return ( data !='' && data != 'undefined' && regExp.test(data) );
-    }
-    else if(inputName == 'id')
-    {
-        var regExp = /^[0-9a-z]+$/;
-        return ( data !='' && data != 'undefined' && regExp.test(data) );
-    }
-    else if(inputName == 'pw')
-    {
-        var regExp =  /^[A-Za-z0-9]{6,12}$/;
-        return ( data !='' && data != 'undefined' && regExp.test(data) );
-    }
-    else if(inputName == 'addr')
-    {
-        var regExp = /^[가-힣]{4,30}||[a-zA-Z]{4,30}\s[a-zA-Z]{4,30}$/;
-        return ( data !='' && data != 'undefined' && regExp.test(data) );
-    }
-    
 }
 
 // 정규식 이메일 체크
@@ -337,11 +271,24 @@ $(document).ready(function()
         inputName.attr("placeholder","");
     });
 
+    $("#email2").keyup(function(){
+        var inputEmail = $("#email").val();
+        var inputEmail2 = $("#email2").val();
+
+        if(inputEmail == inputEmail2)
+            $("#msg").val("두 이메일이 같습니다.");
+        else
+            $("#msg").val("두 이메일이 같지 않아요");
+        return;
+    });
+
 
     // 이름
-   $("input").blur(function(){
+   $("input#email,input#email2").blur(function(){
         
         var inputName = $(this); // input name명
+        console.log(inputName);
+        
         var inputValue = $('#'+inputName.attr("name")+'Value'); // inputValue Class 명
 
         console.log(inputValue.attr("class") + " 여기오긴해?");
@@ -351,20 +298,10 @@ $(document).ready(function()
         {
 
             switch (inputName.attr("name")) {
-                case 'name': inputName.attr("placeholder","이름 2자리 이상 영문도 2자리 이상");    
-                    break;
-                case 'nickname': inputName.attr("placeholder","닉네임 2자리 이상 영문도 2자리 이상");    
-                    break;
-                case 'id': inputName.attr("placeholder","아이디 영문 숫자만");  
-                    break;
-                case 'pw': inputName.attr("placeholder","비밀번호 6자리 이상");    
-                    break;
                 case 'email': inputName.attr("placeholder","ex) abc@abc.com");  
                     break;
-                case 'tel': inputName.attr("placeholder","ex) 010-1234-5678");
-                    break;
-                case 'addr': inputName.attr("placeholder","주소를 입력하세요");    
-                    break;          
+                case 'email2': inputName.attr("placeholder","ex) abc@abc.com");
+                    break;  
             }
             //console.log("비어있따");
             $("#msg").val("");
@@ -381,77 +318,15 @@ $(document).ready(function()
             //$(this).focus();
             inputValue.val("F");
             return false;
-        }else{
-            $("#msg").val("");
-            inputValue.val("T");
+        }else{           
+                inputValue.val("T");
+                return;      
         }
     });
 
 });
 
 
-
-
-
-
-
-// 예전 쓰던 포스트 코드 (postCode +  도로명 + 예전주소)))
-// 현재는 도로명 주로만 쓰려고 간단하게 바꾼상태
-function execdaumPostcode() {
-    new daum.Postcode({
-        oncomplete: function(data) {
-            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-            // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-            var roadAddr = data.roadAddress; // 도로명 주소 변수
-            var extraRoadAddr = ''; // 참고 항목 변수
-
-            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                extraRoadAddr += data.bname;
-            }
-            // 건물명이 있고, 공동주택일 경우 추가한다.
-            if(data.buildingName !== '' && data.apartment === 'Y'){
-               extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-            }
-            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-            if(extraRoadAddr !== ''){
-                extraRoadAddr = ' (' + extraRoadAddr + ')';
-            }
-
-            // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            document.getElementById('postCode').value = data.zonecode;
-            document.getElementById("roadAddress").value = roadAddr;
-            document.getElementById("jibunAddress").value = data.jibunAddress;
-            
-            // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
-            if(roadAddr !== ''){               
-          	  document.getElementById("extraAddress").value = extraRoadAddr;
-          	  document.getElementById("roadAddress").value += extraRoadAddr;
-            } else {
-                document.getElementById("roadAddress").value += '';
-            }
-
-            var guideTextBox = document.getElementById("guide");
-            // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-            if(data.autoRoadAddress) {
-                var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-                guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-                guideTextBox.style.display = 'block';
-
-            } else if(data.autoJibunAddress) {
-                var expJibunAddr = data.autoJibunAddress;
-                guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-                guideTextBox.style.display = 'block';
-            } else {
-                guideTextBox.innerHTML = '';
-                guideTextBox.style.display = 'none';
-            }
-        }
-    }).open();
-  }
 
 </script>
 
