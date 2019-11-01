@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.workman.common.MyEncrypt;
 import com.kh.workman.member.model.service.MemberService;
 import com.kh.workman.member.model.vo.Member;
 
@@ -30,6 +31,9 @@ public class MailController {
 
 	@Autowired
 	private MemberService service;
+	
+	@Autowired
+	MyEncrypt en;
 	
 	@Value("${gmail}")
 	private String gmail;
@@ -98,7 +102,13 @@ public class MailController {
 		String msg ="";
 		String loc ="/";
 		System.out.println(m);
-		m.setPw(pwEncoder.encode(m.getPw()));
+		try
+		{
+			m.setPw(en.encrypt(m.getPw()));
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		int result = service.updateMember(m);
 				
 		if(result > 0)

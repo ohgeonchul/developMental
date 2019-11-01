@@ -27,6 +27,10 @@
 		UPDATE MEMBER SET STATUS=#{status} WHERE NO=#{no}
 	</update>
 	
+	<update id="updateInfoMember" parameterType="member">
+		UPDATE MEMBER SET NICKNAME=#{nickname},PW=#{pw},TEL=#{tel},ADDR=#{addr} WHERE ID=#{id}
+	</update>
+	
 	<delete id="deleteMember" parameterType="map">
 		DELETE FROM MEMBER WHERE ID=#{id}
 	</delete>
