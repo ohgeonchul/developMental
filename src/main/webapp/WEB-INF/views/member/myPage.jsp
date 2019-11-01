@@ -4,42 +4,45 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
-<%-- jsp:include page="/WEB-INF/views/common/header.jsp">
+ <!-- <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param name="pageTitle" value=""/>
-</jsp:include> --%>
-
+</jsp:include>  -->
 
 
 
 <div class="submenu-container">
-<section id="content">
-        <head>
-                <!-- Required meta tags-->
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-                <meta name="description" content="Colorlib Templates">
-                <meta name="author" content="Colorlib">
-                <meta name="keywords" content="Colorlib Templates">
-            
-                <!-- Title Page-->
-                <title>Au Register Forms by Colorlib</title>
-            
-                <!-- Icons font CSS-->
-                <link href="${path}/resources/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-                <link href="${path}/resources/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-                <!-- Font special for pages-->
-                <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-            
-                <!-- Vendor CSS-->
-                <link href="${path}/resources/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-                <link href="${path}/resources/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
-            
-                <!-- Main CSS-->
-                <link href="${path}/resources/css/mypage.css" rel="stylesheet" media="all">          
-                <link href="${path}/resources/css/avatar.css" rel="stylesheet" media="all">
-                
-                <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-            </head>
+	<section id="content">
+		<head>
+				  <!-- Required meta tags-->
+				  <meta charset="UTF-8">
+				  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+				  <meta name="description" content="Colorlib Templates">
+				  <meta name="author" content="Colorlib">
+				  <meta name="keywords" content="Colorlib Templates">
+			 
+				  <!-- Title Page-->
+				  <title>Au Register Forms by Colorlib</title>
+			  <!-- jQuery CDN -->
+					<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+					integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+					crossorigin="anonymous"></script>
+				  <!-- Icons font CSS-->
+				  <link href="${path}/resources/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+				  <link href="${path}/resources/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+				  <!-- Font special for pages-->
+				  <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+			 
+				  <!-- Vendor CSS-->
+				  <link href="${path}/resources/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+				  <link href="${path}/resources/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+			 
+				  <!-- Main CSS-->
+				  <link href="${path}/resources/css/mypage.css" rel="stylesheet" media="all">          
+				  <link href="${path}/resources/css/avatar.css" rel="stylesheet" media="all">
+				  
+				  <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>			 
+			 </head>
+		
 
     <div class="page-wrapper-my p-t-130-my p-b-100-my font-poppins-my">
         <div class="wrapper-my wrapper--w680-my">
@@ -51,14 +54,14 @@
 	            <c:if test="${loginMember.profile != null}">             
 	              <img class="profile-pic" src="${loginMember.profile}" />
 	             </c:if>
-	             <c:if test="${loginMember.profile}">
+	             <c:if test="${loginMember.profile} == null">
 	              <img class="profile-pic" src="" />
 	             </c:if>
 	             
 			          <div class="upload-button-my">
 		                <i class="fa fa-camera" aria-hidden="true"></i>
 		              </div> 
-		              <input class="file-upload form-control stretched-link" type="file" accept="image/*" name="new_up_file" />
+		              <input class="file-upload form-control stretched-link" type="file" accept="image/*" name="profile" />
 		              <input class="" type="hidden" name="profile" value="${loginMember.profile}" />
 	             
 	              </div>
@@ -68,14 +71,14 @@
                             <div class="col-2-my">
                                 <div class="input-group-my">
                                     <label class="label-my">이름</label>
-                                    <input class="input--style-4-my" type="text" name="name" placeholder="이름 2자리 이상 영문도 2자리 이상" readonly="readonly" >
+                                    <input class="input--style-4-my" type="text" name="name" placeholder="이름 2자리 이상 영문도 2자리 이상" value="${loginMember.name}" readonly="readonly" >
                                     <input type="hidden" id="nameValue" value="F" class="이름"/>
                                 </div>
                             </div>
                             <div class="col-2-my">
                                 <div class="input-group-my">
                                     <label class="label-my">닉네임</label>
-                                    <input class="input--style-4-my" type="text" name="nickname" placeholder="닉네임 2자리 이상 영문도 2자리 이상" required="required" >
+                                    <input class="input--style-4-my" type="text" name="nickname" placeholder="닉네임 2자리 이상 영문도 2자리 이상" value="${loginMember.nickname}" required="required" >
                                     <input type="hidden" id="nicknameValue" class="닉네임"" value="F"/>
                                 </div>
                             </div>
@@ -85,7 +88,7 @@
                             <div class="col-2-my">
                             	<div class="input-group-my">
                                     <label class="label-my">아이디</label>
-                                    <input class="input--style-4-my" type="text" name="id" placeholder="아이디 영문숫자만" readonly="readonly">
+                                    <input class="input--style-4-my" type="text" name="id" placeholder="아이디 영문숫자만" value="${loginMember.id}" readonly="readonly">
                                     <input type="hidden" id="idValue" value="F" class="아이디"/>
                                 </div>
                                 <!--달력  -->
@@ -100,8 +103,10 @@
                             
                             <div class="col-2-my">
                             <div class="input-group-my">
-                                    <label class="label-my">비밀번호</label>
-                                    <input class="input--style-4-my" type="text" name="pw" placeholder="비밀번호 6자리 이상"" required="required">
+												<label class="label-my" id="pwlabel">비밀번호</label>
+												<!-- <button class="btn btn--radius-2-my btn--blue-my" type="button" id="pwbtn" onclick="changepw()" style=" margin-bottom: 5px; margin-top: -10px; font-size: small; color: white;">비밀번호 번경</button> -->
+												<button class="btn-my btn--radius-2-my btn--blue-my" type="button" id="pwbtn" onclick="">비밀번호 번경</button>
+                                    <input class="input--style-4-my" type="password" name="pw" placeholder="비밀번호 6자리 이상" id="pw" value="${loginMember.pw}" style="display: none;" required="required">
                                     <input type="hidden" id="pwValue" value="F" class="비밀번호"/>
                                 </div>
                             
@@ -118,21 +123,25 @@
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
-                                </div> -->
+										  </div> -->
+										 
+										
+
+										
                             </div>
                         </div>
                         <div class="row-my row-space-my">
                             <div class="col-2-my">
                                 <div class="input-group-my">
                                     <label class="label-my">이메일</label>
-                                    <input class="input--style-4-my" type="email" name="email" placeholder="ex) abc@abc.com" readonly="readonly">
+                                    <input class="input--style-4-my" type="email" name="email" placeholder="ex) abc@abc.com" value="${loginMember.email}" readonly="readonly">
                                     <input type="hidden" id="emailValue" value="F" class="이메일"/>
                                 </div>
                             </div>
                             <div class="col-2-my">
                                 <div class="input-group-my">
                                     <label class="label-my">핸드폰</label>
-                                    <input class="input--style-4-my" type="text" name="tel" id="tel" placeholder="ex) 010-1234-5678">
+                                    <input class="input--style-4-my" type="text" name="tel" id="tel" value="${loginMember.tel}" placeholder="ex) 010-1234-5678">
                                     <input type="hidden" id="telValue" value="F" class="핸드폰"/>
                                 </div>
                             </div>
@@ -155,7 +164,7 @@
                             <div class="col-0-my">
                                 <div class="input-group-my">
                                     <label class="label-my">주소</label>            	
-                                    <input class="input--style-4-my" type="text" name="addr" id="roadAddress" placeholder="주소를 입력하세요" required="required" >
+                                    <input class="input--style-4-my" type="text" name="addr" id="roadAddress" value="${loginMember.addr}" placeholder="주소를 입력하세요" required="required" >
                                     <input type="hidden" id="addrValue" value="F" class="주소"/>   
                                     <!-- <input type="hidden" class="form-control" placeholder="extraAddress" id="extraAddress" name="extraAddress">
                                     <input type="hidden" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postCode" name="postCode">
@@ -188,12 +197,12 @@
                          <div class="row-my row-space-my">
                             <div class="col-0-my">
                                 <div class="input-group-my">
-                                    <label class="label-my"><input type="text" id="msg" style="color: red" value="dfddf" readonly/></label>
+                                    <label class="label-my"><input type="text" id="msg" style="color: red" value="" readonly/></label>
                                 </div>
                             </div>
                          </div>  
                         <div class="p-t-15-my">
-                            <button class="btn-my btn--radius-2-my btn--blue-my pull-left" type="button" onclick="changeData()">변경하기</button>
+                            <button class="btn-my btn--radius-2-my btn--blue-my pull-left" type="button" onclick="changeData()">변경</button>
                             <button class="btn-my btn--radius-2-my btn--blue-my pull-right" type="button" onclick="location.href='${path}/member/mainPage.do'">취소</button>
                         </div>
                         
@@ -201,7 +210,11 @@
                 </div>
             </div>
         </div>
-    </div>
+	 </div>
+	 
+	 
+	 
+	 
 
     <!-- Jquery JS-->
     <script src="${path}/resources/vendor/jquery/jquery.min.js"></script>
@@ -224,8 +237,21 @@
 		execdaumPostcode();
 	}
 }) */
-
-
+function changepw()
+{
+	if(num ==1)
+	{
+		var pw = $("#pw");
+	
+		console.log('${loginMember.pw}');
+		if(pw.css("display") == 'none')
+		{
+			pw.show();
+			pw.val("");
+		}
+		$("#pwbtn").hide();
+	}
+}
 
 // 주소 검색
 function postCode()
@@ -362,7 +388,7 @@ $(document).ready(function()
 
 
     // 이름
-   $("input").blur(function(){
+   $("#id,#pw,#name,#email,#addr,#nicname,#tel").blur(function(){
         
         var inputName = $(this); // input name명
         var inputValue = $('#'+inputName.attr("name")+'Value'); // inputValue Class 명
@@ -411,70 +437,6 @@ $(document).ready(function()
     });
 
 });
-
-
-
-
-
-
-
-// 예전 쓰던 포스트 코드 (postCode +  도로명 + 예전주소)))
-// 현재는 도로명 주로만 쓰려고 간단하게 바꾼상태
-function execdaumPostcode() {
-    new daum.Postcode({
-        oncomplete: function(data) {
-            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-            // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-            var roadAddr = data.roadAddress; // 도로명 주소 변수
-            var extraRoadAddr = ''; // 참고 항목 변수
-
-            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                extraRoadAddr += data.bname;
-            }
-            // 건물명이 있고, 공동주택일 경우 추가한다.
-            if(data.buildingName !== '' && data.apartment === 'Y'){
-               extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-            }
-            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-            if(extraRoadAddr !== ''){
-                extraRoadAddr = ' (' + extraRoadAddr + ')';
-            }
-
-            // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            document.getElementById('postCode').value = data.zonecode;
-            document.getElementById("roadAddress").value = roadAddr;
-            document.getElementById("jibunAddress").value = data.jibunAddress;
-            
-            // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
-            if(roadAddr !== ''){               
-          	  document.getElementById("extraAddress").value = extraRoadAddr;
-          	  document.getElementById("roadAddress").value += extraRoadAddr;
-            } else {
-                document.getElementById("roadAddress").value += '';
-            }
-
-            var guideTextBox = document.getElementById("guide");
-            // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-            if(data.autoRoadAddress) {
-                var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-                guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-                guideTextBox.style.display = 'block';
-
-            } else if(data.autoJibunAddress) {
-                var expJibunAddr = data.autoJibunAddress;
-                guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-                guideTextBox.style.display = 'block';
-            } else {
-                guideTextBox.innerHTML = '';
-                guideTextBox.style.display = 'none';
-            }
-        }
-    }).open();
-  }
 
 </script>
 
