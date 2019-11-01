@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<c:set var="path" value="<%=request.getContextPath()%>"/>
+<%-- <c:set var="path" value="<%=request.getContextPath()%>"/> --%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="pageTitle" value=""/>
 </jsp:include>
@@ -319,14 +319,11 @@ function responseMoveList(receive){
 	listNo.parent().parent().append(wrapper.children());
 	wrapper.append(listNo.parent());
 	
-	console.log(wrapper);
-	console.log(listNo);
 }
 
 
 function responseDeleteList(receive){
 	var list = $("#listNo_"+receive.listNo).parent().parent();
-	console.log(list.attr("class"));
 	if(list.attr("class")== 'list-wrapper'){
 		list.remove();
 	}
@@ -386,15 +383,13 @@ $("#cardModal").on('show.bs.modal',function(e){
 function createWrapper(ele){
 	var wrapper=$("<div/>");
 	wrapper.attr("class","list-wrapper");
-	wrapper.attr("ondrop","requestMoveList(this,event)");
-	wrapper.attr("ondragover","return false");
+
 	
 	
 	var content=$("<div/>");
 	content.attr("class","list-content");
-	content.attr("draggable","true");
-	content.attr("ondrop","return false;");
-	content.attr("ondragstart","listDrag(this,event)");
+
+	
 	
 	var dropdiv=$("<div/>");
 	dropdiv.attr("class","dropdown div-drop");
@@ -511,9 +506,16 @@ function requestCreateList(){
 }
 
 function responseCreateList(receive){
-		var content = $("button[name=btn_cList]").parent().parent().parent();
+		var content = $("button[name=btn_cList]").parent().parent().parent().parent();
 		var board = $("button[name=btn_cList]").parent().parent().parent().parent().parent().parent();
 		content.empty();
+		
+		content.attr("draggable","true");
+		content.attr("ondrop","return false;");
+		content.attr("ondragstart","listDrag(this,event)");
+		
+		content.parent().attr("ondrop","requestMoveList(this,event)");
+		content.parent().attr("ondragover","return false");
 		
 		var listHeader = $('<div/>');
 		listHeader.attr("class","list-header");
