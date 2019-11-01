@@ -1,6 +1,7 @@
 package com.kh.workman.collabo.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.kh.workman.collabo.model.service.CollaboService;
 import com.kh.workman.collabo.model.vo.CollaboCard;
 import com.kh.workman.collabo.model.vo.CollaboList;
@@ -43,6 +42,19 @@ public class CollaboController {
 		mav.addObject("collaboCards", collaboCards);
 		mav.setViewName("collabo/detail");
 
+		return mav;
+	}
+
+	@RequestMapping("/collabo/main")
+	public ModelAndView connectCollaboMain(@RequestParam("userId") String userId) {
+		// List<CollaboTool> collaboTools = service.selectCollaboTools(userId);
+		Map<String, String> collaboTools = service.selectCollaboTools(userId);
+		System.out.println(collaboTools.toString());
+
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("collaboTools", collaboTools);
+
+		mav.setViewName("collabo/collaboMain");
 		return mav;
 	}
 }
