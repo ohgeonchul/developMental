@@ -83,7 +83,7 @@
 		SELECT PLACENO FROM COLLABO_LIST WHERE LISTNO = #{targetNo}
 	</select>
 	
-	<select id="selectCollaboTools" resultType="map">
+	<select id="selectCollaboTools" parameterType="string" resultType="collaboTool">
 		SELECT * FROM COLLABO_TOOL WHERE NO IN (
 			SELECT NO FROM COLLABO_MEMBER WHERE MEMBER = (
 				SELECT NO FROM MEMBER WHERE ID = #{userId}

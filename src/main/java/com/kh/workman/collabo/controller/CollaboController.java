@@ -1,7 +1,6 @@
 package com.kh.workman.collabo.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.workman.collabo.model.service.CollaboService;
 import com.kh.workman.collabo.model.vo.CollaboCard;
 import com.kh.workman.collabo.model.vo.CollaboList;
+import com.kh.workman.collabo.model.vo.CollaboTool;
 import com.kh.workman.member.model.vo.Member;
 
 @Controller
@@ -47,13 +47,15 @@ public class CollaboController {
 
 	@RequestMapping("/collabo/main")
 	public ModelAndView connectCollaboMain(@RequestParam("userId") String userId) {
-		// List<CollaboTool> collaboTools = service.selectCollaboTools(userId);
-		Map<String, String> collaboTools = service.selectCollaboTools(userId);
-		System.out.println(collaboTools.toString());
+		logger.debug(userId);
 
+		// List<CollaboTool> collaboTools = service.selectCollaboTools(userId);
+		List<CollaboTool> collaboTools = service.selectCollaboTools(userId);
+		logger.debug(""+collaboTools);
+		
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("collaboTools", collaboTools);
-
 		mav.setViewName("collabo/collaboMain");
 		return mav;
 	}

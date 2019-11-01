@@ -44,6 +44,6 @@ public interface CollaboDao {
 
 	int searchListPlaceNo(SqlSessionTemplate session, DataPacket receive);
 
-	Map<String, String> selectCollaboTools(SqlSessionTemplate session, String userId);
+	List<CollaboTool> selectCollaboTools(SqlSessionTemplate session, String userId);
 
 }

@@ -9,59 +9,33 @@
 </jsp:include>
 
 <div class="container" style="margin-top:110px;margin-bottom:130px;">
-	<div class="row">
-		<div class="col-3">
-			<div class="card" style="width:300px;height:215px;">
-				<div class="card-body">
-					<h4 class="card-title">이것은 카드입니다.</h4>
-					<hr/>
-					<div class="card-text" style="margin-top:35px;">
-						<h5>참여자</h5>
-						<div style="margin-top:15px;">
-						testuser1 testuser1 testuser1<br/>
-						testuser1 testuser1 testuser1
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-1"></div>
+	<c:if test="${collaboTools != null }">
+		<c:forEach items="${collaboTools }" var="t" varStatus="i">
 			<div class="col-3">
-			<div class="card" style="width:300px;height:215px;">
-				<div class="card-body">
-					<h4 class="card-title">이것은 카드입니다.</h4>
-					<hr/>
-					<div class="card-text" style="margin-top:35px;">
-						<h5>참여자</h5>
-						<div style="margin-top:15px;">
-						testuser1 testuser1 testuser1<br/>
-						testuser1 testuser1 testuser1
+				<input type="hidden" id="collaboNo" value="${t.no }"/>
+					<div class="card" style="width:300px;height:215px;" onclick="connectCollabo(this)">
+						<div class="card-body">
+							<h4 class="card-title">${t.title }</h4>
+							<hr/>
+							<div class="card-text" style="margin-top:35px;">
+								<h5>참여자</h5>
+								<div style="margin-top:15px;">
+									<!-- 참여자 -->
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
 			</div>
-		</div>
-		<div class="col-1"></div>
-			<div class="col-3">
-			<div class="card" style="width:300px;height:215px;">
-				<div class="card-body">
-					<h4 class="card-title">이것은 카드입니다.</h4>
-					<hr/>
-					<div class="card-text" style="margin-top:35px;">
-						<h5>참여자</h5>
-						<div style="margin-top:15px;">
-						testuser1 testuser1 testuser1<br/>
-						testuser1 testuser1 testuser1
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-1"></div>
-</div>
+			<div class="col-1"></div>
+		</c:forEach>
+	</c:if>
 </div>
 <script>
-$(".card").attr("onclick","alert('test')");
+
+function connectCollabo(element){
+	var collaboNo = $(element).parent().children($("input[name=collaboNo_]")).val();
+	location.href="${path}/collabo/detail.do?collaboNo="+collaboNo;
+}
 
 </script>
 <style>

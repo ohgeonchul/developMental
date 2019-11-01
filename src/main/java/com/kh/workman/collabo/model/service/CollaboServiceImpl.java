@@ -69,7 +69,7 @@ public class CollaboServiceImpl implements CollaboService {
 	}
 
 	@Override
-	public Map<String, String> selectCollaboTools(String userId) {
+	public List<CollaboTool> selectCollaboTools(String userId) {
 		return dao.selectCollaboTools(session, userId);
 	}
 

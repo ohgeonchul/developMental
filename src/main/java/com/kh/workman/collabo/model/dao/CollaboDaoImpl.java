@@ -92,8 +92,8 @@ public class CollaboDaoImpl implements CollaboDao {
 	}
 
 	@Override
-	public Map<String, String> selectCollaboTools(SqlSessionTemplate session, String userId) {
-		return session.selectMap("collabo.selectCollaboTools", userId);
+	public List<CollaboTool> selectCollaboTools(SqlSessionTemplate session, String userId) {
+		return session.selectList("collabo.selectCollaboTools", userId);
 	}
 
 }

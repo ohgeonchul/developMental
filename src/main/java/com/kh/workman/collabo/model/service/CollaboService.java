@@ -42,6 +42,6 @@ public interface CollaboService {
 
 	int searchListPlaceNo(DataPacket receive);
 
-	Map<String, String> selectCollaboTools(String userId);
+	List<CollaboTool> selectCollaboTools(String userId);
 
 }
