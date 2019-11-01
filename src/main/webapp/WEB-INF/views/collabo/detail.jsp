@@ -28,7 +28,7 @@
 			<c:if test="${collaboLists != null}">
 				<c:forEach items="${collaboLists }" var="list">
 					<div class="list-wrapper" ondrop="requestMoveList(this,event)" ondragover="return false;">
-						<div class="list-content" draggable="true" ondrop="return false" ondragstart="listDrag(this,event)">
+						<div class="list-content" draggable="true" ondrop="return false" ondragstart="listDrag(this,event)" ondragend="endListDrag()">
 							<div class="list-header">
 								<span class="list-title">
 									${list.title }
@@ -47,7 +47,7 @@
 							<c:if test="${collaboCards != null }">
 								<c:forEach items="${collaboCards }" var="card">
 									<c:if test="${list.listNo == card.listNo }">
-										<div id="cardNo_${card.cardNo }" name="cardNo_${card.cardNo }" class="list-card" ondrop="return false;" draggable="true" ondragstart="cardDrag(this,event)">
+										<div id="cardNo_${card.cardNo }" name="cardNo_${card.cardNo }" class="list-card" ondrop="return false;" draggable="true" ondragstart="cardDrag(this,event)" ondragend="endCardDrag()">
 											<span class="card-content">
 												${card.content }
 											</span>
@@ -173,6 +173,8 @@ sock.onopen = function(){
 
 
 function requestMoveList(element, ev){
+	console.log($(element));
+	console.log(ev.dataTransfer.getData("text"));
 	/* document.getElementById("listNo_"+listNo).appendChild(document.getElementById("cardNo_"+cardNo)); */
  	var listNo = $("#"+ev.dataTransfer.getData("text")).attr("id").substring(7);
 	var targetListNo = $(element).children().children('.list-cards').attr("id").substring(7);
@@ -465,6 +467,7 @@ function responseCreateCard(receive){
 	card.attr("ondrop","return false");
 	card.attr("draggable","true");
 	card.attr("ondragstart","cardDrag(this,event)");
+	card.attr("ondragend","endDragCard()");
 	card.attr("id","cardNo_"+receive.cardNo);
 	card.attr("name","cardNo_"+receive.cardNo);
 	
@@ -513,6 +516,7 @@ function responseCreateList(receive){
 		content.attr("draggable","true");
 		content.attr("ondrop","return false;");
 		content.attr("ondragstart","listDrag(this,event)");
+		content.attr("ondragend","endListDrag()");
 		
 		content.parent().attr("ondrop","requestMoveList(this,event)");
 		content.parent().attr("ondragover","return false");
@@ -625,17 +629,53 @@ function allowDrop(ev) {
 	}
 
 function cardDrag(element, ev) {
-  ev.dataTransfer.setData("text",element.id);
+	var wrapper = $(".list-wrapper");
+	var content = $(".list-content");
+	
+	wrapper.removeAttr("ondrop");
+	wrapper.removeAttr("ondragover");
+	content.removeAttr("draggable");
+	content.removeAttr("ondrop");
+	content.removeAttr("ondragstart");
+	
+  	ev.dataTransfer.setData("text",element.id);
+}
+
+function endCardDrag(){
+	var wrapper = $(".list-wrapper");
+	var content = $(".list-content");
+	
+	wrapper.attr("ondrop","requestMoveList(this,event)");
+	wrapper.attr("ondragover","return false;");
+	
+	content.attr("draggable","true");
+	content.attr("ondrop","return false;");
+	content.attr("ondragstart","listDrag(this,event)");
 }
 function listDrag(element, ev){
+	var list = $(".list-cards");
+	var card = $(".list-card");
+	
+	list.removeAttr("ondrop");
+	list.removeAttr("ondragover");
+	card.removeAttr("ondrop");
+	card.removeAttr("draggable");
+	card.removeAttr("ondragstart");
+	
 	ev.dataTransfer.setData("text",$(element).children('.list-cards').attr("id"));
 }
 
-function cardDrop(element, ev) {
-	 var id = ev.dataTransfer.getData("text");
-	 element.appendChild(document.getElementById(id));
-	 ev.preventDefault();
+function endListDrag(){
+	var list = $(".list-cards");
+	var card = $(".list-card");
+	
+	list.attr("ondrop","requestMoveCard(this,event)");
+	list.attr("ondragover","return false;");
+	card.attr("ondrop","return false;");
+	card.attr("draggable","true");
+	card.attr("ondragstart","cardDrag(this,event)");
 }
+
 </script>
 <%-- <jsp:include page="/WEB-INF/views/common/footer.jsp"/> 
  --%>
