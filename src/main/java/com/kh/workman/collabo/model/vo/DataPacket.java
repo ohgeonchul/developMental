@@ -14,5 +14,4 @@ public class DataPacket {
 	private int listNo;
 	private int cardNo;
 	private int placeNo;
-	private int targetNo;
 }

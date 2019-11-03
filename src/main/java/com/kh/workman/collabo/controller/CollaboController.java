@@ -37,12 +37,12 @@ public class CollaboController {
 		List<CollaboCard> collaboCards = service.selectCollaboCards(collaboNo);
 		List<Member> collaboMembers = service.selectCollaboMembers(collaboNo);
 		ModelAndView mav = new ModelAndView();
-
-		mav.addObject("collaboMembers", collaboMembers);
-		mav.addObject("collaboLists", collaboLists);
-		mav.addObject("collaboCards", collaboCards);
+		
+		mav.addObject("collaboMembers",collaboMembers);
+		mav.addObject("collaboLists",collaboLists);
+		mav.addObject("collaboCards",collaboCards);
 		mav.setViewName("collabo/detail");
-
 		return mav;
 	}
+	
 }
