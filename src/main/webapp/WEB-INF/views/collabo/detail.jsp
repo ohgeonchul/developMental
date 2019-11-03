@@ -258,21 +258,6 @@ function requestUpdateCard(target){
 	sendMessage(sendData);
 }
 
-var userId =  "${loginMember.id}";
-var collaboNo = 1;
-let sock = new SockJS("<c:url value="/collabo/soc"/>");
-sock.onmessage = onMessage;
-sock.onclose = onClose;
-
-sock.onopen = function(){
-	var sendData ={
-		type : "connect",
-		userId : userId,
-		collaboNo : collaboNo
-	};
-	sendMessage(sendData);
-}
-
 // 메시지 전송
 function sendMessage(sendData) {
 /* 	var sendData = {
@@ -301,6 +286,9 @@ function onMessage(msg) {
     	  if(receive.method == 'update'){
     		  responseUpdateList(receive);
     	  }
+        if(receive.method == 'move'){
+          responseMoveList(receive);
+        }
       }
       if(receive.type== 'card'){
     	  if(receive.method == 'create'){
@@ -326,6 +314,15 @@ function onClose(evt) {
 </script>
 
 <script>
+function responseMoveList(receive){
+  var listNo = $("#listNo_"+receive.listNo); 
+  var wrapper = $("#listNo_"+receive.targetNo).parent().parent();
+  
+  listNo.parent().parent().append(wrapper.children());
+  wrapper.append(listNo.parent());
+  
+}
+
 function responseDeleteList(receive){
 	var list = $("#listNo_"+receive.listNo).parent().parent();
 	console.log(list.attr("class"));
