@@ -6,8 +6,36 @@
 
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="${path }/resources/css/sidebar.css">
+  <style>
+    #main-wrapper{
+      margin-left: 190px;
+      margin-top: 58px;
+    }
+    @media (min-width: 576px) {
+      .card-columns {
+        column-count: 2;
+      }
+    }
+    @media (min-width: 768px) {
+      .card-columns {
+        column-count: 3;
+      }
+    }
+    @media (min-width: 992px) {
+      .card-columns {
+        column-count: 3;
+      }
+    }
+    @media (min-width: 1200px) {
+      .card-columns {
+        column-count: 4;
+      }
+    }
+  </style>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="${path}/resources/css/jobEnroll.css">
+  <link rel="stylesheet" href="${path}/resources/css/sidebar.css">
   <!-- Scrollbar Custom CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>	
@@ -65,6 +93,22 @@
         success: function(data){
           html = $('<div>').html(data);
           $('#main-container').html(html.find('div.submenu-container'));
+        },
+        error: function(status, msg){
+          alert('ajax error!');
+        },
+      });
+    }
+    function ajaxJobBoardPagination(mapping){
+      $.ajax({
+        type: "POST",
+        url:mapping,
+        dataType: "html",
+        success: function(data){
+          html = $('<div>').html(data);
+          $('#databaseJobBoardList').html(html.find('.jobmodal-tbl1'));
+          $('#pageBar').html(html.find('#pageBar'));
+
         },
         error: function(status, msg){
           alert('ajax error!');
