@@ -26,8 +26,8 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
 	
-	@Autowired
-	MyEncrypt en;
+	//@Autowired
+	//MyEncrypt en;
 
 	@RequestMapping("/member/login.do")
 	public ModelAndView login(Member m, HttpServletRequest request)
@@ -39,19 +39,18 @@ public class MemberController {
 		String loc = "/";
 				
 		Member loginMember = service.selectLogin(m);
-	
-		//System.out.println(pwEncoder.matches(m.getPw(), loginMember.getPw()));
+		System.out.println(pwEncoder.matches(m.getPw(), loginMember.getPw()));
 		
-		try {
-			loginMember.setPw(en.decrypt(loginMember.getPw()));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			loginMember.setPw(en.decrypt(loginMember.getPw()));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		//System.out.println(m.getPw());
 		//System.out.println(loginMember.getPw());
 		
-		//if(m.getId().equals(loginMember.getId()) && pwEncoder.matches(m.getPw(), loginMember.getPw()))
-		if(m.getPw().equals(loginMember.getPw()))
+		if(m.getId().equals(loginMember.getId()) && pwEncoder.matches(m.getPw(), loginMember.getPw()))
+		//if(m.getPw().equals(loginMember.getPw()))
 		{
 			if(session.getAttribute("loginMember") != null)
 				session.removeAttribute("loginMember");
@@ -104,14 +103,14 @@ public class MemberController {
 	@RequestMapping("/member/register.do")
 	public ModelAndView register(Member m, Model model)
 	{	
-		//m.setPw(pwEncoder.encode(m.getPw()));
-		try
-		{
-			m.setPw(en.encrypt(m.getPw()));			
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+		m.setPw(pwEncoder.encode(m.getPw()));
+//		try
+//		{
+//			m.setPw(en.encrypt(m.getPw()));			
+//		}catch(Exception e)
+//		{
+//			e.printStackTrace();
+//		}
 		int result = service.insertMember(m);
 				
 		String msg = "";
@@ -163,25 +162,31 @@ public class MemberController {
 	{
 		String msg ="";
 		String loc ="";
-		try
+		System.out.println("pw" + member.getPw());
+		
+		if(member.getPw().equals(""))
 		{
-			member.setPw(en.encrypt(member.getPw()));			
-		}catch(Exception e)
+			member.setPw(null);
+			System.out.println("지금 널이다");
+			System.out.println(member.getPw());
+		}else
 		{
-			e.printStackTrace();
+			System.out.println("지금 널이 아니다");
+			member.setPw(pwEncoder.encode(member.getPw()));		
+			System.out.println(member.getPw());
 		}
+		
 		int result = service.updateInfoMember(member);
 		if(result > 0)
 		{
 			Member loginMember = service.selectLogin(member);
 			HttpSession session = request.getSession();
-			session.invalidate();
 			
 			if(loginMember != null)
 			{
 				session.setAttribute("loginMember", loginMember);
 				msg = "정보 변경 완료";
-				loc = "/mainView";
+				loc = "/";
 			}
 			else
 			{

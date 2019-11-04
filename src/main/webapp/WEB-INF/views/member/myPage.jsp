@@ -103,8 +103,8 @@
                             <div class="col-2-my">
                             <div class="input-group-my">
                                     <label class="label-my" id="pwlabel">비밀번호</label>										
-                                    <input class="input--style-4-my" type="password" name="pw" placeholder="비밀번호 6자리 이상" id="pw" value="${loginMember.pw}" required="required">
-                                    <input type="hidden" id="pwValue" value="T" class="비밀번호"/>
+                                    <input class="input--style-4-my" type="password" name="pw" placeholder="비밀번호 6자리 이상" id="pw" value="" required="required">
+                                    <input type="hidden" id="pwValue" value="F" class="비밀번호"/>
                                 </div>
                             
                             <!-- 성별 -->
@@ -171,7 +171,7 @@
                             <div class="col-4-my">
 	                            <div class="input-group-my">
 	                              <button class="btn-my btn--radius-2-my btn--blue-my pull-right" style="height:50px; margin-top: 30px; margin-left: 5px; " onclick="postCode()"><i class="fa fa-search"></i></button>                    
-                                  <input type="hidden"/>
+                                  <input type="hidden" value=""/>
                                 </div>
                             </div>
                         </div>   
@@ -286,11 +286,14 @@ function changeData()
     if( ($("#nameValue").val() == 'T') && 
         ($("#nicknameValue").val() == 'T') && 
         ($("#idValue").val() == 'T') && 
-        ($("#pwValue").val() == 'T') && 
         ($("#emailValue").val() == 'T') &&
         ($("#telValue").val() == 'T') &&
         ($("#addrValue").val() == 'T') )
     {
+        if($("#pw").val().length >= 1)
+        {
+            return;
+        }
         form.submit();
     }
     else
@@ -315,7 +318,7 @@ function regExpCheck(data, inputName)
 
     if(inputName == 'name' || inputName == 'nickname')
     {
-        var regExp = /^[가-힣a-zA-Z]{3,20}$/;
+        var regExp = /^[가-힣a-zA-Z-z0-9]{3,20}$/;
         return ( (data !='' && data != 'undefined' && data != 'null' && data != 'NaN') && regExp.test(data) );
     }
     else if(inputName == 'email')
@@ -343,7 +346,6 @@ function regExpCheck(data, inputName)
         var regExp = /^[가-힣]{4,30}||[a-zA-Z]{4,30}\s[a-zA-Z]{4,30}$/;
         return ( (data !='' && data != 'undefined' && data != 'null' && data != 'NaN') && regExp.test(data) );
     }
-    
 }
 
 // 정규식 이메일 체크

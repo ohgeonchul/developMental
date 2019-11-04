@@ -28,7 +28,14 @@
 	</update>
 	
 	<update id="updateInfoMember" parameterType="member">
+	<choose>
+	<when test="member.pw == null or member.pw == '' ">
+		UPDATE MEMBER SET NICKNAME=#{nickname},TEL=#{tel},ADDR=#{addr} WHERE ID=#{id}
+	</when>
+	<otherwise>
 		UPDATE MEMBER SET NICKNAME=#{nickname},PW=#{pw},TEL=#{tel},ADDR=#{addr} WHERE ID=#{id}
+	</otherwise>	
+	</choose>
 	</update>
 	
 	<delete id="deleteMember" parameterType="map">

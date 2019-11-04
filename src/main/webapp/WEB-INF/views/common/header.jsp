@@ -242,13 +242,16 @@ aria-hidden="true" data-target="#LoginModalTitle">
 				    <form action="${path}/member/login.do" method="post">
 				        <h2 class="text-center">Login</h2>   
 				        <div class="form-group has-error">
-				        	<input type="text" class="form-control" name="id" placeholder="id" required="required">
+                  <input type="text" class="form-control" name="id" placeholder="id" required="required">
+                  <input type="hidden"/>
 				        </div>
 						<div class="form-group">
-				            <input type="password" class="form-control" name="pw" placeholder="Password" required="required">
+                    <input type="password" class="form-control" name="pw" placeholder="Password" required="required">
+                    <input type="hidden"/>
 				        </div>
 				        <div class="form-group">
-				            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+                    <input type="hidden"/>
 				        </div>
 				        <p><a href="${path}/member/sendingEmail.do">Lost your Password?</a></p>
 					    <p class="text-center small">Don't have an account? <a href="${path}/member/signUp.do">Sign up here!</a></p>
