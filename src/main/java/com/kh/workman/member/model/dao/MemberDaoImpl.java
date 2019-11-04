@@ -31,5 +31,11 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.update("member.updateMemberEmail", m);
 	}
+	
+	@Override
+	public int updateInfoMember(SqlSessionTemplate session, Member m) {
+		// TODO Auto-generated method stub
+		return session.update("member.updateInfoMember", m);
+	}
 
 }

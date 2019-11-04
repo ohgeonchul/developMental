@@ -8,49 +8,48 @@
    <jsp:param name="pageTitle" value=""/>
 </jsp:include>  -->
 
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>			 
 
 
 <div class="submenu-container">
-	<section id="content">
-		<head>
-				  <!-- Required meta tags-->
-				  <meta charset="UTF-8">
-				  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-				  <meta name="description" content="Colorlib Templates">
-				  <meta name="author" content="Colorlib">
-				  <meta name="keywords" content="Colorlib Templates">
-			 
-				  <!-- Title Page-->
-				  <title>Au Register Forms by Colorlib</title>
-			  <!-- jQuery CDN -->
-					<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-					integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-					crossorigin="anonymous"></script>
-				  <!-- Icons font CSS-->
-				  <link href="${path}/resources/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-				  <link href="${path}/resources/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-				  <!-- Font special for pages-->
-				  <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-			 
-				  <!-- Vendor CSS-->
-				  <link href="${path}/resources/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-				  <link href="${path}/resources/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
-			 
-				  <!-- Main CSS-->
-				  <link href="${path}/resources/css/mypage.css" rel="stylesheet" media="all">          
-				  <link href="${path}/resources/css/avatar.css" rel="stylesheet" media="all">
-				  
-				  <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>			 
-			 </head>
+    <section id="content">
+        <head>
+                  <!-- Required meta tags-->
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                  <meta name="description" content="Colorlib Templates">
+                  <meta name="author" content="Colorlib">
+                  <meta name="keywords" content="Colorlib Templates">
+             
+                  <!-- Title Page-->
+                  <title>Au Register Forms by Colorlib</title>
+                    <!-- jQuery CDN -->
+                    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+                    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+                    crossorigin="anonymous"></script>
+                  <!-- Icons font CSS-->
+                  <link href="${path}/resources/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+                  <link href="${path}/resources/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+                  <!-- Font special for pages-->
+                  <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+             
+                  <!-- Vendor CSS-->
+                  <link href="${path}/resources/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+                  <link href="${path}/resources/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+             
+                  <!-- Main CSS-->
+                  <link href="${path}/resources/css/mypage.css" rel="stylesheet" media="all">          
+                  <link href="${path}/resources/css/avatar.css" rel="stylesheet" media="all">
+                  
+             </head>
 		
-
     <div class="page-wrapper-my p-t-130-my p-b-100-my font-poppins-my">
         <div class="wrapper-my wrapper--w680-my">
             <div class="card-my card-4-my">
                 <div class="card-body-my">
                     <h2 class="title-my">회원정보 수정</h2>
             	<!-- avatar -->
-	            <div class="avatar-wrapper my-0-my mx-3-my">
+	            <!-- <div class="avatar-wrapper my-0-my mx-3-my">
 	            <c:if test="${loginMember.profile != null}">             
 	              <img class="profile-pic" src="${loginMember.profile}" />
 	             </c:if>
@@ -64,22 +63,22 @@
 		              <input class="file-upload form-control stretched-link" type="file" accept="image/*" name="profile" />
 		              <input class="" type="hidden" name="profile" value="${loginMember.profile}" />
 	             
-	              </div>
+	              </div> -->
 	              
-               <form action="${path}/member/changeData.do" method="POST">
+               <form action="${path}/member/updateInfoMember.do" method="POST">
                         <div class="row-my row-space-my">
                             <div class="col-2-my">
                                 <div class="input-group-my">
                                     <label class="label-my">이름</label>
-                                    <input class="input--style-4-my" type="text" name="name" placeholder="이름 2자리 이상 영문도 2자리 이상" value="${loginMember.name}" readonly="readonly" >
-                                    <input type="hidden" id="nameValue" value="F" class="이름"/>
+                                    <input class="input--style-4-my" type="text" name="name" id="name" placeholder="이름 2자리 이상 영문도 2자리 이상" value="${loginMember.name}" readonly="readonly" >
+                                    <input type="hidden" id="nameValue" value="T" class="이름"/>
                                 </div>
                             </div>
                             <div class="col-2-my">
                                 <div class="input-group-my">
                                     <label class="label-my">닉네임</label>
-                                    <input class="input--style-4-my" type="text" name="nickname" placeholder="닉네임 2자리 이상 영문도 2자리 이상" value="${loginMember.nickname}" required="required" >
-                                    <input type="hidden" id="nicknameValue" class="닉네임"" value="F"/>
+                                    <input class="input--style-4-my" type="text" name="nickname" id="nickname" placeholder="닉네임 2자리 이상 영문도 2자리 이상" value="${loginMember.nickname}" required="required" >
+                                    <input type="text" id="nicknameValue" class="닉네임"" value="T"/>
                                 </div>
                             </div>
                         </div>
@@ -88,8 +87,8 @@
                             <div class="col-2-my">
                             	<div class="input-group-my">
                                     <label class="label-my">아이디</label>
-                                    <input class="input--style-4-my" type="text" name="id" placeholder="아이디 영문숫자만" value="${loginMember.id}" readonly="readonly">
-                                    <input type="hidden" id="idValue" value="F" class="아이디"/>
+                                    <input class="input--style-4-my" type="text" name="id" id="id" placeholder="아이디 영문숫자만" value="${loginMember.id}" readonly="readonly">
+                                    <input type="hidden" id="idValue" value="T" class="아이디"/>
                                 </div>
                                 <!--달력  -->
                                 <!-- <div class="input-group-my">
@@ -103,10 +102,8 @@
                             
                             <div class="col-2-my">
                             <div class="input-group-my">
-												<label class="label-my" id="pwlabel">비밀번호</label>
-												<!-- <button class="btn btn--radius-2-my btn--blue-my" type="button" id="pwbtn" onclick="changepw()" style=" margin-bottom: 5px; margin-top: -10px; font-size: small; color: white;">비밀번호 번경</button> -->
-												<button class="btn-my btn--radius-2-my btn--blue-my" type="button" id="pwbtn" onclick="">비밀번호 번경</button>
-                                    <input class="input--style-4-my" type="password" name="pw" placeholder="비밀번호 6자리 이상" id="pw" value="${loginMember.pw}" style="display: none;" required="required">
+                                    <label class="label-my" id="pwlabel">비밀번호</label>										
+                                    <input class="input--style-4-my" type="password" name="pw" placeholder="비밀번호 6자리 이상" id="pw" value="" required="required">
                                     <input type="hidden" id="pwValue" value="F" class="비밀번호"/>
                                 </div>
                             
@@ -134,15 +131,15 @@
                             <div class="col-2-my">
                                 <div class="input-group-my">
                                     <label class="label-my">이메일</label>
-                                    <input class="input--style-4-my" type="email" name="email" placeholder="ex) abc@abc.com" value="${loginMember.email}" readonly="readonly">
-                                    <input type="hidden" id="emailValue" value="F" class="이메일"/>
+                                    <input class="input--style-4-my" type="email" name="email" id="email" placeholder="ex) abc@abc.com" value="${loginMember.email}" readonly="readonly">
+                                    <input type="hidden" id="emailValue" value="T" class="이메일"/>
                                 </div>
                             </div>
                             <div class="col-2-my">
                                 <div class="input-group-my">
                                     <label class="label-my">핸드폰</label>
                                     <input class="input--style-4-my" type="text" name="tel" id="tel" value="${loginMember.tel}" placeholder="ex) 010-1234-5678">
-                                    <input type="hidden" id="telValue" value="F" class="핸드폰"/>
+                                    <input type="hidden" id="telValue" value="T" class="핸드폰"/>
                                 </div>
                             </div>
                         </div>
@@ -163,9 +160,9 @@
                         <div class="row-my row-space-my">
                             <div class="col-0-my">
                                 <div class="input-group-my">
-                                    <label class="label-my">주소</label>            	
-                                    <input class="input--style-4-my" type="text" name="addr" id="roadAddress" value="${loginMember.addr}" placeholder="주소를 입력하세요" required="required" >
-                                    <input type="hidden" id="addrValue" value="F" class="주소"/>   
+                                    <label class="label-my">주소</label>        	
+                                    <input class="input--style-4-my" type="text" name="addr" id="addr" value="${loginMember.addr}" placeholder="주소를 입력하세요" required="required" >
+                                    <input type="hidden" id="addrValue" value="T" class="주소"/>   
                                     <!-- <input type="hidden" class="form-control" placeholder="extraAddress" id="extraAddress" name="extraAddress">
                                     <input type="hidden" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postCode" name="postCode">
                                     <input type="hidden" class="form-control" placeholder="jibunAddress" id="jibunAddress" name="jibunAddress"> -->
@@ -174,7 +171,8 @@
                             <div class="col-4-my">
 	                            <div class="input-group-my">
 	                              <button class="btn-my btn--radius-2-my btn--blue-my pull-right" style="height:50px; margin-top: 30px; margin-left: 5px; " onclick="postCode()"><i class="fa fa-search"></i></button>                    
-	                            </div>
+                                  <input type="hidden" value=""/>
+                                </div>
                             </div>
                         </div>   
                         
@@ -203,7 +201,7 @@
                          </div>  
                         <div class="p-t-15-my">
                             <button class="btn-my btn--radius-2-my btn--blue-my pull-left" type="button" onclick="changeData()">변경</button>
-                            <button class="btn-my btn--radius-2-my btn--blue-my pull-right" type="button" onclick="location.href='${path}/member/mainPage.do'">취소</button>
+                            <button class="btn-my btn--radius-2-my btn--blue-my pull-right" type="button" onclick="location.href='${path}/mainView'">취소</button>
                         </div>
                         
                     </form>
@@ -211,10 +209,6 @@
             </div>
         </div>
 	 </div>
-	 
-	 
-	 
-	 
 
     <!-- Jquery JS-->
     <script src="${path}/resources/vendor/jquery/jquery.min.js"></script>
@@ -237,21 +231,6 @@
 		execdaumPostcode();
 	}
 }) */
-function changepw()
-{
-	if(num ==1)
-	{
-		var pw = $("#pw");
-	
-		console.log('${loginMember.pw}');
-		if(pw.css("display") == 'none')
-		{
-			pw.show();
-			pw.val("");
-		}
-		$("#pwbtn").hide();
-	}
-}
 
 // 주소 검색
 function postCode()
@@ -262,7 +241,7 @@ function postCode()
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
                 // 예제를 참고하여 다양한 활용법을 확인해 보세요.
                 var addr = data.roadAddress;
-                document.getElementById("roadAddress").value = addr;
+                document.getElementById("addr").value = addr;
             }
         }).open();
     });		
@@ -291,7 +270,7 @@ $("#tel").keyup(function(e){
     }
 });
 
-// 가입 버튼 이벤트
+// 변경 버튼 이벤트
 function changeData()
 {
 	var form = $("form");
@@ -307,11 +286,14 @@ function changeData()
     if( ($("#nameValue").val() == 'T') && 
         ($("#nicknameValue").val() == 'T') && 
         ($("#idValue").val() == 'T') && 
-        ($("#pwValue").val() == 'T') && 
         ($("#emailValue").val() == 'T') &&
         ($("#telValue").val() == 'T') &&
         ($("#addrValue").val() == 'T') )
     {
+        if($("#pw").val().length >= 1)
+        {
+            return;
+        }
         form.submit();
     }
     else
@@ -336,35 +318,34 @@ function regExpCheck(data, inputName)
 
     if(inputName == 'name' || inputName == 'nickname')
     {
-        var regExp = /^[가-힣]{2,4}||[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
-        return ( data !='' && data != 'undefined' && regExp.test(data) );
+        var regExp = /^[가-힣a-zA-Z-z0-9]{3,20}$/;
+        return ( (data !='' && data != 'undefined' && data != 'null' && data != 'NaN') && regExp.test(data) );
     }
     else if(inputName == 'email')
     {
         var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;   
-        return ( data !='' && data != 'undefined' && regExp.test(data) );
+        return ( (data !='' && data != 'undefined' && data != 'null' && data != 'NaN') && regExp.test(data) );
     }
     else if(inputName == 'tel')
     {
         var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
-        return ( data !='' && data != 'undefined' && regExp.test(data) );
+        return ( (data !='' && data != 'undefined' && data != 'null' && data != 'NaN') && regExp.test(data) );
     }
     else if(inputName == 'id')
     {
-        var regExp = /^[0-9a-z]+$/;
-        return ( data !='' && data != 'undefined' && regExp.test(data) );
+        var regExp = /^[0-9a-z]{3,15}$/;
+        return ( (data !='' && data != 'undefined' && data != 'null' && data != 'NaN') && regExp.test(data) );
     }
     else if(inputName == 'pw')
     {
         var regExp =  /^[A-Za-z0-9]{6,12}$/;
-        return ( data !='' && data != 'undefined' && regExp.test(data) );
+        return ( (data !='' && data != 'undefined' && data != 'null' && data != 'NaN') && regExp.test(data) );
     }
     else if(inputName == 'addr')
     {
         var regExp = /^[가-힣]{4,30}||[a-zA-Z]{4,30}\s[a-zA-Z]{4,30}$/;
-        return ( data !='' && data != 'undefined' && regExp.test(data) );
+        return ( (data !='' && data != 'undefined' && data != 'null' && data != 'NaN') && regExp.test(data) );
     }
-    
 }
 
 // 정규식 이메일 체크
@@ -388,7 +369,7 @@ $(document).ready(function()
 
 
     // 이름
-   $("#id,#pw,#name,#email,#addr,#nicname,#tel").blur(function(){
+   $("#id,#pw,#name,#email,#addr,#nickname,#tel").blur(function(){
         
         var inputName = $(this); // input name명
         var inputValue = $('#'+inputName.attr("name")+'Value'); // inputValue Class 명
@@ -400,19 +381,33 @@ $(document).ready(function()
         {
 
             switch (inputName.attr("name")) {
-                case 'name': inputName.attr("placeholder","이름 2자리 이상 영문도 2자리 이상");    
+                case 'name': 
+                    inputName.attr("placeholder","이름 2자리 이상 영문도 2자리 이상");
+                    inputValue.val("F");  
                     break;
-                case 'nickname': inputName.attr("placeholder","닉네임 2자리 이상 영문도 2자리 이상");    
+                case 'nickname': 
+                    inputName.attr("placeholder","닉네임 2자리 이상 영문도 2자리 이상");    
+                     inputValue.val("F");
                     break;
-                case 'id': inputName.attr("placeholder","아이디 영문 숫자만");  
+                case 'id':
+                    inputName.attr("placeholder","아이디 영문 숫자만");  
+                    inputValue.val("F");
                     break;
-                case 'pw': inputName.attr("placeholder","비밀번호 6자리 이상");    
+                case 'pw': 
+                    inputName.attr("placeholder","비밀번호 6자리 이상");    
+                    inputValue.val("F");
                     break;
-                case 'email': inputName.attr("placeholder","ex) abc@abc.com");  
+                case 'email': 
+                    inputName.attr("placeholder","ex) abc@abc.com");  
+                    inputValue.val("F");
                     break;
-                case 'tel': inputName.attr("placeholder","ex) 010-1234-5678");
+                case 'tel': 
+                    inputName.attr("placeholder","ex) 010-1234-5678");
+                    inputValue.val("F");
                     break;
-                case 'addr': inputName.attr("placeholder","주소를 입력하세요");    
+                case 'addr': 
+                    inputName.attr("placeholder","주소를 입력하세요");    
+                    inputValue.val("F");
                     break;          
             }
             //console.log("비어있따");

@@ -11,25 +11,27 @@
 <head>
   <meta charset="UTF-8">
   <title>${ param.pageTitle }</title>
-  <!-- jQuery CDN -->
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-	 
   
   
   <!-- CSS -->
+  
+  <!-- jQuery CDN -->
+  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+  
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="${path }/resources/css/header.css">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+  integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  
   <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
   
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
- 
-
-  <link rel="stylesheet" href="${path }/resources/css/header.css">
+  <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>	
 
 <style type="text/css">
   .form-control {
@@ -240,13 +242,16 @@ aria-hidden="true" data-target="#LoginModalTitle">
 				    <form action="${path}/member/login.do" method="post">
 				        <h2 class="text-center">Login</h2>   
 				        <div class="form-group has-error">
-				        	<input type="text" class="form-control" name="id" placeholder="id" required="required">
+                  <input type="text" class="form-control" name="id" placeholder="id" required="required">
+                  <input type="hidden"/>
 				        </div>
 						<div class="form-group">
-				            <input type="password" class="form-control" name="pw" placeholder="Password" required="required">
+                    <input type="password" class="form-control" name="pw" placeholder="Password" required="required">
+                    <input type="hidden"/>
 				        </div>
 				        <div class="form-group">
-				            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+                    <input type="hidden"/>
 				        </div>
 				        <p><a href="${path}/member/sendingEmail.do">Lost your Password?</a></p>
 					    <p class="text-center small">Don't have an account? <a href="${path}/member/signUp.do">Sign up here!</a></p>

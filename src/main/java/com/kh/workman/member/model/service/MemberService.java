@@ -7,4 +7,5 @@ public interface MemberService {
 	int insertMember(Member m);
 	Member selectFindEmail(String toemail);
 	int updateMember(Member m);
+	int updateInfoMember(Member m);
 }
