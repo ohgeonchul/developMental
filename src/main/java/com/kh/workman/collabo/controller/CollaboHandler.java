@@ -62,8 +62,8 @@ public class CollaboHandler extends TextWebSocketHandler {
 				deleteList(receive, session);
 				break;
 			case "move":
-				moveList(receive, session);
-				break;
+        moveList(receive, session);
+        break;
 			}
 			break;
 		case "card":
@@ -86,31 +86,31 @@ public class CollaboHandler extends TextWebSocketHandler {
 	}
 
 	private void moveList(DataPacket receive, WebSocketSession session) throws IOException {
-		DataPacket tempPacket = new DataPacket();
-		tempPacket.setListNo(receive.getTargetNo());
-		tempPacket.setTargetNo(receive.getListNo());
-		tempPacket.setPlaceNo(service.searchListPlaceNo(tempPacket));
-		receive.setPlaceNo(service.searchListPlaceNo(receive));
+    DataPacket tempPacket = new DataPacket();
+    tempPacket.setListNo(receive.getTargetNo());
+    tempPacket.setTargetNo(receive.getListNo());
+    tempPacket.setPlaceNo(service.searchListPlaceNo(tempPacket));
+    receive.setPlaceNo(service.searchListPlaceNo(receive));
 
-		System.out.println("receive : " + receive);
-		System.out.println("tempPacket : " + tempPacket);
+    System.out.println("receive : " + receive);
+    System.out.println("tempPacket : " + tempPacket);
 
-		boolean firstCompleted = service.moveList(receive) == 1 ? true : false;
-		boolean secondCompleted = service.moveList(tempPacket) == 1 ? true : false;
-		List<HashMap> collabos = service.participation(receive.getCollaboNo());
+    boolean firstCompleted = service.moveList(receive) == 1 ? true : false;
+    boolean secondCompleted = service.moveList(tempPacket) == 1 ? true : false;
+    List<HashMap> collabos = service.participation(receive.getCollaboNo());
 
-		if (firstCompleted && secondCompleted) {
-			for (String key : sessionList.keySet()) {
-				for (int i = 0; i < collabos.size(); i++) {
-					if (key.equals(collabos.get(i).get("ID"))) {
-						sessionList.get(key).sendMessage(new TextMessage(toJson(receive)));
-						break;
-					}
-				}
-			}
-		}
-		logger.debug("Move Card Success [USER ID : " + receive.getUserId() + " Card NO : " + receive.getCardNo() + "]");
-	}
+    if (firstCompleted && secondCompleted) {
+      for (String key : sessionList.keySet()) {
+        for (int i = 0; i < collabos.size(); i++) {
+          if (key.equals(collabos.get(i).get("ID"))) {
+            sessionList.get(key).sendMessage(new TextMessage(toJson(receive)));
+            break;
+          }
+        }
+      }
+    }
+    logger.debug("Move Card Success [USER ID : " + receive.getUserId() + " Card NO : " + receive.getCardNo() + "]");
+  }
 
 	private void updateList(DataPacket receive, WebSocketSession session) throws IOException {
 		boolean isCompleted = service.updateList(receive) == 1 ? true : false;

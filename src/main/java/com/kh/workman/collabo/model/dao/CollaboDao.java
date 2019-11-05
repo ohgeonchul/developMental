@@ -42,8 +42,7 @@ public interface CollaboDao {
 
 	int moveList(SqlSessionTemplate session, DataPacket receive);
 
-	int searchListPlaceNo(SqlSessionTemplate session, DataPacket receive);
-
 	List<CollaboTool> selectCollaboTools(SqlSessionTemplate session, String userId);
 
+	int searchListPlaceNo(SqlSessionTemplate session, DataPacket receive);
 }

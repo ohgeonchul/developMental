@@ -74,7 +74,6 @@
 	<update id="updateList" parameterType="map">
 		UPDATE COLLABO_LIST SET TITLE = #{content} WHERE LISTNO = #{listNo}
 	</update>
-	
 	<update id="moveList" parameterType="map">
 		UPDATE COLLABO_LIST SET PLACENO = #{placeNo} WHERE LISTNO = #{listNo}
 	</update>
