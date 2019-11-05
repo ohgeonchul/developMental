@@ -38,7 +38,7 @@
   <link rel="stylesheet" href="${path}/resources/css/sidebar.css">
   <!-- Scrollbar Custom CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-
+  <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>	
   <!-- Sidebar  -->
   <div class="d-flex">
     <nav id="sidebar" class="p-0 flex-shrink-1">
@@ -48,7 +48,20 @@
   
       <ul class="list-unstyled components">
         <p>Menus</p>
-        <li>
+
+        <li class="active">
+          <a href="#myPageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">MyPage</a>
+          <ul class="collapse list-unstyled" id="myPageSubmenu">
+            <li>
+              <a href="javascript: ajaxJobPage('${path }/member/setting.do');" id="jobBoardBtn">개인정보수정</a>
+            </li>
+            <li>
+              <a href="javascript: ajaxJobPage('${path }/job/jobApplyList');" id="jobApplyBtn">마이게시판</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="active">
           <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">Job</a>
           <ul class="collapse list-unstyled" id="pageSubmenu">
             <li>

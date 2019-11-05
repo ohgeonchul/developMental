@@ -36,6 +36,24 @@
     <property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>
     <property name="configLocation" value="classpath:mybatis-config.xml"/>
   </bean>
+  
+  <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+  	<property name="location" value="classpath:/properties/config.properties"/>
+  </bean>
+  
+   <!-- Gmail -->
+  <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    <property name="host" value="smtp.gmail.com" />
+    <property name="port" value="587" />
+    <property name="username" value="${gmail}" />
+    <property name="password" value="${pw}" />
+    <property name="javaMailProperties">
+    <props>
+      <prop key="mail.smtp.auth">true</prop>
+      <prop key="mail.smtp.starttls.enable">true</prop>
+    </props>
+    </property>
+  </bean>
 
   <!-- SessionTemplate을 springbean으로 등록하여 활용 -->
   <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
