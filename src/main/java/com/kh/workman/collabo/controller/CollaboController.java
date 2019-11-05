@@ -24,7 +24,7 @@ public class CollaboController {
 	@Autowired
 	CollaboService service;
 
-	@RequestMapping("/collabo/main.do")
+	@RequestMapping("/collabo/main")
 	public ModelAndView connectCollaboMain(ModelAndView mv) {
 		mv.setViewName("collabo/main");
 		return mv;
@@ -41,6 +41,21 @@ public class CollaboController {
 		mav.addObject("collaboLists",collaboLists);
 		mav.addObject("collaboCards",collaboCards);
 		mav.setViewName("collabo/detail");
+		return mav;
+	}
+	
+	@RequestMapping("/collabo/main")
+	public ModelAndView connectCollaboMain(@RequestParam("userId") String userId) {
+		logger.debug(userId);
+
+		// List<CollaboTool> collaboTools = service.selectCollaboTools(userId);
+		List<CollaboTool> collaboTools = service.selectCollaboTools(userId);
+		logger.debug(""+collaboTools);
+		
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("collaboTools", collaboTools);
+		mav.setViewName("collabo/collaboMain");
 		return mav;
 	}
 }
