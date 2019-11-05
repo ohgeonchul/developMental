@@ -32,8 +32,8 @@ public class MailController {
 	@Autowired
 	private MemberService service;
 	
-	@Autowired
-	MyEncrypt en;
+//	@Autowired
+//	MyEncrypt en;
 	
 	@Value("${gmail}")
 	private String gmail;

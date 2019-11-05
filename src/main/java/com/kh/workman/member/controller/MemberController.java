@@ -1,10 +1,6 @@
 package com.kh.workman.member.controller;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -21,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.workman.common.MyEncrypt;
-import com.kh.workman.job.controller.JobController;
-import com.kh.workman.job.model.vo.JobBoardFile;
 import com.kh.workman.member.model.service.MemberService;
 import com.kh.workman.member.model.vo.Member;
 
@@ -232,7 +225,6 @@ public class MemberController {
 			{
 				msg = "정보 변경 실패";
 			}
-			
 		}else
 		{
 			msg = "정보 변경 실패";
