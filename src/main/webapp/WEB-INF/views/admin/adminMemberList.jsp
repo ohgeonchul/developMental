@@ -99,8 +99,6 @@
 	${pageBar }
 </div>
 <script>
-
-
 	$("button[name=btn_s]").click(function() {
 		var tr = $(this).parent().parent();
 		var td = tr.children();

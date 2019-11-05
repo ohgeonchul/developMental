@@ -148,19 +148,10 @@ public class AdminNoticeController {
 		System.out.println("찍히나? : "+noticeNo);
 		ModelAndView mv = new ModelAndView();
 //		Map<String, String> notice = service.noticeView(noticeNo);
-//		
 //		mv.addObject("notice", notice);
 		mv.setViewName("admin/notice/adminNoticeView");
 		
 		return mv;
 	}
-	
-		
-	
-	
-	
-	
-	
-	
 
 }

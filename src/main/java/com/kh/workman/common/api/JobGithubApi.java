@@ -75,10 +75,10 @@ public class JobGithubApi {
         newMap = new HashMap<String, Object>();
         job.setCompanyLogo(JobGithubCrawler.crawlImg(job.getId()));
 
-        String content = job.getType()
-          + job.getLocation()
-          + job.getDescription()
-          + job.getHowToApply();
+        String content = "Ⅰ. Job Type: " + job.getType() + "\n"
+          + "Ⅱ. Location : " + job.getLocation() + "\n"
+          + "Ⅲ. Description : " + job.getDescription() + "\n"
+          + "Ⅳ. How to Apply : " + job.getHowToApply();
 
         newMap.put("NO", 0);
         newMap.put("WRITER", job.getCompany());
@@ -102,9 +102,4 @@ public class JobGithubApi {
 
     return newList;
   }
-  
-  public static void main(String[] args) {
-    JobGithubApi.jobsGithubApi("java", "Los Angeles", 1);
-  }
-
 }

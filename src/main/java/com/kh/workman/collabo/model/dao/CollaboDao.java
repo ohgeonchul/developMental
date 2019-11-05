@@ -2,11 +2,13 @@ package com.kh.workman.collabo.model.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.workman.collabo.model.vo.CollaboCard;
 import com.kh.workman.collabo.model.vo.CollaboList;
+import com.kh.workman.collabo.model.vo.CollaboTool;
 import com.kh.workman.collabo.model.vo.DataPacket;
 import com.kh.workman.member.model.vo.Member;
 
@@ -30,4 +32,19 @@ public interface CollaboDao {
 
 	int updateCard(SqlSessionTemplate session, DataPacket receive);
 
+	int deleteCard(SqlSessionTemplate session, DataPacket receive);
+
+	int deleteList(SqlSessionTemplate session, DataPacket receive);
+
+	int deleteListToCards(SqlSessionTemplate session, DataPacket receive);
+
+	int updateList(SqlSessionTemplate session, DataPacket receive);
+
+	int moveList(SqlSessionTemplate session, DataPacket receive);
+
+	List<CollaboTool> selectCollaboTools(SqlSessionTemplate session, String userId);
+
+	int searchListPlaceNo(SqlSessionTemplate session, DataPacket receive);
+
+	List<Map<String, String>> selectCollaboMemberList(SqlSessionTemplate session, String userId);
 }

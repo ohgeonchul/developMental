@@ -4,20 +4,22 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="<%=request.getContextPath()%>"/>
-<script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="pageTitle" value=""/>
 </jsp:include>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
 <!-- Popper -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <!-- Google material Icons -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!-- collabo/detail.css -->
 <link href="${path }/resources/css/collabo/detail.css?ver=1.5" rel="stylesheet"/>
 <!-- Noto Sans -->
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans&display=swap" rel="stylesheet">
+<!-- Socket -->
+<script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
 <section class="container-fluid" id="content">
 	<div class="row collabo-header" >
 		<span style="font-size:18px;color:white;font-weight:bold;">대충 트렐로 메뉴</span>
@@ -27,19 +29,29 @@
 		<c:if test="${loginMember != null}">
 			<c:if test="${collaboLists != null}">
 				<c:forEach items="${collaboLists }" var="list">
-					<div class="list-wrapper">
-						<div class="list-content">
+					<div class="list-wrapper" ondrop="requestMoveList(this,event)" ondragover="return false;">
+						<div class="list-content" draggable="true" ondrop="return false" ondragstart="listDrag(this,event)" ondragend="endListDrag()">
 							<div class="list-header">
 								<span class="list-title">
 									${list.title }
 								</span>
-								<button type="button" class="fa fa-align-justify btn-menu" onclick=""></button>
+									<button type="button" class="fa fa-align-justify btn-menu" data-toggle="dropdown"></button>
+									<div class="dropdown-menu">
+										<div class="dropdown-item">
+											<span style="text-align:center;margin-left:17px">리스트 메뉴</span>
+											<hr>
+											<div style="text-align:center;">
+												<button type="button" onclick="requestUpdateList(this)" class="btn btn-sm btn-primary">수정</button>
+												<button type="button" onclick="requestDeleteList(this)" class="btn btn-sm btn-primary">삭제</button>
+											</div>
+										</div>
+								    </div>
 							</div>
 						<div id="listNo_${list.listNo }" name="listNo_${list.listNo }" class="list-cards"  ondrop="requestMoveCard(this,event)" ondragover="return false;">
 							<c:if test="${collaboCards != null }">
 								<c:forEach items="${collaboCards }" var="card">
 									<c:if test="${list.listNo == card.listNo }">
-										<div id="cardNo_${card.cardNo }" name="cardNo_${card.cardNo }" class="list-card" ondrop="return false;" draggable="true" ondragstart="cardDrag(this,event)">
+										<div id="cardNo_${card.cardNo }" name="cardNo_${card.cardNo }" class="list-card" ondrop="return false;" draggable="true" ondragstart="cardDrag(this,event)" ondragend="endCardDrag()">
 											<span class="card-content">
 												${card.content }
 											</span>
@@ -51,7 +63,7 @@
 							</c:if>
 						</div>
 						<div class="open-card" >
-							<span onclick="requestCreateCard(this);" class="fa fa-plus btn-createCard" >Add another card</span>
+							<span onclick="requestCreateCard(this);" class="fa fa-plus btn-createCard" >카드 생성</span>
 						</div>
 					</div>
 				</div> 
@@ -66,11 +78,13 @@
 			
 				<div class="dropdown div-drop" >
 					<button class="dropdown btn-addList" type="button" onclick='$("#listTitle").val(" ");' name="btn_addList"  data-toggle="dropdown" >
-						<span class="fa fa-plus" >Add another list</span>
+						<span class="fa fa-plus" >리스트 생성</span>
 					</button>
 					<div class="dropdown-menu">
-						<input type="text" id="listTitle" class="dropdown-item" placeholder="Input List Name"/>
-						<Button class="btn-createList dropdown-item" type="button" name="btn_cList" onclick="requestCreateList();" >Create</Button>
+						<div class="dropdown-item">
+							<input type="text" id="listTitle" placeholder="Input List Name"/>
+							<Button class="btn-createList btn-sm btn btn-primary" type="button" name="btn_cList" onclick="requestCreateList();" >생성</Button>
+						</div>
 					</div>
 				</div>
 				
@@ -108,18 +122,18 @@
           			<div class="panel-body">
           				<textarea id="editContent" rows="3" cols="92"></textarea>
           				<br>
-          				<button onclick="requestUpdateCard(this);"type="button" class="btn btn-sm btn-primary" style="margin-top:10px;">Update!</button>
+          				<button onclick="requestUpdateCard(this);"type="button" class="btn btn-sm btn-primary" style="margin-top:10px;">수정!</button>
           			</div>
           		</div>
           	</div>
           </div>
           <div style="float:right;margin-top:30px;">
-	          <button id="btn_edit" class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#modifyContent">edit</button>
-	          <button class="btn btn-sm btn-primary" type="button">move</button>
-	          <button class="btn btn-sm btn-primary" type="button">delete</button>
+	          <button id="btnEdit" class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#modifyContent">수정</button>
+	          <!-- <button class="btn btn-sm btn-primary" type="button">move</button> -->
+	          <button id="btnDelete" class="btn btn-sm btn-primary" onclick="requestDeletCard(this);" type="button">삭제</button>
           </div>
           <div style="margin-top:70px;padding:10px 2px;">
-          	<h5>Comments</h5>
+          	<h5>댓글</h5>
           	<hr>
           		<textarea id="editArea" rows="3" cols="92"></textarea>
           </div>
@@ -127,7 +141,7 @@
         
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button name="btnModalClose" type="button" class="btn btn-secondary" data-dismiss="modal">나가기</button>
         </div>
         
       </div>
@@ -136,6 +150,101 @@
   
 </section>
 <script>
+var userId =  "${loginMember.id}";
+var collaboNo = 1;
+let sock = new SockJS("<c:url value="/collabo/soc"/>");
+sock.onmessage = onMessage;
+sock.onclose = onClose;
+
+
+if(userId == ""){
+	history.back();
+}
+
+sock.onopen = function(){
+	var sendData ={
+		type : "connect",
+		userId : userId,
+		collaboNo : collaboNo
+	};
+	sendMessage(sendData);
+}
+
+
+
+
+
+
+
+function requestMoveList(element, ev){
+	console.log($(element));
+	console.log(ev.dataTransfer.getData("text"));
+	/* document.getElementById("listNo_"+listNo).appendChild(document.getElementById("cardNo_"+cardNo)); */
+ 	var listNo = $("#"+ev.dataTransfer.getData("text")).attr("id").substring(7);
+	var targetListNo = $(element).children().children('.list-cards').attr("id").substring(7);
+	var sendData = {
+		type : "list",
+		method : "move",
+		listNo : listNo,
+		userId : userId,
+		collaboNo : collaboNo,
+		targetNo : targetListNo
+	};
+	sendMessage(sendData); 
+}
+
+function responseUpdateList(receive){
+	var targetList = $("#listNo_"+receive.listNo).parent().children().children('.list-title');
+	targetList.text(receive.content);
+}
+
+function requestUpdateList(target){
+	var listNo = $(target).parent().parent().parent().parent().children(".list-cards").attr("id").substring(7);
+	var content = prompt("Please enter the title of the list to modify");
+	sendData={
+		type :"list",
+		method :"update",
+		content : content,
+		listNo : listNo,
+		userId : userId,
+		collaboNo : collaboNo
+	};
+	sendMessage(sendData);
+}
+
+
+
+function requestDeleteList(target){
+	if(confirm("Are you Delete This List?")){
+		var targetList = $(target).parent().parent().parent().parent().parent().children(".list-cards").attr("id").substring(7);
+		sendData={
+			type : "list",
+			method : "delete",
+			collaboNo : collaboNo,
+			userId : userId,
+			listNo : targetList
+		};
+		sendMessage(sendData);
+	}
+}
+
+
+function requestDeletCard(target){
+	var isDelete = confirm("Are you delete this card?");
+	if(isDelete){
+		var cardNo = $("#modalCardNo").val();
+		var sendData ={
+			type:"card",
+			method:"delete",
+			userId:userId,
+			collaboNo:collaboNo,
+			cardNo:cardNo
+		};
+		sendMessage(sendData);
+	}
+}
+
+
 function requestUpdateCard(target){
 	var content = $(target).parent().children("#editContent").val();
 	var cardNo = $("#modalCardNo").val();
@@ -148,21 +257,6 @@ function requestUpdateCard(target){
 		cardNo : cardNo
 	};
 	
-	sendMessage(sendData);
-}
-
-var userId =  "${loginMember.id}";
-var collaboNo = 1;
-let sock = new SockJS("<c:url value="/collabo/soc"/>");
-sock.onmessage = onMessage;
-sock.onclose = onClose;
-
-sock.onopen = function(){
-	var sendData ={
-		type : "connect",
-		userId : userId,
-		collaboNo : collaboNo
-	};
 	sendMessage(sendData);
 }
 
@@ -184,11 +278,19 @@ function sendMessage(sendData) {
 // 서버로부터 메시지를 받았을 때
 function onMessage(msg) {
       var receive = JSON.parse(msg.data);
-      console.log(receive);
       if(receive.type == 'list'){
     	  if(receive.method == 'create'){
     		  responseCreateList(receive);
     	  }
+    	  if(receive.method == 'delete'){
+    		  responseDeleteList(receive);
+    	  }
+    	  if(receive.method == 'update'){
+    		  responseUpdateList(receive);
+    	  }
+        if(receive.method == 'move'){
+          responseMoveList(receive);
+        }
       }
       if(receive.type== 'card'){
     	  if(receive.method == 'create'){
@@ -198,18 +300,51 @@ function onMessage(msg) {
     		  responseMoveCard(receive);
     	  }
     	  if(receive.method == 'update'){
+    		  
     		  responseUpdateCard(receive);
+    	  }
+    	  if(receive.method == 'delete'){
+			  responseDeleteCard(receive);
     	  }
       }
 }
 // 서버와 연결을 끊었을 때
 function onClose(evt) {
-      
+	
 }
 
 </script>
 
-<script> 
+<script>
+function responseMoveList(receive){
+  var listNo = $("#listNo_"+receive.listNo); 
+  var wrapper = $("#listNo_"+receive.targetNo).parent().parent();
+  
+  listNo.parent().parent().append(wrapper.children());
+  wrapper.append(listNo.parent());
+  
+}
+
+function responseDeleteList(receive){
+	var list = $("#listNo_"+receive.listNo).parent().parent();
+	console.log(list.attr("class"));
+	if(list.attr("class")== 'list-wrapper'){
+		list.remove();
+	}
+	if(list.attr("class") == 'list-content'){
+		list.parent().remove();
+	}
+}
+
+
+function responseDeleteCard(receive){
+	var card = $('#cardNo_'+receive.cardNo).children('.card-content').parent();
+	card.remove();
+	
+	var btnClose = $("button[name=btnModalClose]");
+	btnClose.click();
+}
+
 function responseUpdateCard(receive){
 	var card = $('#cardNo_'+receive.cardNo).children('.card-content');
 	var modalCard = $("#modalContent");
@@ -217,7 +352,7 @@ function responseUpdateCard(receive){
 	modalCard.text(receive.content);
 	card.text(receive.content);
 	
-	var btnEdit = $("#btn_edit");
+	var btnEdit = $("#btnEdit");
 	btnEdit.click();
 	
 }
@@ -279,25 +414,31 @@ function createWrapper(ele){
 	dropdiv.append(dropmenu);
 	
 	var listTitle = $("<input/>");
-	listTitle.attr("class","dropdown-item");
 	listTitle.attr("type","text");
 	listTitle.attr("id","listTitle");
-	listTitle.attr("placeholder","Input List Name");
+	listTitle.attr("placeholder","리스트 제목을 입력하세요");
 	
-	dropmenu.append(listTitle);
 	
 	var btncList = $("<button/>");
 	btncList.text("Create");
-	btncList.attr("class","btn-createList dropdown-item");
+	btncList.attr("class","btn btn-sm btn-primary");
 	btncList.attr("type","button");
 	btncList.attr("name","btn_cList");
 	btncList.attr("onclick","requestCreateList();");
 	
-	dropmenu.append(btncList);
+
+	var dropItem=$("<div/>");
+	dropItem.attr("class","dropdown-item");
+	
+	dropItem.append(listTitle);
+	dropItem.append(btncList);
+	
+	dropmenu.append(dropItem);
 	
 	content.append(dropdiv);
 	
 	wrapper.append(content);
+	
 	
 	ele.append(wrapper);
 }
@@ -310,18 +451,29 @@ function responseCreateCard(receive){
 	
 	var card = $('<div/>');
 	var content = $('<span/>');
+	var button = $("<span/>");
+	button.attr("class",'material-icons btn-edit');
+	button.attr("data-toggle","modal");
+	button.attr("data-test","cardNo_"+receive.cardNo);
+	button.attr("data-target","#cardModal");
+	button.text("edit");
+	
+	
+	
 	content.text(receive.content);
 	
 	card.attr("class","list-card");
 	card.attr("ondrop","return false");
 	card.attr("draggable","true");
 	card.attr("ondragstart","cardDrag(this,event)");
+	card.attr("ondragend","endDragCard()");
 	card.attr("id","cardNo_"+receive.cardNo);
 	card.attr("name","cardNo_"+receive.cardNo);
 	
 	content.attr("class","card-content");
 	
 	card.append(content);
+	card.append(button);
 	listCards.append(card);
 }
 function requestCreateCard(ele){
@@ -342,7 +494,7 @@ function requestCreateCard(ele){
 
 function requestCreateList(){
 	var listTitle= $("#listTitle").val();
-	if(listTitle!=''){
+	 if(listTitle!=' '){
 	
 		var sendData = {
 			type : "list",
@@ -352,13 +504,24 @@ function requestCreateList(){
 			collaboNo : collaboNo
 		};
 		sendMessage(sendData);
-	}
+	 }else{
+		 alert('공백은 불가능 합니다.');
+	 }
+	 
 }
 
 function responseCreateList(receive){
 		var content = $("button[name=btn_cList]").parent().parent().parent();
-		var board = content.parent().parent();
+		var board = $("button[name=btn_cList]").parent().parent().parent().parent().parent().parent();
 		content.empty();
+		
+		content.attr("draggable","true");
+		content.attr("ondrop","return false;");
+		content.attr("ondragstart","listDrag(this,event)");
+		content.attr("ondragend","endListDrag()");
+		
+		content.parent().attr("ondrop","requestMoveList(this,event)");
+		content.parent().attr("ondragover","return false");
 		
 		var listHeader = $('<div/>');
 		listHeader.attr("class","list-header");
@@ -370,7 +533,51 @@ function responseCreateList(receive){
 		var btnMenu = $('<button>');
 		btnMenu.attr("type","button");
 		btnMenu.attr("class","fa fa-align-justify btn-menu");
+		btnMenu.attr("data-toggle","dropdown");
 		
+	    var dropMenu = $("<div/>");
+	    dropMenu.attr("class","dropdown-menu");
+	    
+	    var dropitem = $("<div/>");
+	    dropitem.attr("class","dropdown-item");
+	    
+	    var dropspan = $("<span/>");
+	    dropspan.text("리스트 메뉴");
+	    dropspan.css({
+	    	"text-align":"center;",
+	    	"margin-left" : "17px"
+	    });
+	    var hr = $("<hr/>");
+	    
+	    
+	    var dropbtnDiv = $("<div/>");
+	    dropbtnDiv.css({
+	    	"text-align":"center"
+	    });
+	    
+	    var btnEdit = $("<button/>");
+	    btnEdit.attr("type","button");
+	    btnEdit.attr("onclick","requestUpdateList(this)");
+	    btnEdit.attr("class","btn btn-sm btn-primary");
+	    btnEdit.css({
+	    	"margin-right":"3px"
+	    });
+	    btnEdit.text("수정");
+	    
+	    var btnRemove = $("<button/>");
+	    btnRemove.attr("type","button");
+	    btnRemove.attr("onclick","requestDeleteList(this)");
+	    btnRemove.attr("class","btn btn-sm btn-primary");
+	    btnRemove.text("삭제");
+	    
+	    dropbtnDiv.append(btnEdit);
+	    dropbtnDiv.append(btnRemove);
+	    
+	    dropitem.append(dropspan);
+	    dropitem.append(hr);
+	    dropitem.append(dropbtnDiv);
+	    
+	    dropMenu.append(dropitem);
 		
 		var listCards = $('<div/>');
 		listCards.attr("class","list-cards");
@@ -384,7 +591,7 @@ function responseCreateList(receive){
 		openCard.attr("class","open-card");
 	
 		var faplus = $('<span/>');
-		faplus.text("Add another card");
+		faplus.text("카드 생성");
 		faplus.attr("onclick","requestCreateCard(this);");
 		faplus.attr("class","fa fa-plus");
 	
@@ -392,6 +599,7 @@ function responseCreateList(receive){
 		
 		listHeader.append(listTitle);
 		listHeader.append(btnMenu);
+		listHeader.append(dropMenu);
 		
 		content.append(listHeader);
 		content.append(listCards);
@@ -427,16 +635,53 @@ function allowDrop(ev) {
 	}
 
 function cardDrag(element, ev) {
-  ev.dataTransfer.setData("text",element.id);
+	var wrapper = $(".list-wrapper");
+	var content = $(".list-content");
+	
+	wrapper.removeAttr("ondrop");
+	wrapper.removeAttr("ondragover");
+	content.removeAttr("draggable");
+	content.removeAttr("ondrop");
+	content.removeAttr("ondragstart");
+	
+  	ev.dataTransfer.setData("text",element.id);
 }
 
-
-function cardDrop(element, ev) {
-	 var id = ev.dataTransfer.getData("text");
-	 console.log(id + " -> " + element.id);
-	 element.appendChild(document.getElementById(id));
-	 ev.preventDefault();
+function endCardDrag(){
+	var wrapper = $(".list-wrapper");
+	var content = $(".list-content");
+	
+	wrapper.attr("ondrop","requestMoveList(this,event)");
+	wrapper.attr("ondragover","return false;");
+	
+	content.attr("draggable","true");
+	content.attr("ondrop","return false;");
+	content.attr("ondragstart","listDrag(this,event)");
 }
+function listDrag(element, ev){
+	var list = $(".list-cards");
+	var card = $(".list-card");
+	
+	list.removeAttr("ondrop");
+	list.removeAttr("ondragover");
+	card.removeAttr("ondrop");
+	card.removeAttr("draggable");
+	card.removeAttr("ondragstart");
+	
+	ev.dataTransfer.setData("text",$(element).children('.list-cards').attr("id"));
+}
+
+function endListDrag(){
+	var list = $(".list-cards");
+	var card = $(".list-card");
+	
+	list.attr("ondrop","requestMoveCard(this,event)");
+	list.attr("ondragover","return false;");
+	card.attr("ondrop","return false;");
+	card.attr("draggable","true");
+	card.attr("ondragstart","cardDrag(this,event)");
+}
+
 </script>
 <%-- <jsp:include page="/WEB-INF/views/common/footer.jsp"/> 
  --%>

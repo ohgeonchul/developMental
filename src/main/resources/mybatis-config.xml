@@ -24,8 +24,30 @@
     <typeAlias type="com.kh.workman.collabo.model.vo.CollaboCard" alias="collaboCard" />
     <typeAlias type="com.kh.workman.collabo.model.vo.CollaboTool" alias="collaboTool" />
     <typeAlias type="com.kh.workman.collabo.model.vo.CollaboMember" alias="collaboMember" />
+
     <!-- Job -->
     <typeAlias type="com.kh.workman.job.model.vo.JobBoard" alias="jobBoard" />
- </typeAliases>
+    <typeAlias type="com.kh.workman.job.model.vo.JobBoardFile" alias="jobBoardFile" />
+    <typeAlias type="com.kh.workman.job.model.vo.JobApply" alias="jobApply" />
+    
+    
+    
+	<!-- Study -->
+	 <typeAlias type="com.kh.workman.study.model.vo.StudyBoard" alias="studyboard" />
+    
+    
+    
+    
+    
+    
+  </typeAliases>
+
+	 
+	 
+	 
+	 
+	 
+  <!-- Job board CLOB type handler -->
+  <!-- <typeHandler handler="org.apache.ibatis.type.ClobTypeHandler" jdbcType="CLOB" javaType="java.lang.String"/> -->
 
 </configuration>

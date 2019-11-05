@@ -2,9 +2,11 @@ package com.kh.workman.collabo.model.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.kh.workman.collabo.model.vo.CollaboCard;
 import com.kh.workman.collabo.model.vo.CollaboList;
+import com.kh.workman.collabo.model.vo.CollaboTool;
 import com.kh.workman.collabo.model.vo.DataPacket;
 import com.kh.workman.member.model.vo.Member;
 
@@ -27,5 +29,21 @@ public interface CollaboService {
 	List<Member> selectCollaboMembers(int collaboNo);
 
 	int updateCard(DataPacket receive);
+
+	int deleteCard(DataPacket receive);
+
+	int deleteList(DataPacket receive);
+
+	int deleteListToCards(DataPacket receive);
+
+	int updateList(DataPacket receive);
+
+	int moveList(DataPacket receive);
+
+	int searchListPlaceNo(DataPacket receive);
+
+	List<CollaboTool> selectCollaboTools(String userId);
+
+	List<Map<String, String>> selectCollaboMemberList(String userId);
 
 }

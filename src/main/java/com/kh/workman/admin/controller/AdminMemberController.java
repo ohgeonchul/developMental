@@ -50,7 +50,6 @@ public class AdminMemberController {
 	public ModelAndView selectMemberList(@RequestParam(value="cPage", required=false, defaultValue="0") int cPage, 
 												Model model) {
 		ModelAndView mv = new ModelAndView();
-		
 		int numPerPage=10;
 		List<AdminMember> list = service.selectMemberList(cPage,numPerPage);
 		

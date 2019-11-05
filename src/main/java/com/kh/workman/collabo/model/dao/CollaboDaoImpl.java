@@ -2,12 +2,14 @@ package com.kh.workman.collabo.model.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.workman.collabo.model.vo.CollaboCard;
 import com.kh.workman.collabo.model.vo.CollaboList;
+import com.kh.workman.collabo.model.vo.CollaboTool;
 import com.kh.workman.collabo.model.vo.DataPacket;
 import com.kh.workman.member.model.vo.Member;
 
@@ -51,12 +53,52 @@ public class CollaboDaoImpl implements CollaboDao {
 
 	@Override
 	public List<Member> selectCollaboMembers(SqlSessionTemplate session, int collaboNo) {
-		return session.selectList("collabo.selectCollaboMembers",collaboNo);
+		return session.selectList("collabo.selectCollaboMembers", collaboNo);
 	}
 
 	@Override
 	public int updateCard(SqlSessionTemplate session, DataPacket receive) {
-		return session.update("collabo.updateCard",receive);
+		return session.update("collabo.updateCard", receive);
+	}
+
+	@Override
+	public int deleteCard(SqlSessionTemplate session, DataPacket receive) {
+		return session.delete("collabo.deleteCard", receive);
+	}
+
+	@Override
+	public int deleteList(SqlSessionTemplate session, DataPacket receive) {
+		return session.delete("collabo.deleteList", receive);
+	}
+
+	@Override
+	public int deleteListToCards(SqlSessionTemplate session, DataPacket receive) {
+		return session.delete("collabo.deleteListToCards", receive);
+	}
+
+	@Override
+	public int updateList(SqlSessionTemplate session, DataPacket receive) {
+		return session.delete("collabo.updateList", receive);
+	}
+
+	@Override
+	public int moveList(SqlSessionTemplate session, DataPacket receive) {
+		return session.update("collabo.moveList", receive);
+	}
+
+	@Override
+	public int searchListPlaceNo(SqlSessionTemplate session, DataPacket receive) {
+		return session.selectOne("collabo.searchListPlaceNo", receive);
+	}
+
+	@Override
+	public List<CollaboTool> selectCollaboTools(SqlSessionTemplate session, String userId) {
+		return session.selectList("collabo.selectCollaboTools", userId);
+	}
+
+	@Override
+	public List<Map<String,String>> selectCollaboMemberList(SqlSessionTemplate session, String userId) {
+		return session.selectList("collabo.selectCollaboMemberList", userId);
 	}
 
 }

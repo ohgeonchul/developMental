@@ -10,14 +10,34 @@
   <jsp:param name="pageTitle" value="Main view" />
 </jsp:include>
 
-<jsp:include page="/WEB-INF/views/common/sidebar.jsp">
+<%-- <jsp:include page="/WEB-INF/views/common/sidebar.jsp">
   <jsp:param name="pageTitle" value="Main view" />
 </jsp:include>
-
+ --%>
   <style>
     #main-container{
       margin-left: 190px;
       margin-top: 58px;
+    }
+    @media (min-width: 576px) {
+      .card-columns {
+        column-count: 2;
+      }
+    }
+    @media (min-width: 768px) {
+      .card-columns {
+        column-count: 3;
+      }
+    }
+    @media (min-width: 992px) {
+      .card-columns {
+        column-count: 3;
+      }
+    }
+    @media (min-width: 1200px) {
+      .card-columns {
+        column-count: 4;
+      }
     }
   </style>
 
@@ -27,16 +47,19 @@
         <div class="card-columns">
           <div class="card">
             <div class="card-header bg-transparent p-0">
-              <img src="${path }/resources/images/cardpic.jpg" class="card-img-top" alt="...">
+              <img src="${path }/resources/images/hire.jpg" class="card-img-top" alt="...">
             </div>
             <div class="card-body">
-              <h5 class="card-title">Job</h5>
-              <p class="card-text">Company ↔ Job Seekers </p>
+              <h5 class="card-title">Company</h5>
+              <p class="card-text">Recruiting Now!</p>
             </div>
-            <div class="card-footer bg-transparent">
-              <a class="btn btn-sm btn-outline-dark" href="javascript: ajaxJobPage('${path }/job/jobBoardList');">Recruit</a>
-              <a class="btn btn-sm btn-outline-dark my-1" href="javascript: ajaxJobPage('${path }/job/jobApplyList');">Apply</a>
+            <div class="card-footer bg-transparent text-center">
+              <a class="btn btn-sm btn-outline-dark stretched-link" href="javascript: ajaxJobPage('${path }/job/jobBoardList');">Recruit</a>
             </div>
+          </div>
+          <div class="card text-center">
+            <img src="${path}/resources/images/apply.jpg" class="card-img-top" alt="...">
+            <a class="btn btn-sm btn-outline-dark my-2 stretched-link" href="javascript: ajaxJobPage('${path }/job/jobApplyList');">Apply</a>
           </div>
           <div class="card p-3">
             <blockquote class="blockquote mb-0 card-body">
@@ -73,9 +96,6 @@
               <p class="card-text"><small class="text-muted">updated 0 mins ago</small></p>
             </div>
           </div>
-          <div class="card">
-            <img src="${path}/resources/images/wallpaper.jpg" class="card-img-top" alt="...">
-          </div>
           <div class="card p-3 text-right">
             <blockquote class="blockquote mb-0">
               <p>block quote here</p>
@@ -99,4 +119,5 @@
   </main>
 
 </div> <!-- row -->
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
