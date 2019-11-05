@@ -1,6 +1,7 @@
 package com.kh.workman.collabo.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public class CollaboController {
 	@Autowired
 	CollaboService service;
 
-	@RequestMapping("/collabo/main")
+	@RequestMapping("/collabo/main.do")
 	public ModelAndView connectCollaboMain(ModelAndView mv) {
 		mv.setViewName("collabo/main");
 		return mv;
@@ -36,24 +37,25 @@ public class CollaboController {
 		List<CollaboCard> collaboCards = service.selectCollaboCards(collaboNo);
 		List<Member> collaboMembers = service.selectCollaboMembers(collaboNo);
 		ModelAndView mav = new ModelAndView();
-		
-		mav.addObject("collaboMembers",collaboMembers);
-		mav.addObject("collaboLists",collaboLists);
-		mav.addObject("collaboCards",collaboCards);
+
+		mav.addObject("collaboMembers", collaboMembers);
+		mav.addObject("collaboLists", collaboLists);
+		mav.addObject("collaboCards", collaboCards);
 		mav.setViewName("collabo/detail");
 		return mav;
 	}
-	
+
 	@RequestMapping("/collabo/main")
 	public ModelAndView connectCollaboMain(@RequestParam("userId") String userId) {
 		logger.debug(userId);
 
 		// List<CollaboTool> collaboTools = service.selectCollaboTools(userId);
 		List<CollaboTool> collaboTools = service.selectCollaboTools(userId);
-		logger.debug(""+collaboTools);
-		
-		
+		List<Map<String, String>> collaboMemberList = service.selectCollaboMemberList(userId);
+		logger.debug("" + collaboTools);
+
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("collaboMemberList", collaboMemberList);
 		mav.addObject("collaboTools", collaboTools);
 		mav.setViewName("collabo/collaboMain");
 		return mav;
