@@ -220,19 +220,19 @@ public class MemberController {
 		System.out.println(result);
 		if(result > 0)
 		{
-//			Member loginMember = service.selectLogin(member);
-//					
-//			if(loginMember != null)
-//			{
-//				session.setAttribute("loginMember", loginMember);
-//			}
-//			else
-//			{
-//				msg = "정보 변경 실패";
-//			}
-			
+			Member loginMember = service.selectLogin(member);
+					
+			if(loginMember != null)
+			{
+				session.setAttribute("loginMember", loginMember);
 				msg = "정보 변경 완료";
 				loc = "/";
+			}
+			else
+			{
+				msg = "정보 변경 실패";
+			}
+			
 		}else
 		{
 			msg = "정보 변경 실패";
