@@ -1,8 +1,15 @@
 package com.kh.workman.member.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,15 +17,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.workman.common.MyEncrypt;
+import com.kh.workman.job.controller.JobController;
+import com.kh.workman.job.model.vo.JobBoardFile;
 import com.kh.workman.member.model.service.MemberService;
 import com.kh.workman.member.model.vo.Member;
 
 @Controller
 public class MemberController {
+	
+	private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	@Autowired
 	MemberService service;
@@ -39,7 +51,7 @@ public class MemberController {
 		String loc = "/";
 				
 		Member loginMember = service.selectLogin(m);
-		System.out.println(pwEncoder.matches(m.getPw(), loginMember.getPw()));
+		System.out.println("로그인" + pwEncoder.matches(m.getPw(), loginMember.getPw()));
 		
 //		try {
 //			loginMember.setPw(en.decrypt(loginMember.getPw()));
@@ -158,12 +170,40 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/updateInfoMember.do")
-	public ModelAndView updateInfoMember(Member member,HttpServletRequest request)
+	public ModelAndView updateInfoMember(Member member, HttpServletRequest request,
+			HttpSession session,
+			@RequestParam(value="orgNames", required=false) MultipartFile[] orgNames
+			)
 	{
 		String msg ="";
 		String loc ="";
+		System.out.println("dsfdsfsdf");
 		System.out.println("pw" + member.getPw());
 		
+//		 //logger.debug("Original job board file name : " + orgNames[0].getOriginalFilename());
+//		
+//	 	/* 파일업로드 처리하기 */
+//	    //1.저장경로 지정하기
+	    String saveDir = session.getServletContext().getRealPath("/resources/upload/member");
+	    File dir = new File(saveDir);
+
+	    if(!dir.exists()) logger.debug("" + dir.mkdirs());
+
+	    for(MultipartFile f : orgNames) {
+	      if(!f.isEmpty()) {
+	        //rename file name
+	        String orgName = f.getOriginalFilename();
+	        System.out.println(orgName);
+	        member.setProfile(orgName);
+	        
+	        try {
+	            f.transferTo(new File(saveDir + "/" + orgName));
+	          } catch(Exception e) {
+	            e.printStackTrace(); //IllegalStateException, IOException
+	          }
+	      }
+	    }
+		 
 		if(member.getPw().equals(""))
 		{
 			member.setPw(null);
@@ -181,8 +221,7 @@ public class MemberController {
 		if(result > 0)
 		{
 //			Member loginMember = service.selectLogin(member);
-//			HttpSession session = request.getSession();
-//			
+//					
 //			if(loginMember != null)
 //			{
 //				session.setAttribute("loginMember", loginMember);
