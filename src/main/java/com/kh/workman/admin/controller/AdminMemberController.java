@@ -56,7 +56,7 @@ public class AdminMemberController {
 		
 		int totalCount=service.selectMemberCount();
 				
-		mv.addObject("pageBar",PageBarFactory.getAdminPageBar(totalCount, cPage, numPerPage, "/admin/selectMemberList.do"));
+		mv.addObject("pageBar",PageBarFactory.getAdminPageBar(totalCount, cPage, numPerPage, "/spring/admin/selectMemberList.do"));
 		mv.addObject("count",totalCount);
 		mv.addObject("list",list);
 		mv.setViewName("admin/adminMemberList");

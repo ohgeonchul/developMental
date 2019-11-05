@@ -10,7 +10,7 @@
   <jsp:param name="pageTitle" value="Content" />
 </jsp:include>
 
-  <div class="modal-content" id="jobmodal-content">
+  <div class="modal-content" id="modal-content">
 
     <div class="modal-header">
       <h4 class="modal-title" id="myModalLabel" id="jobmodalTitle"><img src="${path }/resources/images/icons8-open-box-48.png" width="40px" height="40px" alt="">&nbsp;<strong>Job Description </strong>${title}</h4>
