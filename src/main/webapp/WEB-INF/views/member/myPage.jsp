@@ -103,7 +103,7 @@
                             <div class="col-2-my">
                             <div class="input-group-my">
                                     <label class="label-my" id="pwlabel">비밀번호</label>										
-                                    <input class="input--style-4-my" type="password" name="pw" placeholder="비밀번호 6자리 이상" id="pw" value="" required="required">
+                                    <input class="input--style-4-my" type="password" name="pw" placeholder="비밀번호 6자리 이상" id="pw" required="required">
                                     <input type="hidden" id="pwValue" value="F" class="비밀번호"/>
                                 </div>
                             
@@ -290,10 +290,7 @@ function changeData()
         ($("#telValue").val() == 'T') &&
         ($("#addrValue").val() == 'T') )
     {
-        if($("#pw").val().length >= 1)
-        {
-            return;
-        }
+       
         form.submit();
     }
     else

@@ -27,9 +27,9 @@
 		UPDATE MEMBER SET STATUS=#{status} WHERE NO=#{no}
 	</update>
 	
-	<update id="updateInfoMember" parameterType="member">
+	<update id="updateInfoMember" parameterType="com.kh.workman.member.model.vo.Member">
 	<choose>
-	<when test="member.pw == null or member.pw == '' ">
+	<when test="pw == null || pw == '' ">
 		UPDATE MEMBER SET NICKNAME=#{nickname},TEL=#{tel},ADDR=#{addr} WHERE ID=#{id}
 	</when>
 	<otherwise>

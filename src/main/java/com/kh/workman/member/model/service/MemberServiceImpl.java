@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int updateInfoMember(Member m) {
 		
-		return dao.updateMember(session, m);
+		return dao.updateInfoMember(session, m);
 	}
 	
 	
