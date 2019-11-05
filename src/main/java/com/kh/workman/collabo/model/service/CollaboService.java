@@ -44,4 +44,6 @@ public interface CollaboService {
 
 	List<CollaboTool> selectCollaboTools(String userId);
 
+	List<Map<String, String>> selectCollaboMemberList(String userId);
+
 }
