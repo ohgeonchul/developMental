@@ -48,6 +48,10 @@
             <div class="card-my card-4-my">
                 <div class="card-body-my">
                     <h2 class="title-my">회원정보 수정</h2>
+                    
+            	
+            	
+            	
             	<!-- avatar -->
 	            <!-- <div class="avatar-wrapper my-0-my mx-3-my">
 	            <c:if test="${loginMember.profile != null}">             
@@ -65,7 +69,24 @@
 	             
 	              </div> -->
 	              
-               <form action="${path}/member/updateInfoMember.do" method="POST">
+               <form action="${path}/member/updateInfoMember.do" method="POST" enctype="multipart/form-data">
+                
+                <div class="form-group my-0">
+                        <div class="companyLogo-wrapper my-0 mx-auto">
+                          <c:if test="${loginMember.profile != null}">
+                            <img class="logo-pic" src="${path}/resources/upload/member/${loginMember.profile}" />
+                          </c:if>
+                          <c:if test="${loginMember.profile == null}">
+                            <img class="logo-pic" src="" />
+                          </c:if>
+                          <div class="upload-button">
+                            <i class="fa fa-camera" aria-hidden="true"></i>
+                          </div>
+                          <input class="file-upload form-control" type="file" accept="image/*" name="orgNames" />
+                          <input type="hidden" />
+                        </div>
+                  </div> 
+                    
                         <div class="row-my row-space-my">
                             <div class="col-2-my">
                                 <div class="input-group-my">
@@ -103,7 +124,7 @@
                             <div class="col-2-my">
                             <div class="input-group-my">
                                     <label class="label-my" id="pwlabel">비밀번호</label>										
-                                    <input class="input--style-4-my" type="password" name="pw" placeholder="비밀번호 6자리 이상" id="pw" value="" required="required">
+                                    <input class="input--style-4-my" type="password" name="pw" placeholder="비밀번호 6자리 이상" id="pw" required="required">
                                     <input type="hidden" id="pwValue" value="F" class="비밀번호"/>
                                 </div>
                             
@@ -201,7 +222,7 @@
                          </div>  
                         <div class="p-t-15-my">
                             <button class="btn-my btn--radius-2-my btn--blue-my pull-left" type="button" onclick="changeData()">변경</button>
-                            <button class="btn-my btn--radius-2-my btn--blue-my pull-right" type="button" onclick="location.href='${path}/mainView'">취소</button>
+                            <button class="btn-my btn--radius-2-my btn--blue-my pull-right" type="button" onclick="location.href='${path}'">취소</button>
                         </div>
                         
                     </form>
@@ -223,7 +244,32 @@
 
 <!-- This templates was made by Colorlib (https://colorlib.com) -->
 
+
 <script>
+          // logo image
+          var readURL = function(input) {
+            if (input.files && input.files[0]) {
+              var reader = new FileReader();
+              reader.onload = function (e) {
+                $('.logo-pic').attr('src', e.target.result);
+              }
+              reader.readAsDataURL(input.files[0]);
+            }
+          }
+
+          $(".file-upload").on('change', function(){
+            readURL(this);
+          });
+          $(".upload-button").on('click', function() {
+            $(".file-upload").click();
+          });
+          
+
+</script>
+
+<script>
+
+        
 /* $("#roadAddress").focus(function(){
 	var roadAddress = $("#roadAddress");
 	if(roadAddress.val() == Nan)
@@ -290,10 +336,7 @@ function changeData()
         ($("#telValue").val() == 'T') &&
         ($("#addrValue").val() == 'T') )
     {
-        if($("#pw").val().length >= 1)
-        {
-            return;
-        }
+       
         form.submit();
     }
     else
@@ -360,6 +403,7 @@ function regExpCheck(data, inputName)
 // 이름 이메일 등 정규식 표현이 맞거나 틀리면 이벤트 발생
 $(document).ready(function()
 {
+
     //var msg = $("#msg").val();
 
     $("input").focus(function(){

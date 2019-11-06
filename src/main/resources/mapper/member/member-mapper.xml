@@ -2,6 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="member">
 	
+  <resultMap id="clobMap" type="jobBoard">
+    <result property="content" column="CONTENT" jdbcType="CLOB" javaType="java.lang.String"
+      typeHandler="clobType" />
+    <result property="applicants" column="APPLICANTS" />
+    <result property="fileNewName" column="FILENEWNAME" />
+  </resultMap>
+	
+	<!-- 게시판 -->
+	
+	<select id="selectPageJobMyBoardList" parameterType="String" resultMap="clobMap">
+	   SELECT J.*, (SELECT COUNT(*) FROM APPLY_JOB WHERE J.NO = MEMBERNO) AS APPLICANTS,
+	      (select newname from FILE_BOARD_JOB F where J.NO = F.BOARDNO) AS FILENEWNAME
+	      FROM BOARD_JOB J WHERE WRITER=#{nickname} ORDER BY REGDATE DESC
+  	</select>
+  	
+  	<select id="selectJobMyBoardCount" parameterType="String" resultType="_int">
+    	SELECT COUNT(*) FROM BOARD_JOB WHERE WRITER=#{nickname}
+  	</select>
+	
+	<!-- END 게시판 -->
+	
+	
 	<select id="selectFindEmail" parameterType="String" resultType="com.kh.workman.member.model.vo.Member">
 		SELECT * FROM MEMBER WHERE EMAIL=#{tomail}
 	</select>
@@ -27,13 +49,13 @@
 		UPDATE MEMBER SET STATUS=#{status} WHERE NO=#{no}
 	</update>
 	
-	<update id="updateInfoMember" parameterType="member">
+	<update id="updateInfoMember" parameterType="com.kh.workman.member.model.vo.Member">
 	<choose>
-	<when test="pw == null or pw == '' ">
-		UPDATE MEMBER SET NICKNAME=#{nickname},TEL=#{tel},ADDR=#{addr} WHERE ID=#{id}
+	<when test="pw == null || pw == '' ">
+		UPDATE MEMBER SET NICKNAME=#{nickname},PROFILE=#{profile},TEL=#{tel},ADDR=#{addr} WHERE ID=#{id}
 	</when>
 	<otherwise>
-		UPDATE MEMBER SET NICKNAME=#{nickname},PW=#{pw},TEL=#{tel},ADDR=#{addr} WHERE ID=#{id}
+		UPDATE MEMBER SET NICKNAME=#{nickname},PW=#{pw}, PROFILE=#{profile},TEL=#{tel},ADDR=#{addr} WHERE ID=#{id}
 	</otherwise>	
 	</choose>
 	</update>

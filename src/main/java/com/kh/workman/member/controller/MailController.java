@@ -32,8 +32,8 @@ public class MailController {
 	@Autowired
 	private MemberService service;
 	
-	@Autowired
-	MyEncrypt en;
+//	@Autowired
+//	MyEncrypt en;
 	
 	@Value("${gmail}")
 	private String gmail;
@@ -102,12 +102,13 @@ public class MailController {
 		String msg ="";
 		String loc ="/";
 		System.out.println(m);
-		try
-		{
-			m.setPw(en.encrypt(m.getPw()));
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try
+//		{
+//			m.setPw(en.encrypt(m.getPw()));
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		m.setPw(pwEncoder.encode(m.getPw()));
 		
 		int result = service.updateMember(m);
 				

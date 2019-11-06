@@ -43,44 +43,60 @@
   <div class="d-flex">
     <nav id="sidebar" class="p-0 flex-shrink-1">
       <div class="sidebar-header">
-        <h3><a href="${path }/mainView">${ param.pageTitle }</a></h3>
+        <c:if test="${param.pageTitle == ''}">
+          <h3><a href="${path }/"><i class="fa fa-home"></i></a></h3>
+        </c:if>
+        <c:if test="${param.pageTitle != ''}">
+          <h3><a href="${path }/">${ param.pageTitle }</a></h3>
+        </c:if>
       </div>
-  
       <ul class="list-unstyled components">
-        <p>Menus</p>
+        <p class="p-2"><i class="fa fa-tag" aria-hidden="true">&nbsp;&nbsp;메뉴</i></p>
+        <!-- <hr style="border-top: 1px solid white;"> -->
+        <hr>
+	<c:if test="${loginMember != null}">
         <li class="active">
-          <a href="#myPageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">MyPage</a>
+          <a href="#myPageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">마이페이지</a>
           <ul class="collapse list-unstyled" id="myPageSubmenu">
             <li>
               <a href="javascript: ajaxJobPage('${path }/member/setting.do');" id="jobBoardBtn">개인정보수정</a>
             </li>
             <li>
-              <a href="javascript: ajaxJobPage('${path }/job/jobApplyList');" id="jobApplyBtn">마이게시판</a>
+                <a href="javascript: ajaxJobPage('${path }/member/jobMyBoardList');" id="jobApplyBtn">내 게시판</a> 
             </li>
           </ul>
         </li>
+	</c:if>
 
         <li class="active">
-          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">Job</a>
+          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">구인</a>
           <ul class="collapse list-unstyled" id="pageSubmenu">
             <li>
-              <a href="javascript: ajaxJobPage('${path }/job/jobBoardList');" id="jobBoardBtn">Board</a>
-            </li>
-            <li>
-              <a href="javascript: ajaxJobPage('${path }/job/jobApplyList');" id="jobApplyBtn">Apply</a>
+              <a href="javascript: ajaxJobPage('${path }/job/jobBoardList');" id="jobBoardBtn">구인게시판</a>
             </li>
           </ul>
         </li>
+        <li>
+          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">Study</a>
+           <ul class="collapse list-unstyled" id="pageSubmenu">
+            <li>
+            	<a href='${path }/study/studyList'>Board</a>
+            </li>
+            <li>
+             <a href='${path }/study/studyApplyList'>Apply</a>
+            </li>
+          </ul>
+           </li>
       </ul>
   
-      <ul class="list-unstyled CTAs">
+      <!-- <ul class="list-unstyled CTAs">
         <li>
           <a href="#" class="download">Dummy Btn1</a>
         </li>
         <li>
           <a href="#" class="article">Dummy Btn2</a>
         </li>
-      </ul>
+      </ul> -->
     </nav>
 
 

@@ -1,8 +1,14 @@
 package com.kh.workman.member.controller;
 
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,15 +16,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.workman.common.MyEncrypt;
+import com.kh.workman.common.PageBarFactory;
+import com.kh.workman.common.api.JobGithubApi;
 import com.kh.workman.member.model.service.MemberService;
 import com.kh.workman.member.model.vo.Member;
 
 @Controller
 public class MemberController {
+	
+	private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	@Autowired
 	MemberService service;
@@ -39,7 +49,7 @@ public class MemberController {
 		String loc = "/";
 				
 		Member loginMember = service.selectLogin(m);
-		System.out.println(pwEncoder.matches(m.getPw(), loginMember.getPw()));
+		System.out.println("로그인" + pwEncoder.matches(m.getPw(), loginMember.getPw()));
 		
 //		try {
 //			loginMember.setPw(en.decrypt(loginMember.getPw()));
@@ -158,12 +168,40 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/updateInfoMember.do")
-	public ModelAndView updateInfoMember(Member member,HttpServletRequest request)
+	public ModelAndView updateInfoMember(Member member, HttpServletRequest request,
+			HttpSession session,
+			@RequestParam(value="orgNames", required=false) MultipartFile[] orgNames
+			)
 	{
 		String msg ="";
 		String loc ="";
+		System.out.println("dsfdsfsdf");
 		System.out.println("pw" + member.getPw());
 		
+//		 //logger.debug("Original job board file name : " + orgNames[0].getOriginalFilename());
+//		
+//	 	/* 파일업로드 처리하기 */
+//	    //1.저장경로 지정하기
+	    String saveDir = session.getServletContext().getRealPath("/resources/upload/member");
+	    File dir = new File(saveDir);
+
+	    if(!dir.exists()) logger.debug("" + dir.mkdirs());
+
+	    for(MultipartFile f : orgNames) {
+	      if(!f.isEmpty()) {
+	        //rename file name
+	        String orgName = f.getOriginalFilename();
+	        System.out.println(orgName);
+	        member.setProfile(orgName);
+	        
+	        try {
+	            f.transferTo(new File(saveDir + "/" + orgName));
+	          } catch(Exception e) {
+	            e.printStackTrace(); //IllegalStateException, IOException
+	          }
+	      }
+	    }
+		 
 		if(member.getPw().equals(""))
 		{
 			member.setPw(null);
@@ -177,11 +215,11 @@ public class MemberController {
 		}
 		
 		int result = service.updateInfoMember(member);
+		System.out.println(result);
 		if(result > 0)
 		{
 			Member loginMember = service.selectLogin(member);
-			HttpSession session = request.getSession();
-			
+					
 			if(loginMember != null)
 			{
 				session.setAttribute("loginMember", loginMember);
@@ -192,7 +230,6 @@ public class MemberController {
 			{
 				msg = "정보 변경 실패";
 			}
-			
 		}else
 		{
 			msg = "정보 변경 실패";
@@ -205,4 +242,44 @@ public class MemberController {
 		
 		return mv;	
 	}
+	
+	 @RequestMapping("/member/jobMyBoardList")
+	  public ModelAndView jobMyBoardList(
+	      @RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+	      @RequestParam(value="skill", required=false) String skill,
+	      @RequestParam(value="loc", required=false) String loc,
+	      @RequestParam(value="page", required=false, defaultValue="1") String page,
+	      HttpServletRequest request) {
+
+	    //1. Job Listings From Database (At least 1 Member Applied for the position)
+	    ModelAndView mv = new ModelAndView();
+	    int numPerPage = 5;
+	    HttpSession session = request.getSession();
+	    Member loginMember = (Member)session.getAttribute("loginMember");
+	    
+	    List<Map<String, Object>> list = service.selectPageJobMyBoardList(cPage, numPerPage, loginMember.getNickname() );
+	    int totalCount = service.selectJobMyBoardCount(loginMember.getNickname());
+
+	    //2. Additional Job Listings From Github Job API (Not inserted into DB yet!)
+	    //   this data lists are inserted AFTER at least one Member applies for the position!
+	    //TODO: test data(to be replaced with User Input!)
+//	    skill="java";
+//	    loc = "Los Angeles";
+//	    page = "1";
+
+//	    List<Map<String, Object>> newList = null;
+//	    if(skill != null && loc!=null ) {
+//	      newList = JobGithubApi.jobsGithubApi(skill, loc, Integer.valueOf(page));
+//	    }
+
+	    mv.addObject("pageBar", PageBarFactory.getJobMyPageBar(totalCount, cPage, numPerPage, "/member/jobMyBoardList"));
+	    mv.addObject("count", totalCount);
+	    mv.addObject("list", list);
+//	    mv.addObject("newList", newList);
+	    
+	    mv.setViewName("/member/jobMyBoardList");
+
+	    return mv;
+	  }
+	
 }

@@ -19,7 +19,7 @@ import java.util.Map;
 import javax.crypto.Cipher;
 
 import org.springframework.stereotype.Component;
-@Component
+//@Component
 public class RSAEncrypto implements MyEncrypt {
 	
 	private PublicKey publickey;
