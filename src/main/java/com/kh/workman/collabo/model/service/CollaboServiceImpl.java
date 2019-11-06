@@ -117,4 +117,10 @@ public class CollaboServiceImpl implements CollaboService {
 	public int createCollaboTool(Map<String, Object> temp) {
 		return dao.createCollaboTool(session, temp);
 	}
+
+	@Override
+	public CollaboTool selectCollaboTool(int collaboNo) {
+		return dao.selectCollaboTool(session, collaboNo);
+	}
+
 }

@@ -32,6 +32,7 @@ public class CollaboController {
 
 	@RequestMapping("/collabo/detail.do")
 	public ModelAndView connectCollaboDetail(@RequestParam("collaboNo") int collaboNo) {
+		CollaboTool collabo = service.selectCollaboTool(collaboNo);
 		List<CollaboList> collaboLists = service.selectCollaboLists(collaboNo);
 		List<CollaboCard> collaboCards = service.selectCollaboCards(collaboNo);
 		List<Member> collaboMembers = service.selectCollaboMembers(collaboNo);
@@ -40,6 +41,7 @@ public class CollaboController {
 		mav.addObject("collaboMembers", collaboMembers);
 		mav.addObject("collaboLists", collaboLists);
 		mav.addObject("collaboCards", collaboCards);
+		mav.addObject("collaboTool",collabo);
 		mav.setViewName("collabo/detail");
 		return mav;
 	}

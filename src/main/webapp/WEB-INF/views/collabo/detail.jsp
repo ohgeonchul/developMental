@@ -8,9 +8,13 @@
 	<jsp:param name="pageTitle" value=""/>
 </jsp:include>
 
-
+<!-- jqeury -->
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
 <!-- Popper -->
- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <!-- Google material Icons -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!-- collabo/detail.css -->
@@ -19,11 +23,17 @@
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans&display=swap" rel="stylesheet">
 <!-- Socket -->
 <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <section class="container-fluid" id="content">
 	<div class="row collabo-header" >
-		<span style="font-size:18px;color:white;font-weight:bold;">대충 트렐로 메뉴</span>
-		<button type="button" data-toggle="modal" data-target="#cardModal">모달테스트</button>
+		<div style="width:200px">
+			<span style="font-size:18px;color:white;font-weight:bold;">${collaboTool.title }</span>
+		</div>
+		<div>
+			<button style="margin-right:5px;border-radius:8px" class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#cardModal">초대</button>
+			<button style="border-radius:8px"class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#cardModal">추방</button>
+		</div>
+		
 	</div>
 	<div class="board" >
 		<c:if test="${loginMember != null}">
@@ -356,7 +366,9 @@ $("#modifyContent").on('show.bs.collapse',function(){
 	var editContent = $("#editContent");
 	editContent.val('');
 });
-
+// $("#cardModal").on('hide.bs.modal',function(e){
+	$("#modifyContent").collapse('hide');
+});
 
 $("#cardModal").on('show.bs.modal',function(e){
 	var data=$(e.relatedTarget).data('test');

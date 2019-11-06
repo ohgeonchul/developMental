@@ -50,4 +50,6 @@ public interface CollaboService {
 
 	int insertCollaboMember(Map<String, Object> temp);
 
+	CollaboTool selectCollaboTool(int collaboNo);
+
 }
