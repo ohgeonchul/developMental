@@ -24,7 +24,7 @@ public class CollaboController {
 	@Autowired
 	CollaboService service;
 
-	@RequestMapping("/collabo/main")
+	@RequestMapping("/collabo/main.do")
 	public ModelAndView connectCollaboMain(ModelAndView mv) {
 		mv.setViewName("collabo/main");
 		return mv;
