@@ -1,5 +1,6 @@
 package com.kh.workman.collabo.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import com.kh.workman.collabo.model.service.CollaboService;
 import com.kh.workman.collabo.model.vo.CollaboCard;
 import com.kh.workman.collabo.model.vo.CollaboList;
 import com.kh.workman.collabo.model.vo.CollaboTool;
+import com.kh.workman.member.model.service.MemberService;
 import com.kh.workman.member.model.vo.Member;
 
 @Controller
@@ -25,6 +27,9 @@ public class CollaboController {
 
 	@Autowired
 	CollaboService service;
+
+	@Autowired
+	MemberService memberService;
 
 //	  @RequestMapping("/collabo/main.do") public ModelAndView
 //	  connectCollaboMain(ModelAndView mv) { mv.setViewName("collabo/main"); return
@@ -36,12 +41,27 @@ public class CollaboController {
 		List<CollaboList> collaboLists = service.selectCollaboLists(collaboNo);
 		List<CollaboCard> collaboCards = service.selectCollaboCards(collaboNo);
 		List<Member> collaboMembers = service.selectCollaboMembers(collaboNo);
+		
+		List<Member> temp = memberService.selectAllMember();
+		List<String> userIds = new ArrayList<String>();
+		List<String> userProfiles = new ArrayList<String>();
+		if (temp != null) {
+			for (int i = 0; i < temp.size(); i++) {
+				userIds.add(temp.get(i).getId());
+				userProfiles.add(temp.get(i).getProfile());
+			}
+		}
+		logger.debug(""+userIds.toString());
+		logger.debug(""+userProfiles.toString());
+		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("collaboNo",collaboNo);
+		mav.addObject("collaboNo", collaboNo);
+		mav.addObject("userIds", userIds);
+		mav.addObject("userProfiles",userProfiles);
 		mav.addObject("collaboMembers", collaboMembers);
 		mav.addObject("collaboLists", collaboLists);
 		mav.addObject("collaboCards", collaboCards);
-		mav.addObject("collaboTool",collabo);
+		mav.addObject("collaboTool", collabo);
 		mav.setViewName("collabo/detail");
 		return mav;
 	}
@@ -89,4 +109,5 @@ public class CollaboController {
 		}
 		return mav;
 	}
+
 }

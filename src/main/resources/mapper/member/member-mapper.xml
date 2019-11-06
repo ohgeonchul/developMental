@@ -82,4 +82,8 @@
   <insert id="insertMember" parameterType="com.kh.workman.member.model.vo.Member">
   	INSERT INTO MEMBER VALUES(DEFAULT,#{id},#{pw},#{name},#{nickname},#{email},#{addr},#{tel},DEFAULT,DEFAULT,DEFAULT,DEFAULT,NULL,DEFAULT,0)
   </insert>
+  
+  <select id="selectAllMemberSearch" resultType="com.kh.workman.member.model.vo.Member">
+  	SELECT ID, PROFILE FROM MEMBER
+  </select>
 </mapper>
