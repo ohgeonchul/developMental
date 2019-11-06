@@ -15,33 +15,33 @@
 </jsp:include>
 
   <main id="main-wrapper" class="p-0 w-100">
-    <div class="container mb-0 mt-3 p-0 text-center " id="loading">
-      <div class="spinner-grow spinner-grow-sm ml-1 mt-3 mb-0 text-primary apiLoading" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-      <div class="spinner-grow spinner-grow-sm ml-1 mt-3 mb-0 text-primary apiLoading" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-      <div class="spinner-grow spinner-grow-sm ml-1 mt-3 mb-0 text-primary apiLoading" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-      <div class="spinner-grow spinner-grow-sm ml-1 mt-3 mb-0 text-primary apiLoading" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-      <div class="spinner-grow spinner-grow-sm ml-1 mt-3 mb-0 text-primary apiLoading" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>
+    <jsp:include page="/WEB-INF/views/common/loading.jsp"/>
 
     <div class="" id="main-container">
       <div class="container py-5">
         <div class="card-columns">
+          <h5>협업도구</h5>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">card text</p>
+              <p class="card-text"><small class="text-muted">updated 0 mins ago</small></p>
+            </div>
+          </div>
+
+        </div>
+        <hr>
+        <div class="card-columns">
+          <h5>구인 구직</h5>
           <div class="card text-center">
             <img src="${path }/resources/images/hire.jpg" class="card-img-top" alt="...">
             <div class="card-body py-0">
               <!-- <h5 class="card-title">Job list</h5> -->
               <!-- <p class="card-text">Card text.</p> -->
-              <p class="card-text my-0"><small class="text-muted">해외 및 국내 취업</small></p>
+              <div>
+                <small>해외 및 국내 구직정보 검색</small>
+              </div>
+              </footer>
               <a class="btn btn-sm btn-outline-dark my-1 stretched-link" href="javascript: ajaxJobPage('${path }/job/jobBoardList');">구인구직</a>
             </div>
           </div>
@@ -53,6 +53,20 @@
               <a class="btn btn-sm btn-outline-dark my-2 stretched-link" href="javascript: ajaxJobPage('${path }/job/jobApplyList');">Apply</a>
             </div>
           </div> -->
+        </div>
+        <hr>
+        <div class="card-columns">
+          <h5>실시간 뉴스</h5>
+          <div class="card p-3 text-right">
+            <blockquote class="blockquote mb-0">
+              <p>block quote here</p>
+              <footer class="blockquote-footer">
+                <small class="text-muted">
+                  Some author <cite title="Source Title">Title</cite>
+                </small>
+              </footer>
+            </blockquote>
+          </div>
           <div class="card p-3">
             <blockquote class="blockquote mb-0 card-body">
               <p>text here</p>
@@ -63,7 +77,7 @@
               </footer>
             </blockquote>
           </div>
-          <div class="card">
+          <div class="card p-3">
             <img src="${path}/resources/images/wallpaper.jpg" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">Card title</h5>
@@ -81,27 +95,10 @@
               </footer>
             </blockquote>
           </div>
-          <div class="card text-center">
+          <div class="card p-3 text-center">
             <div class="card-body">
               <h5 class="card-title">Card title</h5>
               <p class="card-text">card text here</p>
-              <p class="card-text"><small class="text-muted">updated 0 mins ago</small></p>
-            </div>
-          </div>
-          <div class="card p-3 text-right">
-            <blockquote class="blockquote mb-0">
-              <p>block quote here</p>
-              <footer class="blockquote-footer">
-                <small class="text-muted">
-                  Some author <cite title="Source Title">Title</cite>
-                </small>
-              </footer>
-            </blockquote>
-          </div>
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">card text</p>
               <p class="card-text"><small class="text-muted">updated 0 mins ago</small></p>
             </div>
           </div>
