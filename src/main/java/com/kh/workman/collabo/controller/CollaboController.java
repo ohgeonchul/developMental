@@ -45,24 +45,22 @@ public class CollaboController {
 	@Value("${gmail}")
 	private String gmail;
 
-//	  @RequestMapping("/collabo/main.do") public ModelAndView
-//	  connectCollaboMain(ModelAndView mv) { mv.setViewName("collabo/main"); return
-//	  mv; }
-
 	@RequestMapping("/collabo/detail.do")
 	public ModelAndView connectCollaboDetail(@RequestParam("collaboNo") int collaboNo) {
 		CollaboTool collabo = service.selectCollaboTool(collaboNo);
 		List<CollaboList> collaboLists = service.selectCollaboLists(collaboNo);
 		List<CollaboCard> collaboCards = service.selectCollaboCards(collaboNo);
 		List<Member> collaboMembers = service.selectCollaboMembers(collaboNo);
-
 		List<Member> temp = memberService.selectAllMember();
+		logger.debug("" + temp);
 		List<String> userIds = new ArrayList<String>();
 		List<String> userProfiles = new ArrayList<String>();
+		List<String> userNickNames = new ArrayList<String>();
 		if (temp != null) {
 			for (int i = 0; i < temp.size(); i++) {
 				userIds.add(temp.get(i).getId());
 				userProfiles.add(temp.get(i).getProfile());
+				userNickNames.add(temp.get(i).getNickname());
 			}
 		}
 		logger.debug("" + userIds.toString());
@@ -71,6 +69,7 @@ public class CollaboController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("collaboNo", collaboNo);
 		mav.addObject("userIds", userIds);
+		mav.addObject("userNickNames", userNickNames);
 		mav.addObject("userProfiles", userProfiles);
 		mav.addObject("collaboMembers", collaboMembers);
 		mav.addObject("collaboLists", collaboLists);
@@ -84,7 +83,6 @@ public class CollaboController {
 	public ModelAndView connectCollaboMain(@RequestParam("userId") String userId) {
 		logger.debug(userId);
 
-		// List<CollaboTool> collaboTools = service.selectCollaboTools(userId);
 		List<CollaboTool> collaboTools = service.selectCollaboTools(userId);
 		List<Map<String, String>> collaboMemberList = service.selectCollaboMemberList(userId);
 		logger.debug("" + collaboTools);
@@ -95,11 +93,6 @@ public class CollaboController {
 		mav.setViewName("collabo/collaboMain");
 		return mav;
 	}
-
-//	@RequestMapping("/collabo/create")
-//	public String connectionCollaboCreate() {
-//		return "collabo/createCollabo";
-//	}
 
 	@RequestMapping("/collabo/createCollabo")
 	public ModelAndView createCollabo(@RequestParam("title") String title, @RequestParam("userId") String userId) {
@@ -146,9 +139,9 @@ public class CollaboController {
 				break;
 			}
 		}
-		
-		logger.debug(""+owner.getId().equals(userId));
-		logger.debug(""+isPossible);
+
+		logger.debug("" + owner.getId().equals(userId));
+		logger.debug("" + isPossible);
 
 		if (!owner.getId().equals(userId) && isPossible) {
 			CollaboTool collabo = service.selectCollaboTool(collaboNo);

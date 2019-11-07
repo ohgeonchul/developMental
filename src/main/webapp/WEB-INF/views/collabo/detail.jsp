@@ -227,85 +227,6 @@
 
 </style>
 <script>
-function requestInvite(){
-	var userId = $("#userId").val();
-	
-	if(userId!=''){
-		$.ajax({
-			type : "post",
-			url : "${path}/collabo/inviteMember",
-			dataType : "json",
-			data : {
-				userId : userId,
-				collaboNo : collaboNo
-			},
-			success : function(data){
-				if(data == "true"){
-					alert('초대 메일을 발송했습니다.');
-				}
-				else if(data == "false"){
-					alert('초대 실패!');
-				}
-			},
-			beforeSend:function(){
-				$('.wrap-loading').removeClass('display-none');
-			},
-			complete:function(){
-				$('.wrap-loading').addClass('display-none');
-			}
-		});
-	}else{
-		alert('아이디를 입력해 주세요.');
-	}
-}
-
-$(function(){
-	var userIds = new Array();
-	var userProfiles = {};
-	<c:forEach items="${userIds}" var="v" varStatus="i">
-		<c:if test="${userProfiles[i.count] ne null}">
-			userProfiles.${v} = "${userProfiles[i.count]}"; 
-		</c:if>
-		userIds.push("${v}");
-	</c:forEach>
- 	$("#userId").autocomplete({
- 		minLength : 3,
-		source : userIds,
-		select : function (event, ui){
-			$("#userId").val(ui.item.value);
-			return false;
-		},
-		focus : function (event, ui){
-			$("#userId").val(ui.item.value);
-			return false;
-		}
-	}).autocomplete("instance")._renderItem = function( ul, item ) {
-      	var li = $("<li/>");
-	  	var div = $("<div/>"); 
-	    var img = $("<img/>");
-	    div.text(item.value);
-	    if(!userProfiles[item.value]==""){
-			img.attr("src","${path}/resources/images/"+ "teamwork.png");
-			img.attr("width","20px");
-			img.attr("hegiht","20px");
-			div.append(img);
-	  	}
-	    return li.append(div).appendTo(ul);
-	}; 
-	/* $("#userId").autocomplete({
-		source : userIds,
-		select : function (event, ui){
-			$("#userId").val(ui.item.userId); 
-			return false;
-		},
-		focus : function (event, ui){
-			return false;
-		}
-	}) */
-});
- 
-
-
 $("#inviteModal").on("show.bs.modal",function(){
 	$("#userId").autocomplete("option", "appendTo", "#inviteModal");
 });
@@ -389,7 +310,6 @@ $("#inviteModal").on('hide.bs.modal',function(e){
 });
 
 $("#modifyContent").on('show.bs.collapse',function(){
-	/* var editArea = document.getElementById('edit').innerHTML = ""; */
 	var editContent = $("#editContent");
 	editContent.val('');
 });
@@ -418,6 +338,42 @@ $("#cardModal").on('show.bs.modal',function(e){
 </c:forEach>
 });
 
+$(function(){
+	var userIds = new Array();
+	var userProfiles = {};
+	var userNickNames = {};
+	<c:forEach items="${userIds}" var="v" varStatus="i">
+		<c:if test="${userProfiles[i.count] ne null}">
+			userProfiles.${v} = "${userProfiles[i.count]}";
+		</c:if> 
+		userNickNames.${v} = "${userNickNames[i.count]}";
+		userIds.push("${v}");
+	</c:forEach>
+ 	$("#userId").autocomplete({
+ 		minLength : 3,
+		source : userIds,
+		select : function (event, ui){
+			$("#userId").val(ui.item.value);
+			return false;
+		},
+		focus : function (event, ui){
+			$("#userId").val(ui.item.value);
+			return false;
+		}
+	}).autocomplete("instance")._renderItem = function( ul, item ) {
+      	var li = $("<li/>");
+	  	var div = $("<div/>"); 
+	    var img = $("<img/>");
+	    div.text(item.value+" / "+userNickNames[item.value]);
+	    if(!userProfiles[item.value]==""){
+			img.attr("src","${path}/resources/images/"+ "teamwork.png");
+			img.attr("width","20px");
+			img.attr("hegiht","20px");
+			div.append(img);
+	  	}
+	    return li.append(div).appendTo(ul);
+	}; 
+});
 </script>
 <%-- <jsp:include page="/WEB-INF/views/common/footer.jsp"/> 
  --%>
