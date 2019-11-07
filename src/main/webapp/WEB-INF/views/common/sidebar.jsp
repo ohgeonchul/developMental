@@ -44,7 +44,7 @@
     <nav id="sidebar" class="p-0 flex-shrink-1">
       <div class="sidebar-header">
         <c:if test="${param.pageTitle == ''}">
-          <h3><a href="${path }/"><i class="fa fa-home"></i></a></h3>
+          <h4><a href="${path }/"><i class="fa fa-home">&nbsp;&nbsp;Home</i></a></h4>
         </c:if>
         <c:if test="${param.pageTitle != ''}">
           <h3><a href="${path }/">${ param.pageTitle }</a></h3>
@@ -55,6 +55,7 @@
         <!-- <hr style="border-top: 1px solid white;"> -->
         <hr>
 	<c:if test="${loginMember != null}">
+
         <li class="active">
           <a href="#myPageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">마이페이지</a>
           <ul class="collapse list-unstyled" id="myPageSubmenu">
@@ -69,16 +70,16 @@
 	</c:if>
 
         <li class="active">
-          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">구인</a>
-          <ul class="collapse list-unstyled" id="pageSubmenu">
+          <a href="#jobSidemenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">구인</a>
+          <ul class="collapse list-unstyled" id="jobSidemenu">
             <li>
               <a href="javascript: ajaxJobPage('${path }/job/jobBoardList');" id="jobBoardBtn">구인게시판</a>
             </li>
           </ul>
         </li>
         <li>
-          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">Study</a>
-           <ul class="collapse list-unstyled" id="pageSubmenu">
+          <a href="#studySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">Study</a>
+           <ul class="collapse list-unstyled" id="studySubmenu">
             <li>
             	<a href='${path }/study/studyList'>Board</a>
             </li>
