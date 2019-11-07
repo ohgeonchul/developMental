@@ -51,6 +51,7 @@ public class NoticeServiceImpl implements NoticeService {
 	public List<AdminAttachment> selectAttachList() {
 		return dao.selectAttchList(session);
 	}
+	
 	@Override
 	public AdminNotice selectNoticeOne(int noticeNo) {
 		return dao.selectNoticeOne(session, noticeNo);
@@ -73,20 +74,6 @@ public class NoticeServiceImpl implements NoticeService {
 		}
 		
 		return result;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 	
 }

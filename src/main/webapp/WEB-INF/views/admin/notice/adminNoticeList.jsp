@@ -109,7 +109,6 @@
       </table>
       
       <nav aria-label="Page navigation example">
-      
        <div id="paging">
        	${pageBar }
        </div>

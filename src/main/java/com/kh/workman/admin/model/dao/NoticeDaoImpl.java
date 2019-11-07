@@ -63,19 +63,5 @@ public class NoticeDaoImpl implements NoticeDao {
 	public int updateAttachment(SqlSessionTemplate session, AdminAttachment att) {
 		return session.update("adminNotice.updateAttachment", att);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 }

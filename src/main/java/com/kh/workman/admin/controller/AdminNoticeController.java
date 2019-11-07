@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.kh.workman.admin.model.vo.AdminNotice;
 import com.kh.workman.common.PageBarFactory;
 import com.kh.workman.member.model.service.MemberService;
 import com.kh.workman.member.model.vo.Member;
+
 
 @Controller
 public class AdminNoticeController {
@@ -146,13 +148,11 @@ public class AdminNoticeController {
 		
 		mv.setViewName("common/msg");
 		return mv;
-		
 	}
 	
 	@RequestMapping("/admin/noticeFormEnd.do")
 	public ModelAndView insertNotice(@RequestParam Map<String,String> param, 
 			@RequestParam(value="upFile", required=false) MultipartFile[] upFile ,HttpServletRequest request) {
-		
 		//1. 저장경로 지정하기
 		String saveDir=request.getSession().getServletContext().getRealPath("/resources/upload/notice");
 		List<AdminAttachment> attachList=new ArrayList();//여러파일 보관용
