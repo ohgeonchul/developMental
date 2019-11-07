@@ -176,10 +176,10 @@
 
                 <div class="ml-auto">
               <c:if test="${loginMember !=null}">
-       			<button id="poststudyBtn" class="ml-auto mr-3 align-self-center btn float-left btn-outline-primary">Ω∫≈Õµ ∏¡˝</button>
+       			<button id="poststudyBtn" class="ml-auto mr-3 align-self-center btn float-left btn-outline-primary">Ïä§ÌÑ∞Îîî Î™®Ïßë</button>
               </c:if>
               <c:if test="${loginMember == null}">
-                <button id="poststudyBtn1" class="ml-auto mr-3 align-self-center btn float-left btn-outline-primary">Ω∫≈Õµ ∏¡˝</button>
+                <button id="poststudyBtn1" class="ml-auto mr-3 align-self-center btn float-left btn-outline-primary">Ïä§ÌÑ∞Îîî Î™®Ïßë</button>
               </c:if>
                 <button id="demo" class="ml-auto mr-3 align-self-center btn float-left btn-outline-primary" onclick="location.href='${pageContext.request.contextPath }/study/applyconfirm'">demo</button>
             </div>
@@ -230,25 +230,25 @@
              <form action="${path}/study/studyrecruit" method="post">
          				   <div class="modal-body recruit-form">
                         <div class="form-group my-0">
-                      <label for="writer">&nbsp;&nbsp;</label>¿Ø¿˙ ¿Ã∏ß
+                      <label for="writer">&nbsp;&nbsp;</label>Ïú†Ï†Ä Ïù¥Î¶Ñ
                       <c:if test="${loginMember != null}">
                         <input type="text" class="form-control text-primary" name="writer" value="${loginMember.nickname}" readonly required />
                       </c:if>
                     </div>
                     <div class="form-group">
-                      <label for="title">¡¶∏Ò</label>
-                      <input type="text" name='title' placeholder="¡¶∏Ò"required class="form-control">
+                      <label for="title">Ï†úÎ™©</label>
+                      <input type="text" name='title' placeholder="Ï†úÎ™©"required class="form-control">
                     </div>
                     <!-- content -->
                     <hr>
                     <div class="form-group my-0">
-                      <label for="description">ªÛºº ¡§∫∏</label>
-                      <textarea name="content" placeholder="ªÛºº ¡§∫∏" required class="form-control" rows="5" style="resize:none"></textarea>
+                      <label for="description">ÏÉÅÏÑ∏ Ï†ïÎ≥¥</label>
+                      <textarea name="content" placeholder="ÏÉÅÏÑ∏ Ï†ïÎ≥¥" required class="form-control" rows="5" style="resize:none"></textarea>
                     </div>
                     <hr>
                     <!-- /content end -->
              
-                    <input type="submit" class="subscribe btn btn-outline-dark btn-block rounded-lg shadow-sm" value="∏¡˝" />
+                    <input type="submit" class="subscribe btn btn-outline-dark btn-block rounded-lg shadow-sm" value="Î™®Ïßë" />
                   </form>
                 </div>
               </div>
