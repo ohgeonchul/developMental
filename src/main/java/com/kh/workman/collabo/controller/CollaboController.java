@@ -128,23 +128,31 @@ public class CollaboController {
 	@ResponseBody
 	public String inviteMember(HttpServletRequest request, @RequestParam("userId") String userId,
 			@RequestParam("collaboNo") int collaboNo) throws MessagingException {
+
 		String isSend = "false";
 		Member owner = service.selectCollaboOwner(collaboNo);
 		List<Member> members = service.selectCollaboMembers(collaboNo);
+		Member target = new Member();
+		target.setId(userId);
+		target = memberService.selectLogin(target);
+
+		logger.debug("" + target);
+
 		boolean isPossible = true;
+
 		for (int i = 0; i < members.size(); i++) {
 			if (members.get(i).getId().equals(userId)) {
 				isPossible = false;
 				break;
 			}
 		}
+		
+		logger.debug(""+owner.getId().equals(userId));
+		logger.debug(""+isPossible);
 
 		if (!owner.getId().equals(userId) && isPossible) {
 			CollaboTool collabo = service.selectCollaboTool(collaboNo);
 
-			Member target = new Member();
-			target.setId(userId);
-			target = memberService.selectLogin(target);
 			String requestURL = String.valueOf(request.getRequestURL());
 			requestURL = requestURL.replaceAll(request.getRequestURI(), "");
 			String content = "<html><body><h3>" + owner.getNickname() + "님이 " + collabo.getTitle()

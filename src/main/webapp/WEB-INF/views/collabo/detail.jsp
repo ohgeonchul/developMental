@@ -189,8 +189,35 @@
       </div>
     </div>
   </div>
-  
+
+<div class="wrap-loading display-none">
+    <div><img src="${path }/resources/images/loder.gif" /></div>
+</div>
+
 </section>
+<style>
+.wrap-loading{ /*화면 전체를 어둡게 합니다.*/
+    position: fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    background: rgba(0,0,0,0.2); /*not in ie */
+    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');    /* ie */
+}
+
+    .wrap-loading div{ /*로딩 이미지*/
+        position: fixed;
+        top:50%;
+        left:50%;
+        margin-left: -21px;
+        margin-top: -21px;
+    }
+    .display-none{ /*감추기*/
+        display:none;
+    }
+
+</style>
 <script>
 function requestInvite(){
 	var userId = $("#userId").val();
@@ -203,11 +230,21 @@ function requestInvite(){
 			collaboNo : collaboNo
 		},
 		success : function(data){
-			console.log(data);
+			if(data == "true"){
+				alert('초대 메일을 발송했습니다.');
+			}
+			else if(data == "false"){
+				alert('초대 실패!');
+			}
+		},
+		beforeSend:function(){
+			$('.wrap-loading').removeClass('display-none');
+		},
+		complete:function(){
+			$('.wrap-loading').addClass('display-none');
 		}
 	});
 }
-
 
 $(function(){
 	var userIds = new Array();
