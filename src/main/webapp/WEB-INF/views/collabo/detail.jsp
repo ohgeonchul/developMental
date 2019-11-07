@@ -9,10 +9,12 @@
 </jsp:include>
 
 
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="https://code.jquery.com/resources/demos/style.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 
 <script src="${path }/resources/js/detail.js" type="text/javascript"></script>
@@ -124,7 +126,7 @@
 			<hr/>
 				<div class="ui-widget">
 					<label for="userId">ID : </label>
-					<input type="text" id="userId"/>
+					<input type="text" id="userId" autocomplete="off" />
 					<img id="userProfile"/>
 				</div>
 			</div>
@@ -216,91 +218,90 @@
     .display-none{ /*감추기*/
         display:none;
     }
+    
+    .ui-autocomplete{
+    	max-height:400px;
+    	overflow-y:auto;
+    	overflow-x:hidden;
+    }
 
 </style>
 <script>
 function requestInvite(){
 	var userId = $("#userId").val();
-	$.ajax({
-		type : "post",
-		url : "${path}/collabo/inviteMember",
-		dataType : "json",
-		data : {
-			userId : userId,
-			collaboNo : collaboNo
-		},
-		success : function(data){
-			if(data == "true"){
-				alert('초대 메일을 발송했습니다.');
+	
+	if(userId!=''){
+		$.ajax({
+			type : "post",
+			url : "${path}/collabo/inviteMember",
+			dataType : "json",
+			data : {
+				userId : userId,
+				collaboNo : collaboNo
+			},
+			success : function(data){
+				if(data == "true"){
+					alert('초대 메일을 발송했습니다.');
+				}
+				else if(data == "false"){
+					alert('초대 실패!');
+				}
+			},
+			beforeSend:function(){
+				$('.wrap-loading').removeClass('display-none');
+			},
+			complete:function(){
+				$('.wrap-loading').addClass('display-none');
 			}
-			else if(data == "false"){
-				alert('초대 실패!');
-			}
-		},
-		beforeSend:function(){
-			$('.wrap-loading').removeClass('display-none');
-		},
-		complete:function(){
-			$('.wrap-loading').addClass('display-none');
-		}
-	});
+		});
+	}else{
+		alert('아이디를 입력해 주세요.');
+	}
 }
 
 $(function(){
 	var userIds = new Array();
+	var userProfiles = {};
 	<c:forEach items="${userIds}" var="v" varStatus="i">
-		var temp = {
-				userId : "${v}",
-				profile : "${userProfiles[i.count]}"
-		};
-		userIds.push(temp);
+		<c:if test="${userProfiles[i.count] ne null}">
+			userProfiles.${v} = "${userProfiles[i.count]}"; 
+		</c:if>
+		userIds.push("${v}");
 	</c:forEach>
-	$("#userId").autocomplete({
-		minLength : 0,
-		
-		source : userIds/* function(request, response){
-			$.ajax({
-				type: 'post',
-			url : "${path}/collabo/idAutoComplete",
-			dataType:"json",
-			data : { value: request.term},
-			success : function(data){
-				response(
-					$.map(data, function(item){
-						return{
-							label : item.data,
-							value: item.data
-						}
-					})		
-				);
-			}
-			});
-		} */,
-		
+ 	$("#userId").autocomplete({
+ 		minLength : 3,
+		source : userIds,
 		select : function (event, ui){
-			$("#userId").val(ui.item.userId);
+			$("#userId").val(ui.item.value);
 			return false;
 		},
 		focus : function (event, ui){
-			$("#userId").val(ui.item.userId);
+			$("#userId").val(ui.item.value);
 			return false;
 		}
 	}).autocomplete("instance")._renderItem = function( ul, item ) {
-	    /* return $( "<li>" )
-	      .append( "<div>" + item.userId +"<img src='${path}/resources/images/"+ "teamwork.png'"+"width='20px' height='20px'/>" + "</div>" )
-	      .appendTo( ul ); */
       	var li = $("<li/>");
-	  	var div = $("<div/>");
+	  	var div = $("<div/>"); 
 	    var img = $("<img/>");
-	    div.text(item.userId);
-	    if(item.profile!=""){
+	    div.text(item.value);
+	    if(!userProfiles[item.value]==""){
 			img.attr("src","${path}/resources/images/"+ "teamwork.png");
 			img.attr("width","20px");
 			img.attr("hegiht","20px");
 			div.append(img);
 	  	}
 	    return li.append(div).appendTo(ul);
-	}
+	}; 
+	/* $("#userId").autocomplete({
+		source : userIds,
+		select : function (event, ui){
+			$("#userId").val(ui.item.userId); 
+			return false;
+		},
+		focus : function (event, ui){
+			return false;
+		}
+	}) */
 });
  
 
@@ -382,6 +383,10 @@ function onMessage(msg) {
 function onClose(evt) {
 	
 }
+
+$("#inviteModal").on('hide.bs.modal',function(e){
+	$("#userId").val('');
+});
 
 $("#modifyContent").on('show.bs.collapse',function(){
 	/* var editArea = document.getElementById('edit').innerHTML = ""; */
