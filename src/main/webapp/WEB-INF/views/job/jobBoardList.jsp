@@ -100,7 +100,7 @@
                   </thead>
                   <tbody>
                     <c:forEach var="j" items="${newList}" varStatus="status">
-                      <tr class="table-secondary">
+                      <tr class="table-primary">
                         <td class="text-center" style="display:none">0</td>
                         <td class="text-center">
                           <c:if test="${fn:substring(j['imageURL'],2,6) =='path'}">

@@ -31,6 +31,14 @@
               <div class="col-md-9"><input type="text" name="no" id="no" class="form-control w-100" value="${jobBoard.no}" readonly />
               </div>
             </div>
+
+            <input type="hidden" name="title" value="${jobBoard.title}">
+  <!-- private String content;
+  private Date regDate;
+  private int count;
+  private int status;
+  private int applicants; //new column
+  private String fileNewName; //JobBoardFile column -->
             <div class="form-inline form-group">
               <div class="col-md-3"><strong>회사명</strong></div>
               <div class="col-md-9">
