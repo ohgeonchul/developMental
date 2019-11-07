@@ -5,12 +5,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.workman.collabo.model.service.CollaboService;
@@ -30,6 +38,12 @@ public class CollaboController {
 
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	JavaMailSender mailSender;
+	
+	@Value("${gmail}")
+	private String gmail;
 
 //	  @RequestMapping("/collabo/main.do") public ModelAndView
 //	  connectCollaboMain(ModelAndView mv) { mv.setViewName("collabo/main"); return
@@ -109,5 +123,24 @@ public class CollaboController {
 		}
 		return mav;
 	}
-
+	
+	@RequestMapping("collabo/inviteMember")
+	@ResponseBody
+	public String inviteMember(@RequestParam("userId") String userId, @RequestParam("collaboNo") int collaboNo) throws MessagingException{
+		CollaboTool collabo = service.selectCollaboTool(collaboNo);
+		Member owner = service.selectCollaboOwner(collaboNo);
+		Member target = new Member();
+		target.setId(userId);
+		target = memberService.selectLogin(target);
+		
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper mmh = new MimeMessageHelper(message,true,"UTF-8");
+		
+		mmh.setSubject(owner.getNickname()+"님이 "+collabo.getTitle()+"팀워크로 초대하셨습니다.");
+		mmh.setFrom(gmail);
+//		mmh.setText(text);
+		mmh.setTo(target.getEmail());
+		
+		return "";
+	}
 }

@@ -113,8 +113,12 @@ public class CollaboDaoImpl implements CollaboDao {
 
 	@Override
 	public CollaboTool selectCollaboTool(SqlSessionTemplate session, int collaboNo) {
-		return session.selectOne("collabo.selectCollaboTool",collaboNo);
+		return session.selectOne("collabo.selectCollaboTool", collaboNo);
 	}
-	
-	
+
+	@Override
+	public Member selectCollaboOwner(SqlSessionTemplate session, int collaboNo) {
+		return session.selectOne("collabo.selectCollaboOwner", collaboNo);
+	}
+
 }

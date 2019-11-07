@@ -123,4 +123,9 @@ public class CollaboServiceImpl implements CollaboService {
 		return dao.selectCollaboTool(session, collaboNo);
 	}
 
+	@Override
+	public Member selectCollaboOwner(int collaboNo) {
+		return dao.selectCollaboOwner(session, collaboNo);
+	}
+
 }

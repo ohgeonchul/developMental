@@ -53,4 +53,6 @@ public interface CollaboDao {
 	int insertCollaboMember(SqlSessionTemplate session, Map<String, Object> temp);
 
 	CollaboTool selectCollaboTool(SqlSessionTemplate session, int collaboNo);
+
+	Member selectCollaboOwner(SqlSessionTemplate session, int collaboNo);
 }

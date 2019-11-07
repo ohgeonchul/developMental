@@ -129,6 +129,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
+			   <button name="btnModalClose" type="button" class="btn btn-primary" onclick="requestInvite()">초대</button>
 			   <button name="btnModalClose" type="button" class="btn btn-secondary" data-dismiss="modal">나가기</button>
 			</div>		
 		</div>
@@ -191,6 +192,20 @@
   
 </section>
 <script>
+function requestInvite(){
+	var userId = $("#userId").val();
+	$.ajax({
+		type : "post",
+		url : "${path}/collabo/inviteMember",
+		dataType : "json",
+		data : userId,
+		success : function(data){
+			console.log(data);
+		}
+	});
+}
+
+
 $(function(){
 	var userIds = new Array();
 	<c:forEach items="${userIds}" var="v" varStatus="i">
@@ -202,7 +217,26 @@ $(function(){
 	</c:forEach>
 	$("#userId").autocomplete({
 		minLength : 0,
-		source : userIds,
+		
+		source : userIds/* function(request, response){
+			$.ajax({
+				type: 'post',
+			url : "${path}/collabo/idAutoComplete",
+			dataType:"json",
+			data : { value: request.term},
+			success : function(data){
+				response(
+					$.map(data, function(item){
+						return{
+							label : item.data,
+							value: item.data
+						}
+					})		
+				);
+			}
+			});
+		} */,
+		
 		select : function (event, ui){
 			$("#userId").val(ui.item.userId);
 			return false;
@@ -212,10 +246,21 @@ $(function(){
 			return false;
 		}
 	}).autocomplete("instance")._renderItem = function( ul, item ) {
-	    return $( "<li>" )
+	    /* return $( "<li>" )
 	      .append( "<div>" + item.userId +"<img src='${path}/resources/images/"+ "teamwork.png'"+"width='20px' height='20px'/>" + "</div>" )
-	      .appendTo( ul );
-	  };	
+	      .appendTo( ul ); */
+      	var li = $("<li/>");
+	  	var div = $("<div/>");
+	    var img = $("<img/>");
+	    div.text(item.userId);
+	    if(item.profile!=""){
+			img.attr("src","${path}/resources/images/"+ "teamwork.png");
+			img.attr("width","20px");
+			img.attr("hegiht","20px");
+			div.append(img);
+	  	}
+	    return li.append(div).appendTo(ul);
+	}
 });
  
 

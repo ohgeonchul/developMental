@@ -52,4 +52,6 @@ public interface CollaboService {
 
 	CollaboTool selectCollaboTool(int collaboNo);
 
+	Member selectCollaboOwner(int collaboNo);
+
 }
