@@ -41,6 +41,17 @@
                 <div id="nav-tab-card" class="tab-pane fade show active">
                   <!-- <p class="alert alert-success">Some text success or error</p> -->
                   <form action="${path}/job/jobApplyEnd.do" method="post" enctype="multipart/form-data">
+
+                      <input type="hidden" name="no" value="${jobBoard.no}" />
+                      <input type="hidden" name="writer" value="${jobBoard.writer}" />
+                      <input type="hidden" name="title" value="${jobBoard.title}" />
+                      <input type="hidden" name="content" value="${jobBoard.content}" />
+                      <input type="hidden" name="regDate" value="${jobBoard.regDate}" />
+                      <input type="hidden" name="count" value="${jobBoard.count}" />
+                      <input type="hidden" name="status" value="${jobBoard.status}" />
+                      <input type="hidden" name="applicants" value="${jobBoard.applicants}" />
+                      <input type="hidden" name="fileNewName" value="${jobBoard.fileNewName}" />
+
                     <!-- companyLogo -->
                     <!-- <div class="form-group my-0">
                       <div class="companyLogo-wrapper my-0 mx-auto">
@@ -56,9 +67,9 @@
                     <!-- /companyLogo -->
 
                     <div class="form-group my-0">
-                      <label for="no" class="fa fa-list-ol">&nbsp;&nbsp;</label>게시판번호
+                      <!-- <label for="no" class="fa fa-list-ol">&nbsp;&nbsp;</label>게시판번호 -->
                       <c:if test="${jobBoard != null}">
-                        <input type="text" class="form-control text-primary" name="no" value="${jobBoard.no}" readonly required />
+                        <input type="hidden" class="form-control text-primary" name="no" value="${jobBoard.no}" readonly required />
                       </c:if>
                     </div>
 
