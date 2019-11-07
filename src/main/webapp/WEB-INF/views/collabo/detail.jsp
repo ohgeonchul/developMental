@@ -198,7 +198,10 @@ function requestInvite(){
 		type : "post",
 		url : "${path}/collabo/inviteMember",
 		dataType : "json",
-		data : userId,
+		data : {
+			userId : userId,
+			collaboNo : collaboNo
+		},
 		success : function(data){
 			console.log(data);
 		}
