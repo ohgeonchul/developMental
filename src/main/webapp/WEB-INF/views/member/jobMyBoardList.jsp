@@ -251,26 +251,34 @@ hr { margin-top: 5px;margin-bottom: 10px; }
         <!--하단 list-->
         <!-- <span class="mt-3 pb-5" id="totalboard"><i class="fa fa-address-card" aria-hidden="true"></i>전체 게시글</span> -->
 		<div class="card shadow-sm border-dark text-left" id="listScroll" style="height:500px">
-          <a class="list-group-item border-primary list-group-item-action" name="jobBoard" id="jobBoard"> 
-            <span>
-              <span>Job - FrontEnd</span>
-               <span></span>
-               <!--  <span>
-                    <input type="button" class="btn btn-info more-info" onclick="parkingInfoPopup()" value="More Info">    
-                    <input type="button" class="btn btn-info more-info" onclick="" value="Pay">           
-              </span> -->
-            </span>
-          </a> 
-          <a class="list-group-item border-info list-group-item-action" name="studyBoard" id="studyBoard"> 
-              <span>
-                <span>Study - java Study</span>
-                 <span></span>
-                 <!--  <span>
-                      <input type="button" class="btn btn-info more-info" onclick="parkingInfoPopup()" value="More Info">    
-                      <input type="button" class="btn btn-info more-info" onclick="" value="Pay">           
-                </span> -->
-              </span>
-            </a> 
+          <c:if test="${list != null}">
+          	<c:forEach var="j" items="${list}" varStatus="status">
+	          <a class="list-group-item border-primary list-group-item-action" name="jobBoard" id="j${status.index}"> 
+	            <span>
+	              <span>${j['boardName']} - ${j['title']}</span>
+	               <span></span>
+	               <!--  <span>
+	                    <input type="button" class="btn btn-info more-info" onclick="parkingInfoPopup()" value="More Info">    
+	                    <input type="button" class="btn btn-info more-info" onclick="" value="Pay">           
+	              </span> -->
+	            </span>
+	          </a>    	
+          	</c:forEach>
+          </c:if>
+          <c:if test="${studylist != null}">
+          	<c:forEach var="s" items="${studylist}" varStatus="status">
+	          <a class="list-group-item border-info list-group-item-action" name="studyBoard" id="studyBoard"> 
+	              <span>
+	                <span>Study - java Study</span>
+	                 <span></span>
+	                 <!--  <span>
+	                      <input type="button" class="btn btn-info more-info" onclick="parkingInfoPopup()" value="More Info">    
+	                      <input type="button" class="btn btn-info more-info" onclick="" value="Pay">           
+	                </span> -->
+	              </span>
+	            </a>           	
+          	</c:forEach>
+          </c:if>
           
           <!--
           <a class="list-group-item list-group-item-action"><span>
@@ -283,7 +291,10 @@ hr { margin-top: 5px;margin-bottom: 10px; }
       </div>
 
       <!--지도 API-->
-	  <div class="shadow-sm col-sm-8" id="map">
+	  <div class="shadow-sm col-sm-8" id="TotalBoardContent">
+      
+      
+      	
       <div class="card border-primary mb-3" style="height: 100%;">
         <div class="card-header bg-primary h3">Job</div>
         <div class="card-body text-primary">
@@ -332,11 +343,12 @@ hr { margin-top: 5px;margin-bottom: 10px; }
               </div>
             </div>
           <h6 class="d-block text-right mt-3 mr-3">
-            <a href="#">2019-09-09</a>
+            <a href="#">${j['regDate']}</a>
           </h6>
-           
-        
       </div>
+      	
+      	
+      
       <!-- <div class="card border-info mb-3" style="height: 90%;">
           <div class="card-header">Header</div>
           <div class="card-body text-primary">
@@ -555,6 +567,9 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 
         <script>
 
+        
+        /* Board */
+        
           $("a[name='jobBoard'],a[name='studyBoard']").hover(function(){
           
             if($(this).attr('name') == 'jobBoard')
@@ -585,9 +600,45 @@ hr { margin-top: 5px;margin-bottom: 10px; }
               $(this).css("opacity","1");
             });
       });
+        
+      $('#listScroll').click(function(e){
+    	var jobList = new Array();
+        var data = e.target;
+        console.log(e.target);
+        console.log($(e.target).attr('id').substr(0,1));
+        var dataNum = $(e.target).attr('id').substr(0,1);
+		
+        <c:forEach var="j" items="${list}" varStatus="status">
+        	<c:if test="${status.index == dataNum}">
+        		
+        	</c:if>
+        </c:forEach>
+        
+        var startDiv = $("#TotalBoardContent");
+        var mainDiv = $("<div class='card border-primary mb-3' style='height:100%;'>");
+        var headerDiv = $("<div class='card-header bg-primary h3'>"++"</div>");
+
+
+
+
+
+        <div class="card border-primary mb-3" style="height: 100%;">
+        <div class="card-header bg-primary h3">Job</div>
+        <div class="card-body text-primary">
+          <h5 class="card-title text-center">FrontEnd</h5><h6 class="text-right">Yoon</h6>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+            sdfdsfddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+          </p>
+        </div>
+        </div>
+			
+			
+		});
+        
          
 
-
+		/* END BOARD */
 
           $(function(){
             $('.w-0').css({'width': '0%', });

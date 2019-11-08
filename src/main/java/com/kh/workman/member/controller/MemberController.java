@@ -1,6 +1,7 @@
 package com.kh.workman.member.controller;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.workman.common.PageBarFactory;
 import com.kh.workman.common.api.JobGithubApi;
+import com.kh.workman.job.model.vo.JobBoard;
 import com.kh.workman.member.model.service.MemberService;
 import com.kh.workman.member.model.vo.Member;
 
@@ -274,6 +276,15 @@ public class MemberController {
 
 	    mv.addObject("pageBar", PageBarFactory.getJobMyPageBar(totalCount, cPage, numPerPage, "/member/jobMyBoardList"));
 	    mv.addObject("count", totalCount);
+	    
+	    
+	   
+	   for(int i=0; i < list.size(); i++)
+	   {
+		   ((JobBoard)list.get(i)).setBoardName("JOB");
+		   System.out.println(list.get(i));
+	   }
+	    
 	    mv.addObject("list", list);
 //	    mv.addObject("newList", newList);
 	    
