@@ -45,32 +45,28 @@ public class CollaboController {
 	@Value("${gmail}")
 	private String gmail;
 
-//	  @RequestMapping("/collabo/main.do") public ModelAndView
-//	  connectCollaboMain(ModelAndView mv) { mv.setViewName("collabo/main"); return
-//	  mv; }
-
 	@RequestMapping("/collabo/detail.do")
 	public ModelAndView connectCollaboDetail(@RequestParam("collaboNo") int collaboNo) {
 		CollaboTool collabo = service.selectCollaboTool(collaboNo);
 		List<CollaboList> collaboLists = service.selectCollaboLists(collaboNo);
 		List<CollaboCard> collaboCards = service.selectCollaboCards(collaboNo);
 		List<Member> collaboMembers = service.selectCollaboMembers(collaboNo);
-
 		List<Member> temp = memberService.selectAllMember();
 		List<String> userIds = new ArrayList<String>();
 		List<String> userProfiles = new ArrayList<String>();
+		List<String> userNickNames = new ArrayList<String>();
 		if (temp != null) {
 			for (int i = 0; i < temp.size(); i++) {
 				userIds.add(temp.get(i).getId());
 				userProfiles.add(temp.get(i).getProfile());
+				userNickNames.add(temp.get(i).getNickname());
 			}
 		}
-		logger.debug("" + userIds.toString());
-		logger.debug("" + userProfiles.toString());
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("collaboNo", collaboNo);
 		mav.addObject("userIds", userIds);
+		mav.addObject("userNickNames", userNickNames);
 		mav.addObject("userProfiles", userProfiles);
 		mav.addObject("collaboMembers", collaboMembers);
 		mav.addObject("collaboLists", collaboLists);
@@ -82,12 +78,9 @@ public class CollaboController {
 
 	@RequestMapping("/collabo/main")
 	public ModelAndView connectCollaboMain(@RequestParam("userId") String userId) {
-		logger.debug(userId);
 
-		// List<CollaboTool> collaboTools = service.selectCollaboTools(userId);
 		List<CollaboTool> collaboTools = service.selectCollaboTools(userId);
 		List<Map<String, String>> collaboMemberList = service.selectCollaboMemberList(userId);
-		logger.debug("" + collaboTools);
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("collaboMemberList", collaboMemberList);
@@ -95,11 +88,6 @@ public class CollaboController {
 		mav.setViewName("collabo/collaboMain");
 		return mav;
 	}
-
-//	@RequestMapping("/collabo/create")
-//	public String connectionCollaboCreate() {
-//		return "collabo/createCollabo";
-//	}
 
 	@RequestMapping("/collabo/createCollabo")
 	public ModelAndView createCollabo(@RequestParam("title") String title, @RequestParam("userId") String userId) {
@@ -110,8 +98,6 @@ public class CollaboController {
 			temp.put("title", title);
 			boolean isSuccess = service.createCollaboTool(temp) == 1 ? true : false;
 			boolean isMemberSuccess = service.insertCollaboMember(temp) == 1 ? true : false;
-			logger.debug("" + isSuccess);
-			logger.debug("" + isMemberSuccess);
 			mav.setViewName("common/msg");
 			if (isSuccess && isMemberSuccess) {
 				mav.addObject("msg", "생성에 성공했습니다.");
@@ -128,10 +114,16 @@ public class CollaboController {
 	@ResponseBody
 	public String inviteMember(HttpServletRequest request, @RequestParam("userId") String userId,
 			@RequestParam("collaboNo") int collaboNo) throws MessagingException {
+
 		String isSend = "false";
 		Member owner = service.selectCollaboOwner(collaboNo);
 		List<Member> members = service.selectCollaboMembers(collaboNo);
+		Member target = new Member();
+		target.setId(userId);
+		target = memberService.selectLogin(target);
+
 		boolean isPossible = true;
+
 		for (int i = 0; i < members.size(); i++) {
 			if (members.get(i).getId().equals(userId)) {
 				isPossible = false;
@@ -142,9 +134,6 @@ public class CollaboController {
 		if (!owner.getId().equals(userId) && isPossible) {
 			CollaboTool collabo = service.selectCollaboTool(collaboNo);
 
-			Member target = new Member();
-			target.setId(userId);
-			target = memberService.selectLogin(target);
 			String requestURL = String.valueOf(request.getRequestURL());
 			requestURL = requestURL.replaceAll(request.getRequestURI(), "");
 			String content = "<html><body><h3>" + owner.getNickname() + "님이 " + collabo.getTitle()
@@ -184,6 +173,13 @@ public class CollaboController {
 			mav.addObject("loc", "/");
 		}
 		return mav;
+	}
+
+	@RequestMapping("/collabo/expulsionMember")
+	@ResponseBody
+	public String expulsionMember(@RequestParam HashMap<String, Object> receiveData) {
+		String isComplete = service.expulsionMember(receiveData) == 1 ? "true" : "false";
+		return isComplete;
 	}
 
 }

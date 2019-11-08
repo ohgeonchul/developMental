@@ -9,10 +9,12 @@
 </jsp:include>
 
 
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="https://code.jquery.com/resources/demos/style.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 
 <script src="${path }/resources/js/detail.js" type="text/javascript"></script>
@@ -38,7 +40,7 @@
 		</div>
 		<div>
 			<button style="margin-right:5px;border-radius:8px" class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#inviteModal">초대</button>
-			<button style="border-radius:8px"class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="">추방</button>
+			<button style="border-radius:8px"class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#expulsionModal">추방</button>
 		</div>
 		
 	</div>
@@ -124,7 +126,7 @@
 			<hr/>
 				<div class="ui-widget">
 					<label for="userId">ID : </label>
-					<input type="text" id="userId"/>
+					<input type="text" id="userId" autocomplete="off" />
 					<img id="userProfile"/>
 				</div>
 			</div>
@@ -135,6 +137,31 @@
 		</div>
 	</div>
 </div>
+
+<!-- 추방 Modal -->
+<div class="modal fade" id="expulsionModal">
+	<div class="modal-dialog" style="width:450px;">
+		<div class="modal-content">
+			<div class="modal-header">
+			  <h3 class="modal-title"><span class="material-icons">input</span>[팀워크 추방]<span id="modal-title"></span></h3>
+       	 	  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+			<hr/>
+				<div class="ui-widget">
+					<label for="ExpulsionUserId">ID : </label>
+					<input type="text" id="expulsionUserId" autocomplete="off" />
+					<img id="userProfile"/>
+				</div>
+			</div>
+			<div class="modal-footer">
+			   <button name="btnModalClose" type="button" class="btn btn-primary" onclick="requestExpulsion()">추방</button>
+			   <button name="btnModalClose" type="button" class="btn btn-secondary" data-dismiss="modal">나가기</button>
+			</div>		
+		</div>
+	</div>
+</div>
+
 
 
   <!-- Card Modal -->
@@ -189,83 +216,77 @@
       </div>
     </div>
   </div>
-  
+
+<div class="wrap-loading display-none">
+    <div><img src="${path }/resources/images/loder.gif" /></div>
+</div>
+
 </section>
-<script>
-function requestInvite(){
-	var userId = $("#userId").val();
-	$.ajax({
-		type : "post",
-		url : "${path}/collabo/inviteMember",
-		dataType : "json",
-		data : {
-			userId : userId,
-			collaboNo : collaboNo
-		},
-		success : function(data){
-			console.log(data);
-		}
-	});
+<style>
+.wrap-loading{ /*화면 전체를 어둡게 합니다.*/
+    position: fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    background: rgba(0,0,0,0.2); /*not in ie */
+    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');    /* ie */
 }
 
+    .wrap-loading div{ /*로딩 이미지*/
+        position: fixed;
+        top:50%;
+        left:50%;
+        margin-left: -21px;
+        margin-top: -21px;
+    }
+    .display-none{ /*감추기*/
+        display:none;
+    }
+    
+    .ui-autocomplete{
+    	max-height:400px;
+    	overflow-y:auto;
+    	overflow-x:hidden;
+    }
 
-$(function(){
-	var userIds = new Array();
-	<c:forEach items="${userIds}" var="v" varStatus="i">
-		var temp = {
-				userId : "${v}",
-				profile : "${userProfiles[i.count]}"
-		};
-		userIds.push(temp);
-	</c:forEach>
-	$("#userId").autocomplete({
-		minLength : 0,
+</style>
+<script>
+function requestExpulsion(){
+	var userId = $("#expulsionUserId").val();
 		
-		source : userIds/* function(request, response){
+		if(userId!=''){
 			$.ajax({
-				type: 'post',
-			url : "${path}/collabo/idAutoComplete",
-			dataType:"json",
-			data : { value: request.term},
-			success : function(data){
-				response(
-					$.map(data, function(item){
-						return{
-							label : item.data,
-							value: item.data
-						}
-					})		
-				);
-			}
+				type : "post",
+				url : "${path}/collabo/expulsionMember",
+				dataType : "json",
+				data : {
+					userId : userId,
+					collaboNo : collaboNo
+				},
+				success : function(data){
+					if(data == "true"){
+						alert('추방하였습니다.');
+					}
+					else if(data == "false"){
+						alert('추방 실패!');
+					}
+				},
+				beforeSend:function(){
+					$('.wrap-loading').removeClass('display-none');
+				},
+				complete:function(){
+					$('.wrap-loading').addClass('display-none');
+				}
 			});
-		} */,
-		
-		select : function (event, ui){
-			$("#userId").val(ui.item.userId);
-			return false;
-		},
-		focus : function (event, ui){
-			$("#userId").val(ui.item.userId);
-			return false;
+		}else{
+			alert('아이디를 입력해 주세요.');
 		}
-	}).autocomplete("instance")._renderItem = function( ul, item ) {
-	    /* return $( "<li>" )
-	      .append( "<div>" + item.userId +"<img src='${path}/resources/images/"+ "teamwork.png'"+"width='20px' height='20px'/>" + "</div>" )
-	      .appendTo( ul ); */
-      	var li = $("<li/>");
-	  	var div = $("<div/>");
-	    var img = $("<img/>");
-	    div.text(item.userId);
-	    if(item.profile!=""){
-			img.attr("src","${path}/resources/images/"+ "teamwork.png");
-			img.attr("width","20px");
-			img.attr("hegiht","20px");
-			div.append(img);
-	  	}
-	    return li.append(div).appendTo(ul);
-	}
-});
- 
+}
+
+$("#expulsionModal").on("show.bs.modal",function(){
+	$("#expulsionUserId").autocomplete("option","appendTo","#expulsionModal");
+})
 
 
 $("#inviteModal").on("show.bs.modal",function(){
@@ -346,8 +367,15 @@ function onClose(evt) {
 	
 }
 
+$("#expulsionModal").on('hide.bs.modal',function(e){
+	$("#expulsionUserId").val('');
+});
+
+$("#inviteModal").on('hide.bs.modal',function(e){
+	$("#userId").val('');
+});
+
 $("#modifyContent").on('show.bs.collapse',function(){
-	/* var editArea = document.getElementById('edit').innerHTML = ""; */
 	var editContent = $("#editContent");
 	editContent.val('');
 });
@@ -376,6 +404,93 @@ $("#cardModal").on('show.bs.modal',function(e){
 </c:forEach>
 });
 
+ $(function(){
+	var collaboMembers = new Array();
+	var userNicknames = {};
+	var userProfiles = {};
+	
+	<c:forEach items="${collaboMembers}" var="m">
+		<c:if test="${m.profile ne null}">
+			userProfiles.${m.id} = "${m.profile}";
+		</c:if>
+		userNicknames.${m.id} = "${m.nickname}";
+		collaboMembers.push("${m.id}");
+	</c:forEach>
+	$("#expulsionUserId").autocomplete({
+		minLength : 1,
+		source : collaboMembers,
+		select : function (event, ui){
+			$("#expulsionUserId").val(ui.item.value);
+			return false;
+		},
+		focus : function (event, ui){
+			$("#expulsionUserId").val(ui.item.value);
+			return false;
+		}
+	}).autocomplete("instance")._renderItem = function(ul, item){
+		var li = $("<li/>");
+		var div = $("<div/>");
+		var img = $("<img/>");
+		var span = $("<span/>");
+		
+		div.css("display","flex");
+		span.css("flex","1");
+		span.html(item.value+"<br/>"+userNicknames[item.value]);
+		div.append(span);
+		if(!userProfiles[item.value]==""){	
+			img.attr("src","${path}/resources/images/"+ "teamwork.png");
+			img.attr("width","40px");
+			img.attr("hegiht","20px");
+			div.append(img);
+  		}
+    return li.append(div).appendTo(ul);
+	};
+}); 
+
+
+$(function(){
+	var userIds = new Array();
+	var userProfiles = {};
+	var userNickNames = {};
+	<c:forEach items="${userIds}" var="v" varStatus="i">
+		<c:if test="${userProfiles[i.count] ne null}">
+			userProfiles.${v} = "${userProfiles[i.count]}";
+		</c:if> 
+		userNickNames.${v} = "${userNickNames[i.count]}";
+		userIds.push("${v}");
+	</c:forEach>
+ 	$("#userId").autocomplete({
+ 		minLength : 3,
+		source : userIds,
+		select : function (event, ui){
+			$("#userId").val(ui.item.value);
+			return false;
+		},
+		focus : function (event, ui){
+			$("#userId").val(ui.item.value);
+			return false;
+		}
+	}).autocomplete("instance")._renderItem = function( ul, item ) {
+      	var li = $("<li/>");
+	  	var div = $("<div/>");
+	  	var span = $("<span/>");
+	    var img = $("<img/>");
+	    
+	    div.css("display","flex");
+	    span.css("flex","1");
+	    
+	    span.html(item.value+"<br/>"+userNickNames[item.value]);
+	    div.append(span);
+	    //div.html(item.value+"<br/>"+userNickNames[item.value]);
+	    if(!userProfiles[item.value]==""){
+			img.attr("src","${path}/resources/images/"+ "teamwork.png");
+			img.attr("width","40px");
+			img.attr("hegiht","20px");
+			div.append(img);
+	  	}
+	    return li.append(div).appendTo(ul);
+	}; 
+});
 </script>
 <%-- <jsp:include page="/WEB-INF/views/common/footer.jsp"/> 
  --%>

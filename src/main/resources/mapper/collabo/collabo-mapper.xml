@@ -122,4 +122,10 @@
 			SELECT OWNER FROM COLLABO_TOOL WHERE NO = #{collaboNo}
 		)
 	</select>
+	
+	<delete id="expulsionMember" parameterType="map">
+		DELETE FROM COLLABO_TOOL WHERE NO = #{collaboNo} AND MEMBER = (
+			SELECT NO FROM MEMBER WHERE ID = #{userId}
+		)
+	</delete>
 </mapper>

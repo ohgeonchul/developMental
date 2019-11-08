@@ -55,4 +55,6 @@ public interface CollaboDao {
 	CollaboTool selectCollaboTool(SqlSessionTemplate session, int collaboNo);
 
 	Member selectCollaboOwner(SqlSessionTemplate session, int collaboNo);
+
+	int expulsionMember(SqlSessionTemplate session, HashMap<String, Object> receiveData);
 }

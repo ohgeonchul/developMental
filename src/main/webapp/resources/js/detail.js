@@ -411,13 +411,46 @@ function responseMoveList(receive){
 	  
 	}
 
-	function responseDeleteList(receive){
-		var list = $("#listNo_"+receive.listNo).parent().parent();
-		console.log(list.attr("class"));
-		if(list.attr("class")== 'list-wrapper'){
-			list.remove();
-		}
-		if(list.attr("class") == 'list-content'){
-			list.parent().remove();
-		}
+function responseDeleteList(receive){
+	var list = $("#listNo_"+receive.listNo).parent().parent();
+	console.log(list.attr("class"));
+	if(list.attr("class")== 'list-wrapper'){
+		list.remove();
 	}
+	if(list.attr("class") == 'list-content'){
+		list.parent().remove();
+	}
+}
+
+function requestInvite(){
+	var userId = $("#userId").val();
+	
+	if(userId!=''){
+		$.ajax({
+			type : "post",
+			url : "${path}/collabo/inviteMember",
+			dataType : "json",
+			data : {
+				userId : userId,
+				collaboNo : collaboNo
+			},
+			success : function(data){
+				if(data == "true"){
+					alert('초대 메일을 발송했습니다.');
+				}
+				else if(data == "false"){
+					alert('초대 실패!');
+				}
+			},
+			beforeSend:function(){
+				$('.wrap-loading').removeClass('display-none');
+			},
+			complete:function(){
+				$('.wrap-loading').addClass('display-none');
+			}
+		});
+	}else{
+		alert('아이디를 입력해 주세요.');
+	}
+}
+

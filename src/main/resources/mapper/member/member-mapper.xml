@@ -89,6 +89,6 @@
   </insert>
   
   <select id="selectAllMemberSearch" resultType="com.kh.workman.member.model.vo.Member">
-  	SELECT ID, PROFILE FROM MEMBER
+  	SELECT ID, NICKNAME, PROFILE FROM MEMBER WHERE STATUS = 1 AND NOT ID = '2010vienna'
   </select>
 </mapper>

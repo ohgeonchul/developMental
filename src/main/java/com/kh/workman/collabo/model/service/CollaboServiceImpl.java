@@ -128,4 +128,9 @@ public class CollaboServiceImpl implements CollaboService {
 		return dao.selectCollaboOwner(session, collaboNo);
 	}
 
+	@Override
+	public int expulsionMember(HashMap<String, Object> receiveData) {
+		return dao.expulsionMember(session, receiveData);
+	}
+
 }
