@@ -40,7 +40,7 @@
 		</div>
 		<div>
 			<button style="margin-right:5px;border-radius:8px" class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#inviteModal">초대</button>
-			<button style="border-radius:8px"class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="">추방</button>
+			<button style="border-radius:8px"class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#expulsionModal">추방</button>
 		</div>
 		
 	</div>
@@ -138,6 +138,31 @@
 	</div>
 </div>
 
+<!-- 추방 Modal -->
+<div class="modal fade" id="expulsionModal">
+	<div class="modal-dialog" style="width:450px;">
+		<div class="modal-content">
+			<div class="modal-header">
+			  <h3 class="modal-title"><span class="material-icons">input</span>[팀워크 추방]<span id="modal-title"></span></h3>
+       	 	  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+			<hr/>
+				<div class="ui-widget">
+					<label for="ExpulsionUserId">ID : </label>
+					<input type="text" id="expulsionUserId" autocomplete="off" />
+					<img id="userProfile"/>
+				</div>
+			</div>
+			<div class="modal-footer">
+			   <button name="btnModalClose" type="button" class="btn btn-primary" onclick="requestExpulsion()">추방</button>
+			   <button name="btnModalClose" type="button" class="btn btn-secondary" data-dismiss="modal">나가기</button>
+			</div>		
+		</div>
+	</div>
+</div>
+
+
 
   <!-- Card Modal -->
   <div class="modal fade" id="cardModal">
@@ -227,6 +252,43 @@
 
 </style>
 <script>
+function requestExpulsion(){
+	var userId = $("#expulsionUserId").val();
+		
+		if(userId!=''){
+			$.ajax({
+				type : "post",
+				url : "${path}/collabo/expulsionMember",
+				dataType : "json",
+				data : {
+					userId : userId,
+					collaboNo : collaboNo
+				},
+				success : function(data){
+					if(data == "true"){
+						alert('추방하였습니다.');
+					}
+					else if(data == "false"){
+						alert('추방 실패!');
+					}
+				},
+				beforeSend:function(){
+					$('.wrap-loading').removeClass('display-none');
+				},
+				complete:function(){
+					$('.wrap-loading').addClass('display-none');
+				}
+			});
+		}else{
+			alert('아이디를 입력해 주세요.');
+		}
+}
+
+$("#expulsionModal").on("show.bs.modal",function(){
+	$("#expulsionUserId").autocomplete("option","appendTo","#expulsionModal");
+})
+
+
 $("#inviteModal").on("show.bs.modal",function(){
 	$("#userId").autocomplete("option", "appendTo", "#inviteModal");
 });
@@ -305,6 +367,10 @@ function onClose(evt) {
 	
 }
 
+$("#expulsionModal").on('hide.bs.modal',function(e){
+	$("#expulsionUserId").val('');
+});
+
 $("#inviteModal").on('hide.bs.modal',function(e){
 	$("#userId").val('');
 });
@@ -338,6 +404,50 @@ $("#cardModal").on('show.bs.modal',function(e){
 </c:forEach>
 });
 
+ $(function(){
+	var collaboMembers = new Array();
+	var userNicknames = {};
+	var userProfiles = {};
+	
+	<c:forEach items="${collaboMembers}" var="m">
+		<c:if test="${m.profile ne null}">
+			userProfiles.${m.id} = "${m.profile}";
+		</c:if>
+		userNicknames.${m.id} = "${m.nickname}";
+		collaboMembers.push("${m.id}");
+	</c:forEach>
+	$("#expulsionUserId").autocomplete({
+		minLength : 1,
+		source : collaboMembers,
+		select : function (event, ui){
+			$("#expulsionUserId").val(ui.item.value);
+			return false;
+		},
+		focus : function (event, ui){
+			$("#expulsionUserId").val(ui.item.value);
+			return false;
+		}
+	}).autocomplete("instance")._renderItem = function(ul, item){
+		var li = $("<li/>");
+		var div = $("<div/>");
+		var img = $("<img/>");
+		var span = $("<span/>");
+		
+		div.css("display","flex");
+		span.css("flex","1");
+		span.html(item.value+"<br/>"+userNicknames[item.value]);
+		div.append(span);
+		if(!userProfiles[item.value]==""){	
+			img.attr("src","${path}/resources/images/"+ "teamwork.png");
+			img.attr("width","40px");
+			img.attr("hegiht","20px");
+			div.append(img);
+  		}
+    return li.append(div).appendTo(ul);
+	};
+}); 
+
+
 $(function(){
 	var userIds = new Array();
 	var userProfiles = {};
@@ -362,12 +472,19 @@ $(function(){
 		}
 	}).autocomplete("instance")._renderItem = function( ul, item ) {
       	var li = $("<li/>");
-	  	var div = $("<div/>"); 
+	  	var div = $("<div/>");
+	  	var span = $("<span/>");
 	    var img = $("<img/>");
-	    div.text(item.value+" / "+userNickNames[item.value]);
+	    
+	    div.css("display","flex");
+	    span.css("flex","1");
+	    
+	    span.html(item.value+"<br/>"+userNickNames[item.value]);
+	    div.append(span);
+	    //div.html(item.value+"<br/>"+userNickNames[item.value]);
 	    if(!userProfiles[item.value]==""){
 			img.attr("src","${path}/resources/images/"+ "teamwork.png");
-			img.attr("width","20px");
+			img.attr("width","40px");
 			img.attr("hegiht","20px");
 			div.append(img);
 	  	}

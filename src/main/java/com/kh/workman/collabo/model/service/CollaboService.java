@@ -54,4 +54,6 @@ public interface CollaboService {
 
 	Member selectCollaboOwner(int collaboNo);
 
+	int expulsionMember(HashMap<String, Object> receiveData);
+
 }

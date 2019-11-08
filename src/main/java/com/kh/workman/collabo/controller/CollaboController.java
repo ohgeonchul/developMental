@@ -52,7 +52,6 @@ public class CollaboController {
 		List<CollaboCard> collaboCards = service.selectCollaboCards(collaboNo);
 		List<Member> collaboMembers = service.selectCollaboMembers(collaboNo);
 		List<Member> temp = memberService.selectAllMember();
-		logger.debug("" + temp);
 		List<String> userIds = new ArrayList<String>();
 		List<String> userProfiles = new ArrayList<String>();
 		List<String> userNickNames = new ArrayList<String>();
@@ -63,8 +62,6 @@ public class CollaboController {
 				userNickNames.add(temp.get(i).getNickname());
 			}
 		}
-		logger.debug("" + userIds.toString());
-		logger.debug("" + userProfiles.toString());
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("collaboNo", collaboNo);
@@ -81,11 +78,9 @@ public class CollaboController {
 
 	@RequestMapping("/collabo/main")
 	public ModelAndView connectCollaboMain(@RequestParam("userId") String userId) {
-		logger.debug(userId);
 
 		List<CollaboTool> collaboTools = service.selectCollaboTools(userId);
 		List<Map<String, String>> collaboMemberList = service.selectCollaboMemberList(userId);
-		logger.debug("" + collaboTools);
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("collaboMemberList", collaboMemberList);
@@ -103,8 +98,6 @@ public class CollaboController {
 			temp.put("title", title);
 			boolean isSuccess = service.createCollaboTool(temp) == 1 ? true : false;
 			boolean isMemberSuccess = service.insertCollaboMember(temp) == 1 ? true : false;
-			logger.debug("" + isSuccess);
-			logger.debug("" + isMemberSuccess);
 			mav.setViewName("common/msg");
 			if (isSuccess && isMemberSuccess) {
 				mav.addObject("msg", "생성에 성공했습니다.");
@@ -129,8 +122,6 @@ public class CollaboController {
 		target.setId(userId);
 		target = memberService.selectLogin(target);
 
-		logger.debug("" + target);
-
 		boolean isPossible = true;
 
 		for (int i = 0; i < members.size(); i++) {
@@ -139,9 +130,6 @@ public class CollaboController {
 				break;
 			}
 		}
-
-		logger.debug("" + owner.getId().equals(userId));
-		logger.debug("" + isPossible);
 
 		if (!owner.getId().equals(userId) && isPossible) {
 			CollaboTool collabo = service.selectCollaboTool(collaboNo);
@@ -185,6 +173,13 @@ public class CollaboController {
 			mav.addObject("loc", "/");
 		}
 		return mav;
+	}
+
+	@RequestMapping("/collabo/expulsionMember")
+	@ResponseBody
+	public String expulsionMember(@RequestParam HashMap<String, Object> receiveData) {
+		String isComplete = service.expulsionMember(receiveData) == 1 ? "true" : "false";
+		return isComplete;
 	}
 
 }

@@ -121,4 +121,11 @@ public class CollaboDaoImpl implements CollaboDao {
 		return session.selectOne("collabo.selectCollaboOwner", collaboNo);
 	}
 
+	@Override
+	public int expulsionMember(SqlSessionTemplate session, HashMap<String, Object> receiveData) {
+		return session.delete("collabo.expulsionMember",receiveData);
+	}
+	
+	
+
 }
