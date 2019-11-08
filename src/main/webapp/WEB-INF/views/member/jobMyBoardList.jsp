@@ -13,6 +13,10 @@
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp">
   <jsp:param name="pageTitle" value="구인게시판" />
 </jsp:include>
+  
+  <link rel="stylesheet" href="${path}/resources/css/mainpage.css">
+  <link rel="stylesheet" href="${path}/resources/css/button.css">
+  <link rel="stylesheet" href="${path}/resources/css/translate.css">
 
   <style>
 /* CSS used here will be applied after bootstrap.css */
@@ -40,6 +44,131 @@ hr { margin-top: 5px;margin-bottom: 10px; }
     .w-30{ width: 30%;}
     .w-40{ width: 40%;}
     .w-45{ width: 45%;}
+    
+    
+    			*{
+		font-family: "Nanum Gothic";
+	}
+	
+	#pName{
+		font-size: 18px;
+		font-weight: bold;
+	}
+  #Pcur{
+    font-size: 13px;
+    
+  }
+    .goog-te-gadget-simple {
+      border: 1px solid rgba(255, 255, 255, .0);
+    }
+
+    .nav-item {
+      color: #B8C8D6 !important;
+    }
+
+    .align-left {
+      text-align: left;
+    }
+
+    .float-left {
+      float: left;
+    }
+
+    .float-right {
+      float: right;
+    }
+
+    .my-1 {
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+
+    .mt-3 {
+      margin-top: 3em;
+    }
+
+    ul li {
+      list-style-type: none;
+    }
+
+    .pr-1 {
+      padding-right: -em;
+    }
+
+    /*가로 카드박스 중간 1em*/
+    .pl-1 {
+      padding-left: 1em;
+    }
+
+    /*가로 카드박스 중간 1em*/
+    .pb-1 {
+      padding-bottom: 1em;
+    }
+
+    .pt-1 {
+      padding-top: 1em;
+    }
+
+    .overflow-hidden {
+      overflow: hidden;
+    }
+
+    .width {
+      width: 80px;
+    }
+
+    #listScroll {
+      overflow: scroll;
+    }
+
+    .style_width {
+      width: 100%;
+    }
+		
+	
+    #mapbtn{
+      z-index: 2;
+      position: absolute;
+      left: 15px;
+      border-radius: 3px;
+      box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px 0px;
+			background-color: #3396ff;
+			opacity: 1;
+    }
+    #loadviewbtn{
+      z-index: 2;
+      position: absolute;
+      left: 15px;
+			opacity: 1;
+      border-radius: 3px;
+      box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px 0px;
+			background-color: #3396ff;
+    }
+    #realLocBtn{
+      z-index: 2;
+      position: absolute;
+      left: 90px;
+			opacity: 1;
+      border-radius: 3px;
+      box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px 0px;
+			background-color: #3396ff;
+    }
+		#mapbtn:hover{
+			opacity: .8;			
+		}
+		#realLocBtn:hover{
+			opacity: .8;		
+		}
+		#loadviewbtn:hover{
+			opacity: .8;		
+		}
+}
+#maincon
+{
+  height: 100vh !important;
+  display: flex !important;
+}
+    
   </style>
 
   <main id="main-wrapper" class="p-0 w-100">
@@ -76,189 +205,87 @@ hr { margin-top: 5px;margin-bottom: 10px; }
           </div>
 
           <div class="card-body">
-              <div class="container">
-                  <!-- <div class="row">
-                      <div class="col-md-3 col-lg-2">
-                          <div class="btn-group">
-                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Mail<span class="caret"></span>
-                              </button>
-                              <ul class="dropdown-menu" role="menu">
-                                  <li class="dropdown-item"><a href="#">Mail</a>
-                                  </li>
-                                  <li class="dropdown-item"><a href="#">Contacts</a>
-                                  </li>
-                                  <li class="dropdown-item"><a href="#">Tasks</a>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                      <div class="col-md-9 col-lg-10">
-                         
-                          <div class="btn-group">
-                              <button type="button" class="btn btn-secondary">
-                                  <div class="form-check" style="margin: 0;">
-                                      <label>
-                                          <input type="checkbox">
-                                      </label>
-                                  </div>
-                              </button>
-                              <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span><span class="sr-only">Toggle Dropdown</span>
-                              </button>
-                              <ul class="dropdown-menu" role="menu">
-                                  <li class="dropdown-item"><a href="#">All</a>
-                                  </li>
-                                  <li class="dropdown-item"><a href="#">None</a>
-                                  </li>
-                                  <li class="dropdown-item"><a href="#">Read</a>
-                                  </li>
-                                  <li class="dropdown-item"><a href="#">Unread</a>
-                                  </li>
-                                  <li class="dropdown-item"><a href="#">Starred</a>
-                                  </li>
-                                  <li class="dropdown-item"><a href="#">Unstarred</a>
-                                  </li>
-                              </ul>
-                          </div>
-                          <button type="button" class="btn btn-secondary" data-toggle="tooltip"
-                          title="Refresh">&#xA0;&#xA0;&#xA0;<span class="glyphicon glyphicon-refresh"></span>&#xA0;&#xA0;&#xA0;</button>
-                          
-                          <div class="btn-group">
-                              <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">More <span class="caret"></span>
-                              </button>
-                              <ul class="dropdown-menu" role="menu">
-                                  <li class="dropdown-item"><a href="#">Mark all as read</a>
-                                  </li>
-                                  <li class="divider dropdown-item"></li>
-                                  <li class="text-center dropdown-item"><small class="text-muted">Select messages to see more actions</small>
-                                  </li>
-                              </ul>
-                          </div>
-                          <div class="float-right"> <span class="text-muted"><b>1</b>&#x2013;<b>50</b> of <b>160</b></span>
-                              <div
-                              class="btn-group btn-group-sm">
-                                  <button type="button" class="btn btn-secondary"> <span class="glyphicon glyphicon-chevron-left"></span>
-                                  </button>
-                                  <button type="button" class="btn btn-secondary"> <span class="glyphicon glyphicon-chevron-right"></span>
-                                  </button>
-                          </div>
-                      </div>
-                  </div>
-              </div> -->
-              <hr>
-              <div class="row">
-                  <div class="col-md-3 col-lg-2"> 
-                    <!-- <a href="#" class="btn btn-danger btn-sm btn-block" role="button"><i class="glyphicon glyphicon-edit"></i> Compose</a> -->
-                      <!-- <hr> -->
-                      <ul class="nav nav-pills flex-column">
-                          <li class="active nav-item"><a href="#" class="nav-link"><span class="badge float-right">32</span> Inbox </a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">Starred</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">Important</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">Sent Mail</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link"><span class="badge float-right">3</span>Drafts</a>
-                          </li>
-                      </ul>
-                  </div>
-                  <div class="col-md-9 col-lg-10">
-                      <!-- Nav tabs -->
-                      <ul class="nav nav-tabs">
-                          <li class="active nav-item"><a href="#home" data-toggle="tab" class="nav-link"><span class="glyphicon glyphicon-inbox">
+          <div class="container-fluid" id="maincon">
+
+
+    <!-- row h-100 mt-1 pt-2 -->
+    <div class="card-deck text-center container-fluid" style="margin-top: 51px;" id="cardmap">
+
+      <!--상단div_1-->
+      <div class="shadow-sm col-sm-4">
+
+        <!--card / shadow-sm -->
+        <div class="card-body align-left">
+          <!-- <label for="firstName">From</label> -->
+          <!--From-->
+          <!-- <input type="text" class="form-control" id="datepicker_start">
+          <select name="" class="custom-select d-block w-100">
+            <option class="">Start Time</option>
+          </select> <label for="firstName" class="mt-3">To</label> -->
+          <!--To-->
+          <!-- <input type="text" class="form-control" id="datepicker_end" size="20"> 
+          <select name="" class="custom-select d-block w-100">
+            <option>End Time</option>
+          </select>  -->
+          <label class="mt-3">Sort By</label> <select name="sort by" class="custom-select d-block w-100">
+            <option value="Distace">Distance</option>
+            <option>Price(low to high)</option>
+            <option>Price(high to low)</option>
+            <option>Recommended</option>
+          </select> 
+          <label class="mt-3">Filter By</label> <select name="Filter By" class="custom-select d-block w-100">
+            <option value="Amenities">Amenities</option>
+            <option>Covered Parking</option>
+            <option>Electric Vehicle Charging</option>
+            <option>Free Shuttle Service</option>
+            <option>In and Out Previleges</option>
+            <option>On-Site Staff</option>
+            <option>Open 24/7</option>
+            <option>Overnight Parking</option>
+            <option>Illigal Scan</option>
+            <option>Valet</option>
+            <option>Wheelchair Accessible</option>
+          </select> 
+        </div>
+		<span class="mt-3 pb-5" id="totalboard">전체 게시글</span>
+        <!--하단 list-->
+		<div class="card shadow-sm text-left" id="listScroll" style="height:470px">
+					
+          <a class="list-group-item list-group-item-action"> 
+            <span>
+              <span>Hyatt Place - Uncovered Self Park</span>
+               <span>110.9miles away</span>
+               <!--  <span>
+                    <input type="button" class="btn btn-info more-info" onclick="parkingInfoPopup()" value="More Info">    
+                    <input type="button" class="btn btn-info more-info" onclick="" value="Pay">           
+              </span> -->
+            </span>
+          </a> 
+          
+          <!--
+          <a class="list-group-item list-group-item-action"><span>
+              <span>Hyatt Place - Uncovered Self Park</span> <span>110.9
+                miles away</span> <span><button>$14.70</button>
+                <button>Reserve</button></span>
+            </span> </a>
+            -->
+		</div>
+      </div>
+
+      <!--지도 API-->
+	  <div class="shadow-sm col-sm-8" id="map">
+      
+    </div>
+    <div class="shadow-sm col-sm-8" id="loadview">
+      
+      </div>
+      <!-- style="width:950px;height:500px;" -->
+
+
+    </div>
+  </div>
               
-                                  </span>Primary</a>
-                          </li>
-                          <li class="nav-item"><a href="#profile" data-toggle="tab" class="nav-link"><span class="glyphicon glyphicon-user"></span>
-              
-                                      Social</a>
-                          </li>
-                          <li class="nav-item"><a href="#messages" data-toggle="tab" class="nav-link"><span class="glyphicon glyphicon-tags"></span>
-              
-                                      Promotions</a>
-                          </li>
-                          <li class="nav-item"><a href="#settings" data-toggle="tab" class="nav-link"><span class="glyphicon glyphicon-plus no-margin">
-              
-                                  </span></a>
-                          </li>
-                      </ul>
-                      <!-- Tab panes -->
-                      <div class="tab-content">
-                          <div class="tab-pane fade in active" id="home">
-                              <div class="list-group"> <a href="#" class="list-group-item">
-              
-                                              <div class="form-check">
-              
-                                                  <label>
-              
-                                                      <input type="checkbox">
-              
-                                                  </label>
-              
-                                              </div>
-              
-                                              <span class="glyphicon glyphicon-star-empty"></span><span class="name" style="min-width: 120px;
-              
-                                                  display: inline-block;">Mark Otto</span> <span class="">Nice work on the lastest version</span>
-              
-                                              <span class="text-muted" style="font-size: 11px;">- More content here</span> <span class="badge">12:10 AM</span> <span class="float-right"><span class="glyphicon glyphicon-paperclip">
-              
-                                                  </span></span></a><a href="#" class="list-group-item">
-              
-                                                      <div class="form-check">
-              
-                                                          <label>
-              
-                                                              <input type="checkbox">
-              
-                                                          </label>
-              
-                                                      </div>
-              
-                                                      <span class="glyphicon glyphicon-star-empty"></span><span class="name" style="min-width: 120px;
-              
-                                                          display: inline-block;">Jason Markus</span> <span class="">This is big title</span>
-              
-                                                      <span class="text-muted" style="font-size: 11px;">- I saw that you had..</span> <span class="badge">12:09 AM</span> <span class="float-right"><span class="glyphicon glyphicon-paperclip">
-              
-                                                          </span></span></a><a href="#"
-                                  class="list-group-item read">
-              
-                                                              <div class="form-check">
-              
-                                                                  <label>
-              
-                                                                      <input type="checkbox">
-              
-                                                                  </label>
-              
-                                                              </div>
-              
-                                                              <span class="glyphicon glyphicon-star"></span><span class="name" style="min-width: 120px;
-              
-                                                                  display: inline-block;">Jane Patel</span> <span class="">This is big title</span>
-              
-                                                              <span class="text-muted" style="font-size: 11px;">- Hi hello how r u ?</span> <span class="badge">11:30 PM</span> <span class="float-right"><span class="glyphicon glyphicon-paperclip">
-              
-                                                                  </span></span></a>
-                              </div>
-                          </div>
-                          <div class="tab-pane fade in" id="profile">
-                              <div class="list-group">
-                                  <div class="list-group-item"> <span class="text-center">This tab is empty.</span>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="tab-pane fade in" id="messages">...</div>
-                          <div class="tab-pane fade in" id="settings">This tab is empty.</div>
-                      </div>
-                      <div class="row-md-12">
-                          <div class="card bg-light card-body mb-3"> <a href="http://www.bootply.com/XXmcPas41w">Edit on Bootply</a>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              </div>
+            
             <!-- <div class="media mb-2">
               <div class="media-body d-flex pl-3 my-0 py-0">
                 <div class="">
@@ -466,7 +493,6 @@ hr { margin-top: 5px;margin-bottom: 10px; }
             $('.w-40').css({'width': '40%', });
             $('.w-45').css({'width': '45%', });
 
-
             var $apiLoading = $('.apiLoading').hide();
             $(document)
             .ajaxStart(function () {
@@ -475,7 +501,6 @@ hr { margin-top: 5px;margin-bottom: 10px; }
             .ajaxStop(function () {
               $apiLoading.hide();
             });
-
 
             $('td.hide-html-tag *').css({
               'display': 'none',
