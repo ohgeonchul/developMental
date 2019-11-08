@@ -427,7 +427,7 @@ function responseDeleteList(receive){
 	}
 }
 
-function requestInvite(){
+/*function requestInvite(){
 	var userId = $("#userId").val();
 	
 	if(userId!=''){
@@ -457,5 +457,5 @@ function requestInvite(){
 	}else{
 		alert('아이디를 입력해 주세요.');
 	}
-}
+}*/
 

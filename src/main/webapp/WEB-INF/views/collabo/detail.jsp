@@ -39,8 +39,11 @@
 			<span style="font-size:18px;color:white;font-weight:bold;">${collaboTool.title }</span>
 		</div>
 		<div>
-			<button style="margin-right:5px;border-radius:8px" class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#inviteModal">초대</button>
-			<button style="border-radius:8px"class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#expulsionModal">추방</button>
+			<c:if test="${collaboTool.owner eq loginMember.no }">
+				<button style="margin-right:5px;border-radius:8px" class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#inviteModal">초대</button>
+				<button style="border-radius:8px;margin-right:5px"class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#expulsionModal">추방</button>
+			</c:if>
+			<button type="button" class="btn btn-sm btn-primary" style="margin-right:5px;border-radius:8px" onclick="exitCollabo('${loginMember.no}')">탈퇴</button>
 		</div>
 		
 	</div>
@@ -265,10 +268,11 @@ function requestExpulsion(){
 					collaboNo : collaboNo
 				},
 				success : function(data){
-					if(data == "true"){
+					console.log(data);
+					if(data){
 						alert('추방하였습니다.');
 					}
-					else if(data == "false"){
+					else{
 						alert('추방 실패!');
 					}
 				},
@@ -411,6 +415,39 @@ $("#cardModal").on('show.bs.modal',function(e){
 	</c:forEach> */
 });
 
+	function requestInvite(){
+		var userId = $("#userId").val();
+		
+		if(userId!=''){
+			$.ajax({
+				type : "post",
+				url : "${path}/collabo/inviteMember",
+				dataType : "json",
+				data : {
+					userId : userId,
+					collaboNo : collaboNo
+				},
+				success : function(data){
+					if(data){
+						alert('초대 메일을 발송했습니다.');
+					}
+					else{
+						alert('초대 실패!');
+					}
+				},
+				beforeSend:function(){
+					$('.wrap-loading').removeClass('display-none');
+				},
+				complete:function(){
+					$('.wrap-loading').addClass('display-none');
+				}
+			});
+		}else{
+			alert('아이디를 입력해 주세요.');
+		}
+	}
+
+
  $(function(){
 	var collaboMembers = new Array();
 	var userNicknames = {};
@@ -497,6 +534,35 @@ $(function(){
 	    return li.append(div).appendTo(ul);
 	}; 
 });
+
+function exitCollabo(exitMemberNo){
+	if(confirm('정말 탈퇴 하시겠습니까?')){
+		$.ajax({
+			type : "post",
+			url : "${path}/collabo/exitCollabo",
+			dataType : "json",
+			data : {
+				userId : exitMemberNo,
+				collaboNo : collaboNo
+			},
+			success : function(data){
+				if(data){
+					alert('탈퇴 성공!');
+					location.href = "${path}/";
+				}
+				else{
+					alert('탈퇴 실패!');
+				}
+			},
+			beforeSend:function(){
+				$('.wrap-loading').removeClass('display-none');
+			},
+			complete:function(){
+				$('.wrap-loading').addClass('display-none');
+			}
+		});
+	}
+}
 </script>
 <%-- <jsp:include page="/WEB-INF/views/common/footer.jsp"/> 
  --%>

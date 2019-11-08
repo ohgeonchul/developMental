@@ -55,7 +55,7 @@ public class CollaboController {
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("collaboNo", collaboNo);
-		mav.addObject("members",temp);
+		mav.addObject("members", temp);
 		mav.addObject("collaboMembers", collaboMembers);
 		mav.addObject("collaboLists", collaboLists);
 		mav.addObject("collaboCards", collaboCards);
@@ -125,8 +125,9 @@ public class CollaboController {
 			String requestURL = String.valueOf(request.getRequestURL());
 			requestURL = requestURL.replaceAll(request.getRequestURI(), "");
 			String content = "<html><body><h3>" + owner.getNickname() + "님이 " + collabo.getTitle()
-					+ "팀워크로 초대하셨습니다. </h3></br><a href='" + requestURL + "/collabo/responseInviteMember?userId="
-					+ userId + "&collaboNo=" + collaboNo + "'" + ">입장-링크클릭</a></body></html>";
+					+ "팀워크로 초대하셨습니다. </h3></br><a href='" + requestURL + "/" + request.getContextPath()
+					+ "/collabo/responseInviteMember?userId=" + userId + "&collaboNo=" + collaboNo + "'"
+					+ ">입장-링크클릭</a></body></html>";
 
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper mmh = new MimeMessageHelper(message, true, "UTF-8");
@@ -170,4 +171,29 @@ public class CollaboController {
 		return isComplete;
 	}
 
+	@RequestMapping("/collabo/exitCollabo")
+	public String exitCollabo(@RequestParam HashMap<String, Object> receiveData) {
+		CollaboTool collabo = service.selectCollaboTool((int) receiveData.get("collaboNo"));
+		String isComplete = "false";
+		if (collabo.getOwner() == (int) receiveData.get("userId")) {
+			List<Member> collaboMembers = service.selectCollaboMembers((int) receiveData.get("collaboNo"));
+			for (int i = 0; i < collaboMembers.size(); i++) {
+				if (collaboMembers.get(i).getNo() == (int) receiveData.get("userId")) {
+					collaboMembers.remove(i);
+					break;
+				}
+			}
+			int ranNo = (int) (Math.random() + 1) * collaboMembers.size();
+			receiveData.put("target", collaboMembers.get(ranNo).getNo());
+			isComplete = service.updateCollaboOwner(receiveData) == 1 ? "true" : "false";
+			isComplete = service.exitCollabo(receiveData) == 1 ? "true" : "false";
+			if (Boolean.getBoolean(isComplete)) {
+				// Alram Mail Send
+			}
+
+		} else {
+			isComplete = service.exitCollabo(receiveData) == 1 ? "true" : "false";
+		}
+		return isComplete;
+	}
 }

@@ -133,4 +133,14 @@ public class CollaboServiceImpl implements CollaboService {
 		return dao.expulsionMember(session, receiveData);
 	}
 
+	@Override
+	public int exitCollabo(HashMap<String, Object> receiveData) {
+		return dao.exitCollabo(session, receiveData);
+	}
+
+	@Override
+	public int updateCollaboOwner(HashMap<String, Object> receiveData) {
+		return dao.updateCollaboOwner(session, receiveData);
+	}
+
 }

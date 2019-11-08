@@ -56,4 +56,8 @@ public interface CollaboService {
 
 	int expulsionMember(HashMap<String, Object> receiveData);
 
+	int exitCollabo(HashMap<String, Object> receiveData);
+
+	int updateCollaboOwner(HashMap<String, Object> receiveData);
+
 }

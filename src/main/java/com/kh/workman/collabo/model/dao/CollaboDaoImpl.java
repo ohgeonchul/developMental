@@ -123,9 +123,17 @@ public class CollaboDaoImpl implements CollaboDao {
 
 	@Override
 	public int expulsionMember(SqlSessionTemplate session, HashMap<String, Object> receiveData) {
-		return session.delete("collabo.expulsionMember",receiveData);
+		return session.delete("collabo.expulsionMember", receiveData);
 	}
-	
-	
+
+	@Override
+	public int exitCollabo(SqlSessionTemplate session, HashMap<String, Object> receiveData) {
+		return session.delete("collabo.exitCollabo", receiveData);
+	}
+
+	@Override
+	public int updateCollaboOwner(SqlSessionTemplate session, HashMap<String, Object> receiveData) {
+		return session.update("collabo.updateCollaboOwner", receiveData);
+	}
 
 }

@@ -108,7 +108,7 @@
 	</insert>
 	
 	<insert id="insertCollaboMember" parameterType="map">
-		INSERT INTO COLLABO_MEMBER VALUES(#{no},
+		INSERT INTO COLLABO_MEMBER VALUES(#{collaboNo},
 			(SELECT NO FROM MEMBER WHERE ID = #{userId}
 		), DEFAULT)
 	</insert>
@@ -124,8 +124,16 @@
 	</select>
 	
 	<delete id="expulsionMember" parameterType="map">
-		DELETE FROM COLLABO_TOOL WHERE NO = #{collaboNo} AND MEMBER = (
+		DELETE FROM COLLABO_MEMBER WHERE NO = #{collaboNo} AND MEMBER = (
 			SELECT NO FROM MEMBER WHERE ID = #{userId}
 		)
 	</delete>
+	
+	<delete id="exitCollabo" parameterType="map">
+		DELETE FROM CCOLLABO_MEMBER WHERE NO = #{collaboNo} AND MEMBER = #{userId}
+	</delete>
+	
+	<update id="updateCollaboOwner" parameterType="map">
+		UPDATE COLLABO_TOOL SET OWNER = #{target} WHERE NO = #{collaboNo}
+	</update>
 </mapper>
