@@ -258,7 +258,12 @@ function responseCreateCard(receive){
 	
 	content.attr("class","card-content");
 	
+	var hid = $("<input/>");
+	hid.attr("type","hidden");
+	hid.val(receive.userId);
+	
 	card.append(content);
+	card.append(hid);
 	card.append(button);
 	listCards.append(card);
 }

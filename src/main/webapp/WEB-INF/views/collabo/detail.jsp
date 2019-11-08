@@ -171,7 +171,7 @@
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h3 class="modal-title"><span class="material-icons">dvr</span>[Title]<span id="modal-title"></span></h3>
+          <h3 class="modal-title"><span class="material-icons">dvr</span>[List]<span id="mtitle"></span></h3>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
@@ -189,7 +189,7 @@
           		</div>
           		<div id="modifyContent" class="panel-collapse collapse">
           			<div class="panel-body">
-          				<textarea id="editContent" rows="3" cols="92"></textarea>
+          				<textarea id="editContent" rows="3" style="width:-webkit-fill-available"></textarea>
           				<br>
           				<button onclick="requestUpdateCard(this);"type="button" class="btn btn-sm btn-primary" style="margin-top:10px;">수정!</button>
           			</div>
@@ -204,7 +204,7 @@
           <div style="margin-top:70px;padding:10px 2px;">
           	<h5>댓글</h5>
           	<hr>
-          		<textarea id="editArea" rows="3" cols="92"></textarea>
+          		<textarea id="editArea" rows="3" cols="86"></textarea>
           </div>
         </div>
         
@@ -387,21 +387,28 @@ $("#cardModal").on('show.bs.modal',function(e){
 	var data=$(e.relatedTarget).data('test');
 	var cardNo = $(e.relatedTarget).data('test').substring(7);
 	var card = $("#"+data);
-	var title = $("#modal-title");
+	var title = $("#mtitle");
 	var content = $("#modalContent");
 	var writer = $("#modal-writer");
 	$("#editArea").val('');
 	
 	//$("#modalCardNo").val(cardNo);
 	$("#modalCardNo").val(cardNo);
-	title.text(card.children('.card-content').parent().parent().parent().children('.list-header').children('.list-title').text());
+	title.text(card.children('.card-content').parent().parent().parent().children('.list-header').children('.list-title').text().trim()); 
 	content.text(card.children('.card-content').text());
-	 
-	<c:forEach items="${collaboMembers}" var="m">
-	if(${m.no} == (parseInt(card.children('input[name=cardWriter]').val()))){
+	
+	var writerNo = card.children('input[name=cardWriter]').val();
+
+	<c:forEach items="${collaboMembers}" var = "v">
+		if(writerNo == ${v.no}){
+			writer.text("${v.nickname}");
+		}
+	</c:forEach>
+	/* <c:forEach items="${collaboMembers}" var="m">
+	 if(${m.no} == (parseInt(card.children('input[name=cardWriter]').val()))){
 		writer.text("${m.nickname}");
 	}
-</c:forEach>
+	</c:forEach> */
 });
 
  $(function(){
