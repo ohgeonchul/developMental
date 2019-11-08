@@ -452,12 +452,12 @@ $(function(){
 	var userIds = new Array();
 	var userProfiles = {};
 	var userNickNames = {};
-	<c:forEach items="${userIds}" var="v" varStatus="i">
-		<c:if test="${userProfiles[i.count] ne null}">
-			userProfiles.${v} = "${userProfiles[i.count]}";
+	<c:forEach items="${members}" var="v" varStatus="i">
+		<c:if test="${v.profile ne null}">
+			userProfiles.${v.id} = "${v.profile}";
 		</c:if> 
-		userNickNames.${v} = "${userNickNames[i.count]}";
-		userIds.push("${v}");
+		userNickNames.${v.id} = "${v.nickname}";
+		userIds.push("${v.id}");
 	</c:forEach>
  	$("#userId").autocomplete({
  		minLength : 3,
@@ -481,7 +481,6 @@ $(function(){
 	    
 	    span.html(item.value+"<br/>"+userNickNames[item.value]);
 	    div.append(span);
-	    //div.html(item.value+"<br/>"+userNickNames[item.value]);
 	    if(!userProfiles[item.value]==""){
 			img.attr("src","${path}/resources/images/"+ "teamwork.png");
 			img.attr("width","40px");
