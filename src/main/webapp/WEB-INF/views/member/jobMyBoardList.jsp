@@ -13,7 +13,7 @@
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp">
   <jsp:param name="pageTitle" value="구인게시판" />
 </jsp:include>
-  
+
   <link rel="stylesheet" href="${path}/resources/css/mainpage.css">
   <link rel="stylesheet" href="${path}/resources/css/button.css">
   <link rel="stylesheet" href="${path}/resources/css/translate.css">
@@ -185,7 +185,7 @@ hr { margin-top: 5px;margin-bottom: 10px; }
           <div class="card-header my-0 py-0 px-0">
             <!-- <a href="${path}"><img src="${path}/resources/images/home.png" alt=""></a> -->
             <div class="d-flex align-items-center p-3 my-0 text-white w-100 bg-dark rounded">
-              <i class="fa fa-briefcase text-white mr-3 my-2" style="font-size:42px;"></i>
+              <i class="fa fa-address-card text-white mr-3 my-2" style="font-size:42px;"></i>
                <div class="lh-100 ml-2">
                 <p class="h3 mb-0 text-white lh-100">나의 게시판</p><br>
                 <!-- <button class="btn btn-light" style="border-radius: 10px;">
@@ -205,17 +205,17 @@ hr { margin-top: 5px;margin-bottom: 10px; }
           </div>
 
           <div class="card-body">
+            
           <div class="container-fluid" id="maincon">
 
-
     <!-- row h-100 mt-1 pt-2 -->
-    <div class="card-deck text-center container-fluid" style="margin-top: 51px;" id="cardmap">
+    <div class="card-deck text-center container-fluid" style="margin-top: 10px;" id="cardmap">
 
       <!--상단div_1-->
       <div class="shadow-sm col-sm-4">
 
         <!--card / shadow-sm -->
-        <div class="card-body align-left">
+        <!-- <div class="card-body align-left"> -->
           <!-- <label for="firstName">From</label> -->
           <!--From-->
           <!-- <input type="text" class="form-control" id="datepicker_start">
@@ -227,7 +227,7 @@ hr { margin-top: 5px;margin-bottom: 10px; }
           <select name="" class="custom-select d-block w-100">
             <option>End Time</option>
           </select>  -->
-          <label class="mt-3">Sort By</label> <select name="sort by" class="custom-select d-block w-100">
+          <!-- <label class="mt-3">Sort By</label> <select name="sort by" class="custom-select d-block w-100">
             <option value="Distace">Distance</option>
             <option>Price(low to high)</option>
             <option>Price(high to low)</option>
@@ -245,22 +245,32 @@ hr { margin-top: 5px;margin-bottom: 10px; }
             <option>Illigal Scan</option>
             <option>Valet</option>
             <option>Wheelchair Accessible</option>
-          </select> 
-        </div>
-		<span class="mt-3 pb-5" id="totalboard">전체 게시글</span>
+          </select>  -->
+          <!-- 
+        </div> -->
         <!--하단 list-->
-		<div class="card shadow-sm text-left" id="listScroll" style="height:470px">
-					
-          <a class="list-group-item list-group-item-action"> 
+        <!-- <span class="mt-3 pb-5" id="totalboard"><i class="fa fa-address-card" aria-hidden="true"></i>전체 게시글</span> -->
+		<div class="card shadow-sm border-dark text-left" id="listScroll" style="height:500px">
+          <a class="list-group-item border-primary list-group-item-action" name="jobBoard" id="jobBoard"> 
             <span>
-              <span>Hyatt Place - Uncovered Self Park</span>
-               <span>110.9miles away</span>
+              <span>Job - FrontEnd</span>
+               <span></span>
                <!--  <span>
                     <input type="button" class="btn btn-info more-info" onclick="parkingInfoPopup()" value="More Info">    
                     <input type="button" class="btn btn-info more-info" onclick="" value="Pay">           
               </span> -->
             </span>
           </a> 
+          <a class="list-group-item border-info list-group-item-action" name="studyBoard" id="studyBoard"> 
+              <span>
+                <span>Study - java Study</span>
+                 <span></span>
+                 <!--  <span>
+                      <input type="button" class="btn btn-info more-info" onclick="parkingInfoPopup()" value="More Info">    
+                      <input type="button" class="btn btn-info more-info" onclick="" value="Pay">           
+                </span> -->
+              </span>
+            </a> 
           
           <!--
           <a class="list-group-item list-group-item-action"><span>
@@ -274,7 +284,67 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 
       <!--지도 API-->
 	  <div class="shadow-sm col-sm-8" id="map">
-      
+      <div class="card border-primary mb-3" style="height: 100%;">
+        <div class="card-header bg-primary h3">Job</div>
+        <div class="card-body text-primary">
+          <h5 class="card-title text-center">FrontEnd</h5><h6 class="text-right">Yoon</h6>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+            sdfdsfddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+          </p>
+        </div>
+        <div class="card-footer bg-info h5">신청한 인원</div>
+        <div class="card-body text-primary">
+          <div class="card-text">
+              <div class="my-3 p-3 bg-white rounded box-shadow">
+                  <!-- <h6 class="border-bottom border-gray pb-2 mb-0">Suggestions</h6> -->
+                  <div class="media text-muted pt-3">
+                    <img data-src="holder.js/32x32?theme=thumb&amp;bg=007bff&amp;fg=007bff&amp;size=1" alt="32x32" class="mr-2 rounded" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16e4874d895%20text%20%7B%20fill%3A%23007bff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16e4874d895%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23007bff%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2212.03125%22%20y%3D%2216.9%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 32px; height: 32px;">
+                    <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                      <div class="d-flex justify-content-between align-items-center w-100">
+                        <strong class="text-gray-dark">Full Name</strong>
+                        <a href="#" style="color: black;">Follow</a>
+                      </div>
+                      <span class="d-block" style="float: left;">@fasdfsdfsdfsdfsdfsdaf</span>
+                    </div>
+                  </div>
+                  <div class="media text-muted pt-3">
+                    <img data-src="holder.js/32x32?theme=thumb&amp;bg=007bff&amp;fg=007bff&amp;size=1" alt="32x32" class="mr-2 rounded" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16e4874d896%20text%20%7B%20fill%3A%23007bff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16e4874d896%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23007bff%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2212.03125%22%20y%3D%2216.9%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 32px; height: 32px;">
+                    <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                      <div class="d-flex justify-content-between align-items-center w-100">
+                        <strong class="text-gray-dark">Full Name</strong>
+                        <a href="#" style="color: black;">Follow</a>
+                      </div>
+                      <span class="d-block" style="float: left;">@username</span>
+                    </div>
+                  </div>
+                  <div class="media text-muted pt-3">
+                    <img data-src="holder.js/32x32?theme=thumb&amp;bg=007bff&amp;fg=007bff&amp;size=1" alt="32x32" class="mr-2 rounded" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16e4874d898%20text%20%7B%20fill%3A%23007bff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16e4874d898%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23007bff%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2212.03125%22%20y%3D%2216.9%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 32px; height: 32px;">
+                    <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                      <div class="d-flex justify-content-between align-items-center w-100">
+                        <strong class="text-gray-dark">Full Name</strong>
+                        <a href="#" style="color: black;">Follow</a>
+                      </div>
+                      <span class="d-block" style="float: left;">@username</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <h6 class="d-block text-right mt-3 mr-3">
+            <a href="#">2019-09-09</a>
+          </h6>
+           
+        
+      </div>
+      <!-- <div class="card border-info mb-3" style="height: 90%;">
+          <div class="card-header">Header</div>
+          <div class="card-body text-primary">
+            <h5 class="card-title">Primary card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          </div>
+        </div> -->
+       
     </div>
     <div class="shadow-sm col-sm-8" id="loadview">
       
@@ -484,6 +554,41 @@ hr { margin-top: 5px;margin-bottom: 10px; }
           integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
         <script>
+
+          $("a[name='jobBoard'],a[name='studyBoard']").hover(function(){
+          
+            if($(this).attr('name') == 'jobBoard')
+            {
+              $(this).css("background-color","#007BFF");
+            }
+            if($(this).attr('name') == 'studyBoard')
+            {
+              $(this).css("background-color","#17A2B8");
+            }
+          }, function(e){
+              $(this).css("background-color","white");
+          });
+          
+
+
+        $(document).ready(function () {
+          $("a[name='jobBoard'],a[name='studyBoard']").mousedown(function(){
+              if($(this).attr('name') == 'jobBoard')
+                {
+                  $(this).css("opacity",".8");
+                }
+                if($(this).attr('name') == 'studyBoard')
+                {
+                  $(this).css("opacity",".8");
+                }
+            }).mouseup(function(){
+              $(this).css("opacity","1");
+            });
+      });
+         
+
+
+
           $(function(){
             $('.w-0').css({'width': '0%', });
             $('.w-5').css({'width': '5%', });
