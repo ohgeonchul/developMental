@@ -52,22 +52,10 @@ public class CollaboController {
 		List<CollaboCard> collaboCards = service.selectCollaboCards(collaboNo);
 		List<Member> collaboMembers = service.selectCollaboMembers(collaboNo);
 		List<Member> temp = memberService.selectAllMember();
-		List<String> userIds = new ArrayList<String>();
-		List<String> userProfiles = new ArrayList<String>();
-		List<String> userNickNames = new ArrayList<String>();
-		if (temp != null) {
-			for (int i = 0; i < temp.size(); i++) {
-				userIds.add(temp.get(i).getId());
-				userProfiles.add(temp.get(i).getProfile());
-				userNickNames.add(temp.get(i).getNickname());
-			}
-		}
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("collaboNo", collaboNo);
-		mav.addObject("userIds", userIds);
-		mav.addObject("userNickNames", userNickNames);
-		mav.addObject("userProfiles", userProfiles);
+		mav.addObject("members",temp);
 		mav.addObject("collaboMembers", collaboMembers);
 		mav.addObject("collaboLists", collaboLists);
 		mav.addObject("collaboCards", collaboCards);
