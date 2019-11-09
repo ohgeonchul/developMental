@@ -11,11 +11,9 @@
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<!-- <script src="http	s://code.jquery.com/jquery-1.12.4.js"></script> -->
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-
 
 <script src="${path }/resources/js/detail.js" type="text/javascript"></script>
 <!-- jqeury -->
@@ -564,5 +562,4 @@ function exitCollabo(exitMemberNo){
 	}
 }
 </script>
-<%-- <jsp:include page="/WEB-INF/views/common/footer.jsp"/> 
- --%>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/> 
