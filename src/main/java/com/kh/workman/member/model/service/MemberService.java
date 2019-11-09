@@ -13,5 +13,5 @@ public interface MemberService {
 	int updateInfoMember(Member m);
 	
 	 List<Map<String, Object>> selectPageJobMyBoardList(int cPage, int numPerPage, String nickname);
-	  int selectJobMyBoardCount(String nickname);
+	 int selectJobMyBoardCount(String nickname);
 }
