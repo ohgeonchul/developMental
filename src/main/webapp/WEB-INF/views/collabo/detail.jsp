@@ -206,6 +206,7 @@
           	<h5>댓글</h5>
           	<hr>
           		<textarea id="editArea" rows="3" cols="86"></textarea>
+          		<button type="button" class="btn btn-sm btn-primary" onclick="requestCommentWrite(this);" id="btnComment">덧글작성</button>
           </div>
         </div>
         
@@ -363,6 +364,11 @@ function onMessage(msg) {
 			  responseDeleteCard(receive);
     	  }
       }
+      if(receive.type == 'comment'){
+    	  if(receive.method == 'write'){
+    		  responseCommentWrite(receive);
+    	  }
+      }
 }
 // 서버와 연결을 끊었을 때
 function onClose(evt) {
@@ -394,7 +400,6 @@ $("#cardModal").on('show.bs.modal',function(e){
 	var writer = $("#modal-writer");
 	$("#editArea").val('');
 	
-	//$("#modalCardNo").val(cardNo);
 	$("#modalCardNo").val(cardNo);
 	title.text(card.children('.card-content').parent().parent().parent().children('.list-header').children('.list-title').text().trim()); 
 	content.text(card.children('.card-content').text());
@@ -406,11 +411,27 @@ $("#cardModal").on('show.bs.modal',function(e){
 			writer.text("${v.nickname}");
 		}
 	</c:forEach>
-	/* <c:forEach items="${collaboMembers}" var="m">
-	 if(${m.no} == (parseInt(card.children('input[name=cardWriter]').val()))){
-		writer.text("${m.nickname}");
-	}
-	</c:forEach> */
+	
+	$.ajax({
+		type : "post",
+		url : "${path}/collabo/requestCommentData",
+		dataType : "json",
+		data : {
+			cardNo : cardNo
+		},
+		success : function(data){
+			$.each(data.comments, function(i){
+				console.log(data.comments[i]);
+// 				댓글 생성
+			});
+		},
+		beforeSend:function(){
+			$('.wrap-loading').removeClass('display-none');
+		},
+		complete:function(){
+			$('.wrap-loading').addClass('display-none');
+		}
+	});
 });
 
 	function requestInvite(){
@@ -560,6 +581,24 @@ function exitCollabo(exitMemberNo){
 			}
 		});
 	}
+}
+
+function requestCommentWrite(ele){
+	var content = $("#editArea").val();
+	var cardNo = $("#modalCardNo").val();
+	var userId = "${loginMember.id}";
+
+	var sendData ={
+		type : "comment",
+		userId : userId,
+		cardNo : cardNo,
+		content : content,
+		method : "write"
+	};
+	sendMessage(sendData);
+}
+function responseCommentWrite(receive){
+	console.log($("#cardModal").show());
 }
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/> 

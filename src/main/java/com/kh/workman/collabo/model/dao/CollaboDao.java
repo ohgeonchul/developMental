@@ -7,6 +7,8 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.workman.collabo.model.vo.CollaboCard;
+import com.kh.workman.collabo.model.vo.CollaboComment;
+import com.kh.workman.collabo.model.vo.CollaboCommentReply;
 import com.kh.workman.collabo.model.vo.CollaboList;
 import com.kh.workman.collabo.model.vo.CollaboTool;
 import com.kh.workman.collabo.model.vo.DataPacket;
@@ -61,4 +63,10 @@ public interface CollaboDao {
 	int exitCollabo(SqlSessionTemplate session, HashMap<String, Object> receiveData);
 
 	int updateCollaboOwner(SqlSessionTemplate session, HashMap<String, Object> receiveData);
+
+	List<CollaboComment> requestCommentData(SqlSessionTemplate session, int cardNo);
+
+	List<CollaboCommentReply> requestCommentReply(SqlSessionTemplate session, int cardNo);
+
+	int createComment(SqlSessionTemplate session, DataPacket receive);
 }

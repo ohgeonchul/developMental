@@ -136,4 +136,20 @@
 	<update id="updateCollaboOwner" parameterType="map">
 		UPDATE COLLABO_TOOL SET OWNER = #{target} WHERE NO = #{collaboNo}
 	</update>
+	
+	<select id="requestCommentData" parameterType="_int" resultType="com.kh.workman.collabo.model.vo.CollaboComment">
+		SELECT * FROM COLLABO_COMMENT WHERE CARDNO = #{cardNo}
+	</select>
+	
+	<select id="requestCommentReply" parameterType="_int" resultType="com.kh.workman.collabo.model.vo.CollaboCommentReply">
+		SELECT * FROM COLLABO_COMMENT_REPLY WHERE TARGETNO IN (
+			SELECT NO FROM COLLABO_COMMENT WHERE CARDNO = #{cardNo}
+		)
+	</select>
+	
+	<insert id="createComment" parameterType="map">
+		INSERT INTO COLLABO_COMMENT VALUES(DEFAULT, #{cardNo}, ( 
+			SELECT NO FROM MEMBER WHERE ID = #{userId}
+		), #{content}, DEFAULT, DEFAULT)
+	</insert>
 </mapper>

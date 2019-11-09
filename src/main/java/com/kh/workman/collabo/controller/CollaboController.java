@@ -1,6 +1,5 @@
 package com.kh.workman.collabo.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.workman.collabo.model.service.CollaboService;
 import com.kh.workman.collabo.model.vo.CollaboCard;
+import com.kh.workman.collabo.model.vo.CollaboComment;
+import com.kh.workman.collabo.model.vo.CollaboCommentReply;
 import com.kh.workman.collabo.model.vo.CollaboList;
 import com.kh.workman.collabo.model.vo.CollaboTool;
 import com.kh.workman.member.model.service.MemberService;
@@ -195,5 +196,19 @@ public class CollaboController {
 			isComplete = service.exitCollabo(receiveData) == 1 ? "true" : "false";
 		}
 		return isComplete;
+	}
+
+	@RequestMapping("/collabo/requestCommentData")
+	@ResponseBody
+	public Map<String, List> requestCommentData(@RequestParam("cardNo") int cardNo) {
+
+		List<CollaboComment> comments = service.requestCommentData(cardNo);
+		List<CollaboCommentReply> commentReply = service.requestCommentReply(cardNo);
+		Map<String, List> data = new HashMap<String, List>();
+		logger.debug("comments : " + comments);
+		data.put("comments", comments);
+		data.put("commentReply", commentReply);
+
+		return data;
 	}
 }

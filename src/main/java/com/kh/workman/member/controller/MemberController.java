@@ -237,4 +237,9 @@ public class MemberController {
 		
 		return mv;	
 	}
+	
+	@RequestMapping("/member/privacy_policy")
+	public String connectPrivacyPolicy() {
+		return "common/workman_Privacy_Policy";
+	}
 }
