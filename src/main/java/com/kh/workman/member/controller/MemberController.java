@@ -21,11 +21,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.kh.workman.common.PageBarFactory;
 import com.kh.workman.common.api.JobGithubApi;
 import com.kh.workman.job.model.vo.JobBoard;
 import com.kh.workman.member.model.service.MemberService;
 import com.kh.workman.member.model.vo.Member;
+
+import net.sf.json.JSONArray;
+
 
 @Controller
 public class MemberController {
@@ -251,7 +256,7 @@ public class MemberController {
 	      @RequestParam(value="skill", required=false) String skill,
 	      @RequestParam(value="loc", required=false) String loc,
 	      @RequestParam(value="page", required=false, defaultValue="1") String page,
-	      HttpServletRequest request) {
+	      HttpServletRequest request, Model model) {
 
 	    //1. Job Listings From Database (At least 1 Member Applied for the position)
 	    ModelAndView mv = new ModelAndView();
@@ -278,16 +283,22 @@ public class MemberController {
 	    mv.addObject("count", totalCount);
 	    
 	    
+	  Gson gson = new Gson();
 	   
 	   for(int i=0; i < list.size(); i++)
 	   {
 		   ((JobBoard)list.get(i)).setBoardName("JOB");
-		   System.out.println(list.get(i));
+		   String str = ((JobBoard)list.get(i)).getContent().replaceAll("(\r\n|\r|\n|\n\r)", " ");
+		   ((JobBoard)list.get(i)).setContent( str);   
 	   }
-	    
+	   
+	   String jsonlist = gson.toJson(list);
+	   //System.out.println(jsonlist);
+	   
 	    mv.addObject("list", list);
+
+	    model.addAttribute("jsonlist",jsonlist);
 //	    mv.addObject("newList", newList);
-	    
 	    mv.setViewName("/member/jobMyBoardList");
 
 	    return mv;
