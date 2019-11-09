@@ -26,7 +26,10 @@
 		UPDATE MEMBER SET STATUS=0, REPORTCOUNT=REPORTCOUNT+1  WHERE NO=#{no}
 	</update>
 	
-	
+	<select id="selectMemberNickname" resultType="member">
+		SELECT * FROM MEMBER WHERE NICKNAME=#{nickname}
+	</select>
+
 	<update id="statusUpdate" parameterType="map">
 		UPDATE MEMBER SET STATUS=#{status} WHERE NO=#{no}
 	</update>
@@ -86,4 +89,8 @@
   <insert id="insertMember" parameterType="com.kh.workman.member.model.vo.Member">
   	INSERT INTO MEMBER VALUES(DEFAULT,#{id},#{pw},#{name},#{nickname},#{email},#{addr},#{tel},DEFAULT,DEFAULT,DEFAULT,DEFAULT,NULL,DEFAULT,0)
   </insert>
+  
+  <select id="selectAllMemberSearch" resultType="com.kh.workman.member.model.vo.Member">
+  	SELECT ID, NICKNAME, PROFILE FROM MEMBER WHERE STATUS = 1 AND NOT ID = '2010vienna'
+  </select>
 </mapper>

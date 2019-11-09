@@ -14,8 +14,6 @@
   
   
   <!-- CSS -->
-  
-
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
   integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
@@ -118,7 +116,7 @@
         <!-- Logo -->
         <div class='py-0 mr-auto inline px-0' id="navbar-logo">
           <a class="navbar-brand" href="${path }/" >
-            <img src="${path }/resources/images/icons8-contact-details-48.png">
+            <img src="${path }/resources/images/logo.png">
           </a>
         </div>
         <!-- Nav search bar -->

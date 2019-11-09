@@ -14,16 +14,6 @@
   <jsp:param name="pageTitle" value="구인게시판" />
 </jsp:include>
 
-  <style>
-    .w-0{ width: 0%;}
-    .w-5{ width: 5%;}
-    .w-10{ width: 10%;}
-    .w-25{ width: 25%;}
-    .w-30{ width: 30%;}
-    .w-40{ width: 40%;}
-    .w-45{ width: 45%;}
-  </style>
-
   <main id="main-wrapper" class="p-0 w-100">
     <jsp:include page="/WEB-INF/views/common/loading.jsp"/>
 
@@ -49,22 +39,29 @@
                 <div class="">
                   <!-- search form -->
                   <div id="apiCallFrm" class="form form form-inline" >
-                    <input type="text" class="form-control form-control-sm" placeholder="예. Java" id="skillTxt" required />
-                    <input type="text" class="form-control form-control-sm mx-2" placeholder="예. Germany" id="locTxt" required />
-                    <button type="button" class="btn btn-outline-light text-dark border-dark" id="apiCallBtn" value="Search github">
-                      <i class="fa fa-github" aria-hidden="true"></i>&nbsp;해외취업 검색
+                    <button data-toggle='collapse' id='saramInBtn' class='apiToggleBtn btn btn-outline-light text-dark' value="">
+                      국내취업 <span class="text-white bg-primary rounded px-1">Saramin</span>
                     </button>
+                    <button type="button" class="apiToggleBtn collapse btn btn-outline-light text-dark mr-1 d-none" id="githubBtn" value="Search github">
+                      해외취업 <i class="fa fa-github" aria-hidden="true"></i>
+                    </button>
+
+                    <input type="text" class="form-control form-control-sm" placeholder="예. 자바" id="skillTxt" required />
+                    <input type="text" class="form-control form-control-sm mx-2" placeholder="예. 뉴욕" id="locTxt" required />
+
+                    <button type="button" class="btn btn-outline-info" id="jobSearchBtn"><i class="fa fa-search">&nbsp;</i>검색</button>
+
                   </div>
                 </div>
                 <div class="ml-auto">
                   <c:if test="${loginMember !=null}">
-                    <a class="ml-auto mr-3 align-self-center btn float-left btn-outline-primary" href="${path}/job/jobEnroll">
-                      <i class="fa fa-edit">&nbsp;</i>구인 글
+                    <a class="ml-auto mr-3 align-self-center btn float-left btn-outline-dark" href="${path}/job/jobEnroll">
+                      <b><i class="fa fa-edit">&nbsp;</i>구인글 작성</b>
                     </a>
                   </c:if>
                   <c:if test="${loginMember == null}">
-                    <button id="postJobBtn" class="ml-auto mr-3 align-self-center btn float-left btn-outline-primary">
-                      <i class="fa fa-edit"></i>구인 글
+                    <button id="postJobBtn" class="ml-auto mr-3 align-self-center btn float-left btn-outline-dark">
+                      <b><i class="fa fa-edit">&nbsp;</i>구인글 작성</b>
                     </button>
                   </c:if>
                 </div>
@@ -78,17 +75,22 @@
             </div>
 
             <div id="githubJobBoardList" class="rounded">
-              <img src="${path}/resources/images/icons8-api-32.png" width="30px" height="30px" class="img-fluid" alt=""/>
               <table class="table table-sm table-hover jobmodal-tbl2" style="font-size:14px;">
                 <c:if test="${newList == null}">
-                    <div class="m-0 p-0 w-100 text-center"><i class="text-muted">해외취업 리스트가 없습니다! 검색어를 입력해주세요.</i></div>
+                  <small>
+                    <div class="m-0 mt-5 p-0 w-100 text-center"><i class="text-muted">Saramin / Github 구인 리스트가 없습니다! 검색어를 입력해주세요.</i></div>
+                  </small>
                 </c:if>
                 <c:if test="${newList != null}">
                   <thead>
-                    <tr>
+                    <tr class="table-secondary">
                       <th class="text-center w-0" style="display:none">NO.</th>
-                      <th class="text-center w-10">로고</th>
-                      <th class="text-center w-10">회사명</th>
+                      <th class="text-center w-10 px-0 pt-0 mt-0">
+                        <div class="bg-light px-1">
+                          <i class="fa fa-bookmark" aria-hidden="true">&nbsp;API 데이터</i>
+                        </div>
+                      </th>
+                      <th class="text-center w-10 px-0">회사명</th>
                       <th class="text-center w-25">제목</th>
                       <th class="text-center w-40">글내용</th>
                       <th class="text-center w-10">작성일</th>
@@ -96,13 +98,15 @@
                       <th class="text-center w-5">
                         <img src="${path}/resources/images/icons8-queue-48.png" width="33px" height="33px" class="img-fluid" alt="">
                       </th>
+                      <th class="text-center w-0" style="display:none">조회수 count</th>
+                      <th class="text-center w-0" style="display:none">글상태 status</th>
                     </tr>
                   </thead>
                   <tbody>
                     <c:forEach var="j" items="${newList}" varStatus="status">
-                      <tr class="table-primary">
+                      <tr class="">
                         <td class="text-center" style="display:none">0</td>
-                        <td class="text-center">
+                        <td class="text-center px-0">
                           <c:if test="${fn:substring(j['imageURL'],2,6) =='path'}">
                             <img src="${path}${j['imageURL']}" class="img-fluid" alt="">
                           </c:if>
@@ -110,13 +114,15 @@
                             <img src="${j['imageURL']}" class="imageURL img-fluid" alt="">
                           </c:if>
                         </td>
-                        <td class="text-center">${j['WRITER']}</td>
+                        <td class="text-center px-0">${j['WRITER']}</td>
                         <td class="text-center job-title">${j['TITLE']}</td>
                         <td class="hide-html-tag " >${j['CONTENT']}</td>
                         <%-- <td class="text-center"><fmt:formatDate value="${j['REGDATE']}" pattern="yy-MM-dd" /></td> --%>
                         <td class="text-center">${j['REGDATE']}</td>
                         <%-- <td class="text-center">${j['STATUS']}</td> --%>
                         <td class="text-center">${j['APPLICANTS']}</td>
+                        <td class="text-center" style="display:none">${j['COUNT']}</td>
+                        <td class="text-center" style="display:none">${j['STATUS']}</td>
                       </tr>
                     </c:forEach>
                   </tbody>
@@ -125,17 +131,22 @@
               </table>
             </div>
             <div id="databaseJobBoardList" class="my-3 rounded">
-              <img src="${path}/resources/images/icons8-sql-32.png" class="img-fluid" alt=""/>
               <table class="table table-sm table-hover jobmodal-tbl1" style="font-size:14px;">
                 <thead>
-                  <tr>
+                  <tr class="table-secondary">
                     <th class="text-center w-0" style="display:none">번호</th>
-                    <th class="text-center w-10">로고</th>
-                    <th class="text-center w-10">회사명</th>
+                    <th class="text-center w-10 px-0 h-50 pt-0 mt-0">
+                      <div class="bg-light" >
+                        <i class="fa fa-bookmark" aria-hidden="true">&nbsp;워크맨 추천</i>
+                      </div>
+                      <!-- <img src="${path}/resources/images/icons8-sql-32.png" class="img-fluid" alt=""/> -->
+                    </th>
+                    <th class="text-center w-10 px-0">회사명</th>
                     <th class="text-center w-25">제목</th>
                     <th class="text-center w-40">글내용</th>
                     <th class="text-center w-10">작성일</th>
-                    <!-- <th class="text-center">Status</th> -->
+                    <th class="text-center" style="display:none">조회수 count</th>
+                    <th class="text-center" style="display:none">글상태 status</th>
                     <th class="text-center w-5">
                       <img src="${path}/resources/images/icons8-queue-48.png" width="33px" height="33px" alt="">
                     </th>
@@ -148,18 +159,24 @@
                       <td class="text-center" style="display:none">
                         ${j['no']}
                       </td>
-                      <td class="text-center">
-                        <img src="${path}/resources/upload/job/${j['fileNewName']}" 
-                          class="imageURL img-fluid" alt=""/>
+                      <td class="text-center px-0">
+                        <c:if test="${j['fileNewName'] != null}">
+                          <img src="${path}/resources/upload/job/${j['fileNewName']}" 
+                            class="imageURL img-fluid" alt=""/>
+                        </c:if>
+                        <c:if test="${j['fileNewName'] == null}">
+                          <img src="${path}/resources/images/noimage.png" 
+                            class="imageURL img-fluid" alt=""/>
+                        </c:if>
                       </td>
-                      <td class="text-center">${j['writer']}</td>
+                      <td class="text-center px-0">${j['writer']}</td>
                       <td class="text-center job-title">${j['title']}</td>
                       <td>${j['content']}</td>
                       <%-- <td class="text-center"><fmt:formatDate value="${j['regDate']}" pattern="yy-MM-dd" /></td> --%>
                       <td class="text-center">${j['regDate']}</td>
-      
-                      <%-- <td class="text-center">${j['status']}</td> --%>
                       <td class="text-center">${j['applicants']}</td>
+                      <td class="text-center" style="display:none">${j['count']}</td>
+                      <td class="text-center" style="display:none">${j['status']}</td>
                     </tr>
                   </c:forEach>
                 </tbody>
@@ -222,17 +239,27 @@
           <div class="modal-dialog modal-lg modal-dialog-centered" role="document"></div>
         </div>
 
-        <!-- jQuery -->
-        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-          integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
-          crossorigin="anonymous"></script>
-        
-        <!-- Bootstrap JS -->
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
         <script>
           $(function(){
+            $('.apiToggleBtn').on('click', function () {
+
+              // $('#skillTxt').val('');
+              // $('#locTxt').val('');
+
+              var id = $('.apiToggleBtn').attr('id');
+              if(id == "saramInBtn"){
+                $(this).html("해외취업 <span class='text-white bg-dark rounded px-1'>github</span>");
+                $(this).attr({"id": 'githubBtn'});
+                $('#skillTxt').attr({"placeholder": "예. java"});
+                $('#locTxt').attr({"placeholder": "예. New York"});
+              } else if(id=='githubBtn'){
+                $(this).html("국내취업 <span class='text-white bg-primary rounded px-1'>Saramin</span>");
+                $(this).attr({"id": 'saramInBtn'});
+                $('#skillTxt').attr({"placeholder": "예. 자바"});
+                $('#locTxt').attr({"placeholder": "예. 서울"});
+              }
+            });
+
             $('.w-0').css({'width': '0%', });
             $('.w-5').css({'width': '5%', });
             $('.w-10').css({'width': '10%', });
@@ -290,7 +317,7 @@
             });
 
             $('#skillTxt, #locTxt').bind("enterKey",function(e){
-              $('#apiCallBtn')[0].click();
+              $('#jobSearchBtn')[0].click();
             });
             $('#skillTxt, #locTxt').keyup(function(e){
               if(e.keyCode == 13) {
@@ -298,76 +325,76 @@
               }
             });
 
-            $('#apiCallBtn').click(function(){
-
-              var apiParams = {
+            $('#jobSearchBtn').click(function(){
+              // <button data-toggle='collapse' id='saramInBtn' class='apiToggleBtn btn btn-outline-light text-dark' value="">
+              //   국내취업 <span class="text-white bg-primary rounded px-1">Saramin</span>
+              // </button>
+              // <button type="button" class="apiToggleBtn collapse btn btn-outline-light text-dark mr-1 d-none" id="githubBtn" value="Search github">
+              //   해외취업 <i class="fa fa-github" aria-hidden="true"></i>
+              // </button>
+              var inputFields = {
                 "skill": $('#skillTxt').val(),
                 "loc": $('#locTxt').val(),
               };
 
-              if($('#skillTxt').val() =="" || $('#locTxt').val() =="") {
-                alert("Fill out search fields!");
+              if(inputFields["skill"]=="" || inputFields["loc"] =="") {
+                alert("검색어를 입력 해주세요.");
                 return;
               }
 
-              $.ajax({
-                type: "POST",
-                url: "${path}/job/jobBoardList",
-                data: apiParams,
-                dataType: "html",
-                success: function(data) {
-                  html = $('<div>').html(data);
-                  // $('#main-container').html(html.find('div.submenu-container'));
+              var btn = $('.apiToggleBtn').attr('id');
 
-                  $('#githubJobBoardList').html(html.find('.jobmodal-tbl2'));
-                  // $('#pageBar').html(html.find('#pageBar'));
+              if(btn == 'saramInBtn'){
+                alert("사람인 api 구현안됨")
+              }
+              else if(btn == 'githubBtn'){
+                $.ajax({
+                  type: "POST",
+                  url: "${path}/job/jobBoardList",
+                  data: inputFields,
+                  dataType: "html",
+                  success: function(data) {
+                    html = $('<div>').html(data);
+                    // $('#main-container').html(html.find('div.submenu-container'));
 
-                  $('.w-0').css({'width': '0%', });
-                  $('.w-5').css({'width': '5%', });
-                  $('.w-10').css({'width': '10%', });
-                  $('.w-25').css({'width': '25%', });
-                  $('.w-30').css({'width': '30%', });
-                  $('.w-40').css({'width': '40%', });
-                  $('.w-45').css({'width': '45%', });
-                },
-                error: function(status, error) {
-                  alert("ajax api parameter call Error!");
-                }
-              });
+                    $('#githubJobBoardList').html(html.find('.jobmodal-tbl2'));
+                    // $('#pageBar').html(html.find('#pageBar'));
+
+                    $('.w-0').css({'width': '0%', });
+                    $('.w-5').css({'width': '5%', });
+                    $('.w-10').css({'width': '10%', });
+                    $('.w-25').css({'width': '25%', });
+                    $('.w-30').css({'width': '30%', });
+                    $('.w-40').css({'width': '40%', });
+                    $('.w-45').css({'width': '45%', });
+                  },
+                  error: function(status, error) {
+                    alert("ajax api parameter call Error!");
+                  }
+                });
+              }
+
             });
-
           });
 
           function addRowEvent(tr){
             var githubData = {};
             var no,writer,title,content,regDate,count,status,applicants;
+
             tr.each(function (i, el) {
               var tds = $(this).find('td');
 
               githubData = {};
 
-              console.log(tds.eq(0).text()); //no
-              console.log(tds.eq(0).text().trim()); //no
               githubData["no"]= (tds.eq(0).text()).trim() ==""? 0:tds.eq(0).text().trim();
               githubData["imageURL"]= tds.eq(1).find('img.imageURL').attr("src");
               githubData["writer"]= tds.eq(2).text();
               githubData["title"]= tds.eq(3).text();
               githubData["content"]= tds.eq(4).text();
-              // githubData["regDate"]= new Date(tds.eq(5).text());
-              githubData["regDateRaw"]= tds.eq(5).text();
-              // githubData["count"]= tds.eq().text();
-              // githubData["status"]= tds.eq().text();
+              githubData["regDateRaw"]= tds.eq(5).text(); //new Date(tds.eq(5).text());
               githubData["applicants"]= tds.eq(6).text();
-                    // <th class="text-center w-0" style="display:none">번호</th>
-                    // <th class="text-center w-10">로고</th>
-                    // <th class="text-center w-10">회사명</th>
-                    // <th class="text-center w-25">제목</th>
-                    // <th class="text-center w-40">글내용</th>
-                    // <th class="text-center w-10">작성일</th>
-                    // <!-- <th class="text-center">Status</th> -->
-                    // <th class="text-center w-5">
-                    //   <img src="${path}/resources/images/icons8-queue-48.png" width="33px" height="33px" alt="">
-                    // </th>
+              githubData["count"]= tds.eq(7).text();
+              githubData["status"]= tds.eq(8).text();
             });
 
             console.log(githubData);
@@ -382,7 +409,7 @@
                 $('#job-dialog').html(html.find('#jobmodal-content'));
               },
               error: function (data) { // 데이터 통신에 실패
-                alert("JSON data failed to retrieve!");
+                alert("JSON 데이터 ajax 통신 실패!");
               }
             });
           }
