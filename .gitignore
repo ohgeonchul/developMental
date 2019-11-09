@@ -77,4 +77,7 @@ s3cr3tk3y.properties
 ## ignoring target file
 target/
 
+pom.properties
+MANIFEST.MF
+
 # End of https://www.gitignore.io/api/eclipse,java-web
