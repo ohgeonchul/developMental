@@ -208,7 +208,7 @@
           	<div id="commentArea">
           		
           	</div>
-          		<textarea id="editArea" rows="3" cols="86"></textarea>
+          		<textarea id="editArea" rows="3" cols="86" style="margin-top:10px"></textarea>
           		<button type="button" class="btn btn-sm btn-primary" onclick="requestCommentWrite(this);" id="btnComment">덧글작성</button>
           </div>
         </div>
@@ -440,11 +440,14 @@ $("#cardModal").on('show.bs.modal',function(e){
 					if(v.no == data.comments[i].writer){
 						var div = $("<div/>");
 						div.attr("id","commentNo_"+data.comments[i].no);
+						div.css({
+							"margin-bottom":"10px"
+						});
 						var img = $("<img/>");
 						img.attr("width","30px");
 						img.attr("hegiht","15px");
 						if(!v.profile == ""){
-							img.attr("src","${path}/resources/images/"+ "teamwork.png");
+							img.attr('src','${path}/resources/upload/member/'+m.profile);
 						}else{
 							img.attr("src","${path}/resources/images/"+ "teamwork.png");
 						}
@@ -467,11 +470,12 @@ $("#cardModal").on('show.bs.modal',function(e){
 						content.css({
 							"padding":"10px 20px",
 							"font-size":"16px",
-							"width":"713px",
+							"width":"760px",
 							"margin-bottom":"10px",
 							"border-bottom":"solid lightgrey 0.5px",
 							"display":"flex"
 						});
+						content.attr("class","commentArea");
 						content.append(comment);
 						comment.css("flex","1");
 						//덧글 작성자 일시 수정,삭제버튼
@@ -528,8 +532,55 @@ $("#cardModal").on('show.bs.modal',function(e){
 						$("#commentArea").append(div);
 						return true;
 					}
+					
 				}) 
 				
+			});
+			$.each(data.commentReply,function(r){
+				collaboMembers.some(function(m){
+					if(m.no == data.commentReply[r].writer){
+						var target = $("#commentNo_"+data.commentReply[r].targetNo);
+						var div = $("<div/>");
+						div.attr("id","replyNo_"+data.commentReply[r].no);
+						
+						var icon = $("<span/>");
+						icon.attr("class","material-icons");
+						icon.css("margin-left","15px");
+						icon.text("subdirectory_arrow_right");
+						
+						var img = $("<img/>");
+						img.attr('width',"30px");
+						img.attr("hegiht","15px");
+						if(!m.profile == ''){
+							img.attr('src','${path}/resources/upload/member/'+m.profile);
+						}else{
+							img.attr("src","${path}/resources/images/"+ "teamwork.png");
+						}
+						
+						var writer = $("<span/>");
+						writer.css("margin-right","20px");
+						writer.text(m.nickname);
+						
+						var regdate = $("<span/>");
+						regdate.css("font-size","13px");
+						regdate.html(new Date(data.commentReply[r].regdate).format('yyyy-MM-dd')+"<br/>");
+						
+						var content = $("<span/>");
+						content.css('margin-left',"70px");
+						content.text(data.commentReply[r].content);
+						
+						div.append(icon);
+						div.append(img);
+						div.append(writer);
+						div.append(regdate);
+						div.append(content);
+						target.append(div);
+						
+						target.css("border-bottom","solid lightgrey 0.5px");
+						
+						return true;
+					}
+				});
 			});
 		},
 		beforeSend:function(){
@@ -711,7 +762,7 @@ function responseCommentWrite(receive){
 				img.attr("width","30px");
 				img.attr("hegiht","15px");
 				if(!v.profile == ""){
-					img.attr("src","${path}/resources/images/"+ "teamwork.png");
+					img.attr('src','${path}/resources/upload/member/'+m.profile);
 				}else{
 					img.attr("src","${path}/resources/images/"+ "teamwork.png");
 				}
@@ -838,6 +889,10 @@ function parseDate(str) {
     return new Date(y,m-1,d);
 }
 
+function responseReplyWrite(receive){
+	
+}
+
 function requestReplyWrite(ele){
 	var targetNo = $(ele).parent().parent().attr('id').substring(12);
 	var content = $("#replyArea"+targetNo).val();
@@ -851,6 +906,7 @@ function requestReplyWrite(ele){
 			method : "write"
 		};
 		sendMessage(sendData);
+		$("#replyArea"+targetNo).val('');
 	}else{
 		alert('내용을 입력해 주세요.');
 	}
