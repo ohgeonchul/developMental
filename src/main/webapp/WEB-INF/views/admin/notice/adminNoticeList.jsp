@@ -186,9 +186,9 @@
     <script>
    // 파일다운
       function fileDownload(oName, rName) {
-      	console.log(oName+":"+rName);
-//           oName=encodeURIComponent(oName);
-//           location.href="${path}/board/filedownLoad.do?oName="+oName+"&rName="+rName;
+//       	console.log(oName+":"+rName);
+          oName=encodeURIComponent(oName);
+          location.href="${path}/notice/filedownLoad.do?oName="+oName+"&rName="+rName;
        }
        
       // $("#myModal").on('hide.bs.modal',function(e){
@@ -209,7 +209,7 @@
        	e.stopPropagation();
        	
        	$.each(renamedFileName,function(i,item){
-       		$(item).attr({"type":"button","onclick":"fileDownload('"+$(item).attr("id")+"','"+$(item).val()+")"});
+       		$(item).attr({"type":"button","onclick":"fileDownload('"+$(item).attr("id")+"','"+$(item).val()+"')"});
        		$(item).addClass("btn btn-outline-info");
        		$("#filecontainer").append(item);
        		
@@ -225,14 +225,6 @@
       	$("#renamedFileName").val(renamedFileName);
       	
       });
-      
-      function noticeUpdate(){
-    	  
-    	  var data=$(this).parent().parent();
-    	  console.log(data)
-    	  
-//     	  location.href="${path}/admin/noticeUpdate?no="+no;
-      }
       
       $("button[name=btn_d]").click(function(){
       	var tr = $(this).parent().parent();
