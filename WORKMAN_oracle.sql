@@ -28,11 +28,10 @@ SELECT * FROM APPLY_JOB;
 
 select BOARD_JOB_SEQ.currval from dual;
 
---delete from apply_job where boardno=83;
---delete from file_board_job where orgname='Datadog.jpg';
---delete from board_job where writer='Datadog';
---delete from member where id='Datadog';
-
+--delete from apply_job where boardno=89;
+--delete from file_board_job where boardno=89;
+--delete from board_job where no=89;
+--delete from member where id='monk';
 commit;
 
 -- no(int), writer, title, content, regdate(date), count(int), status(int)
@@ -129,4 +128,3 @@ CREATE TABLE "WORKMAN"."HASHTAG_JOB" (
  );
 COMMENT ON COLUMN "WORKMAN"."HASHTAG_JOB"."BOARDNO" IS '게시판번호 FK';
 COMMENT ON COLUMN "WORKMAN"."HASHTAG_JOB"."HASHTAGNO" IS '해시태그번호 FK';
-
