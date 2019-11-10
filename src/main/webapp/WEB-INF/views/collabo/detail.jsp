@@ -11,15 +11,10 @@
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-<!-- <script src="http	s://code.jquery.com/jquery-1.12.4.js"></script> -->
-
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script src="${path }/resources/js/detail.js" type="text/javascript"></script>
-<!-- jqeury -->
-<!-- <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script> -->
-<!-- Popper -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
 <!-- Google material Icons -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!-- collabo/detail.css -->
@@ -29,7 +24,7 @@
 <!-- Socket -->
 <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <!-- bootstrap -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.js"></script>
 
 <section class="container-fluid" id="content">
 	<div class="row collabo-header" >
@@ -261,7 +256,6 @@ isCardModalOpen = false;
 
 function requestExpulsion(){
 	var userId = $("#expulsionUserId").val();
-		
 		if(userId!=''){
 			$.ajax({
 				type : "post",
@@ -287,8 +281,6 @@ function requestExpulsion(){
 					$('.wrap-loading').addClass('display-none');
 				}
 			});
-		}else{
-			alert('아이디를 입력해 주세요.');
 		}
 }
 
@@ -340,6 +332,11 @@ function sendMessage(sendData) {
 // 서버로부터 메시지를 받았을 때
 function onMessage(msg) {
       var receive = JSON.parse(msg.data);
+      if(receive.type == 'reply'){
+    	  if(receive.method == 'write'){
+    		  responseReplyWrite(receive);
+    	  }
+      }
       if(receive.type == 'comment'){
     	  if(receive.method == 'write'){
     		  responseCommentWrite(receive);
@@ -619,10 +616,8 @@ $("#cardModal").on('show.bs.modal',function(e){
 					$('.wrap-loading').addClass('display-none');
 				}
 			});
-		}else{
-			alert('아이디를 입력해 주세요.');
-		}
 	}
+}
 
 // expulsion function
  $(function(){
@@ -737,20 +732,24 @@ function exitCollabo(exitMemberNo){
 
 function requestCommentWrite(ele){
 	var content = $("#editArea").val();
-	var cardNo = $("#modalCardNo").val();
-	var userId = "${loginMember.id}";
+	if(content != ''){
+		var cardNo = $("#modalCardNo").val();
+		var userId = "${loginMember.id}";
 
-	var sendData ={
-		type : "comment",
-		userId : userId,
-		cardNo : cardNo,
-		content : content,
-		method : "write",
-		collaboNo : collaboNo
-		
-	};
-	sendMessage(sendData);
-	$("#editArea").val('');
+		var sendData ={
+			type : "comment",
+			userId : userId,
+			cardNo : cardNo,
+			content : content,
+			method : "write",
+			collaboNo : collaboNo
+			
+		};
+		sendMessage(sendData);
+		$("#editArea").val('');
+	}else{
+		alert('내용을 입력해 주세요.');
+	}
 }
 function responseCommentWrite(receive){
 	if(isCardModalOpen){
@@ -863,6 +862,8 @@ collaboMembers.forEach(function(m){
 	collaboMembersId.push(m.id);
 });
 function requestDeleteComment(ele){
+// 	alert('댓글 삭제 기능 공사중');
+// 	댓글삭제 일시 방어
 	if(confirm('댓글을 삭제하시겠습니까?')){
 		var commentNo = $(ele).parent().parent().attr("id").substring(10);
 		var sendData ={
@@ -890,7 +891,53 @@ function parseDate(str) {
 }
 
 function responseReplyWrite(receive){
-	
+	if(isCardModalOpen){
+		collaboMembers.some(function(m){
+			if(m.no == receive.userId){
+				
+				var target = $("#commentNo_"+receive.targetNo);
+				var div = $("<div/>");
+				div.attr("id","replyNo_"+receive.commentNo);
+				
+				var icon = $("<span/>");
+				icon.attr("class","material-icons");
+				icon.css("margin-left","15px");
+				icon.text("subdirectory_arrow_right");
+				
+				var img = $("<img/>");
+				img.attr('width',"30px");
+				img.attr("hegiht","15px");
+				if(!m.profile == ''){
+					img.attr('src','${path}/resources/upload/member/'+m.profile);
+				}else{
+					img.attr("src","${path}/resources/images/"+ "teamwork.png");
+				}
+				
+				var writer = $("<span/>");
+				writer.css("margin-right","20px");
+				writer.text(m.nickname);
+				
+				var regdate = $("<span/>");
+				regdate.css("font-size","13px");
+				regdate.html(new Date(parseDate(receive.regdate)).format('yyyy-MM-dd')+"<br/>");
+				
+				var content = $("<span/>");
+				content.css('margin-left',"70px");
+				content.text(receive.content);
+				
+				div.append(icon);
+				div.append(img);
+				div.append(writer);
+				div.append(regdate);
+				div.append(content);
+				target.append(div);
+				
+				target.css("border-bottom","solid lightgrey 0.5px");
+				
+				return true;
+			}
+		});
+	}
 }
 
 function requestReplyWrite(ele){
@@ -907,6 +954,7 @@ function requestReplyWrite(ele){
 		};
 		sendMessage(sendData);
 		$("#replyArea"+targetNo).val('');
+		$(ele).parent().parent().collapse('hide');
 	}else{
 		alert('내용을 입력해 주세요.');
 	}
