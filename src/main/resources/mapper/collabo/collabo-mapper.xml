@@ -108,7 +108,7 @@
 	</insert>
 	
 	<insert id="insertCollaboMember" parameterType="map">
-		INSERT INTO COLLABO_MEMBER VALUES(#{no},
+		INSERT INTO COLLABO_MEMBER VALUES(#{collaboNo},
 			(SELECT NO FROM MEMBER WHERE ID = #{userId}
 		), DEFAULT)
 	</insert>
@@ -124,8 +124,55 @@
 	</select>
 	
 	<delete id="expulsionMember" parameterType="map">
-		DELETE FROM COLLABO_TOOL WHERE NO = #{collaboNo} AND MEMBER = (
+		DELETE FROM COLLABO_MEMBER WHERE NO = #{collaboNo} AND MEMBER = (
 			SELECT NO FROM MEMBER WHERE ID = #{userId}
 		)
 	</delete>
+	
+	<delete id="exitCollabo" parameterType="map">
+		DELETE FROM CCOLLABO_MEMBER WHERE NO = #{collaboNo} AND MEMBER = #{userId}
+	</delete>
+	
+	<update id="updateCollaboOwner" parameterType="map">
+		UPDATE COLLABO_TOOL SET OWNER = #{target} WHERE NO = #{collaboNo}
+	</update>
+	
+	<select id="requestCommentData" parameterType="_int" resultType="com.kh.workman.collabo.model.vo.CollaboComment">
+		SELECT * FROM COLLABO_COMMENT WHERE CARDNO = #{cardNo}
+	</select>
+	
+	<select id="requestCommentReply" parameterType="_int" resultType="com.kh.workman.collabo.model.vo.CollaboCommentReply">
+		SELECT * FROM COLLABO_COMMENT_REPLY WHERE TARGETNO IN (
+			SELECT NO FROM COLLABO_COMMENT WHERE CARDNO = #{cardNo}
+		)
+	</select>
+	
+	<insert id="createComment" parameterType="map">
+	<selectKey keyProperty="commentNo" order="AFTER" resultType="_int">
+		SELECT COLLABO_COMMENT_SEQ.CURRVAL AS commentNo FROM DUAL
+	</selectKey>
+		INSERT INTO COLLABO_COMMENT VALUES(DEFAULT, #{cardNo}, ( 
+			SELECT NO FROM MEMBER WHERE ID = #{userId}
+		), #{content}, DEFAULT, DEFAULT)
+	</insert>
+	
+	<select id="selectOneComment" parameterType="map" resultType="com.kh.workman.collabo.model.vo.CollaboComment">
+		SELECT * FROM COLLABO_COMMENT WHERE NO = #{commentNo}
+	</select>
+	
+	<delete id="deleteComment" parameterType="map">
+		DELETE FROM COLLABO_COMMENT WHERE NO = #{commentNo}
+	</delete>
+	
+	<insert id="createReply" parameterType="map">
+		<selectKey keyProperty="commentNo" order="AFTER" resultType="_int">
+			SELECT COLLABO_COMMENT_REPLY_SEQ.CURRVAL AS commentNo FROM DUAL
+		</selectKey>
+		INSERT INTO COLLABO_COMMENT_REPLY VALUES(DEFAULT, #{targetNo}, #{userId}, #{content}, DEFAULT, DEFAULT)
+	</insert>
+	
+	<select id="selectOneReply" parameterType="map" resultType="com.kh.workman.collabo.model.vo.CollaboCommentReply">
+		SELECT * FROM COLLABO_COMMENT_REPLY WHERE NO = #{commentNo}
+	</select>
+	
 </mapper>

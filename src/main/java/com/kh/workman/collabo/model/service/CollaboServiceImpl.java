@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.kh.workman.collabo.model.dao.CollaboDao;
 import com.kh.workman.collabo.model.vo.CollaboCard;
+import com.kh.workman.collabo.model.vo.CollaboComment;
+import com.kh.workman.collabo.model.vo.CollaboCommentReply;
 import com.kh.workman.collabo.model.vo.CollaboList;
 import com.kh.workman.collabo.model.vo.CollaboTool;
 import com.kh.workman.collabo.model.vo.DataPacket;
@@ -131,6 +133,51 @@ public class CollaboServiceImpl implements CollaboService {
 	@Override
 	public int expulsionMember(HashMap<String, Object> receiveData) {
 		return dao.expulsionMember(session, receiveData);
+	}
+
+	@Override
+	public int exitCollabo(HashMap<String, Object> receiveData) {
+		return dao.exitCollabo(session, receiveData);
+	}
+
+	@Override
+	public int updateCollaboOwner(HashMap<String, Object> receiveData) {
+		return dao.updateCollaboOwner(session, receiveData);
+	}
+
+	@Override
+	public List<CollaboComment> requestCommentData(int cardNo) {
+		return dao.requestCommentData(session, cardNo);
+	}
+
+	@Override
+	public List<CollaboCommentReply> requestCommentReply(int cardNo) {
+		return dao.requestCommentReply(session, cardNo);
+	}
+
+	@Override
+	public int createComment(DataPacket receive) {
+		return dao.createComment(session, receive);
+	}
+
+	@Override
+	public CollaboComment selectOneComment(DataPacket receive) {
+		return dao.selectOneComment(session, receive);
+	}
+
+	@Override
+	public int deleteComment(DataPacket receive) {
+		return dao.deleteComment(session, receive);
+	}
+
+	@Override
+	public int createReply(DataPacket receive) {
+		return dao.createReply(session, receive);
+	}
+
+	@Override
+	public CollaboCommentReply selectOneReply(DataPacket receive) {
+		return dao.selectOneReply(session, receive);
 	}
 
 }
