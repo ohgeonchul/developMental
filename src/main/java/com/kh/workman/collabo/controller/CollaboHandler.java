@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.workman.collabo.model.service.CollaboService;
 import com.kh.workman.collabo.model.vo.CollaboComment;
+import com.kh.workman.collabo.model.vo.CollaboCommentReply;
 import com.kh.workman.collabo.model.vo.DataPacket;
 
 public class CollaboHandler extends TextWebSocketHandler {
@@ -92,6 +93,35 @@ public class CollaboHandler extends TextWebSocketHandler {
 				break;
 			}
 			break;
+		case "reply":
+			switch (receive.getMethod()) {
+			case "write":
+				createReply(receive, session);
+				break;
+			}
+		}
+	}
+
+	private void createReply(DataPacket receive, WebSocketSession session) throws IOException {
+		if (receive.getContent() != null) {
+			boolean isCompleted = service.createReply(receive) == 1 ? true : false;
+			CollaboCommentReply cc = service.selectOneReply(receive);
+			receive.setRegdate(cc.getRegdate());
+			List<HashMap> collabos = service.participation(receive.getCollaboNo());
+			logger.debug("" + isCompleted);
+			if (isCompleted) {
+				for (String key : sessionList.keySet()) {
+					for (int i = 0; i < collabos.size(); i++) {
+						if (key.equals(collabos.get(i).get("ID"))) {
+							logger.debug("" + receive);
+							sessionList.get(key).sendMessage(new TextMessage(toJson(receive)));
+							break;
+						}
+					}
+				}
+			}
+			logger.debug("Create REPLY Success [USER ID : " + receive.getUserId() + " CARD NO : "
+					+ receive.getCardNo() + "]");
 		}
 	}
 

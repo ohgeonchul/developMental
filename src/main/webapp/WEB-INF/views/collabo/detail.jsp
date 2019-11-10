@@ -480,13 +480,51 @@ $("#cardModal").on('show.bs.modal',function(e){
 							btnDel.attr("type","button");
 							btnDel.attr("class","btn btn-sm btn-primary");
 							btnDel.text("삭제");
+							btnDel.css("margin-right","3px");
 							btnDel.attr("onclick","requestDeleteComment(this);");
 							content.append(btnDel);
 						}
+						
+						var reply = $("<button/>");
+						reply.attr("type","button");
+						reply.attr("class","btn btn-sm btn-primary");
+						reply.attr("data-toggle","collapse");
+						reply.attr("data-target","#replyContent"+data.comments[i].no);
+						reply.attr("area-expanded","true");
+						reply.text("답글");
+						content.append(reply);
+						
+						var replyContent = $("<div/>");
+						replyContent.attr("class","panel-collapse collapse");
+						replyContent.attr("id","replyContent"+data.comments[i].no);
+						
+						var panelBody = $("<div/>");
+						panelBody.attr("class","panel-body");
+						
+						var replyTextArea = $("<textarea/>");
+						replyTextArea.attr("id","replyArea"+data.comments[i].no);
+						replyTextArea.attr("row","2");
+						replyTextArea.attr("cols","86");
+						
+						
+						var btnRequestReply = $("<button/>");
+						btnRequestReply.attr("class","btn btn-sm btn-primary");
+						btnRequestReply.attr("type","button");
+						btnRequestReply.attr("onclick","requestReplyWrite(this);");
+						btnRequestReply.text("작성");
+						
+						panelBody.append(replyTextArea);
+						panelBody.append($("<br/>"));
+						panelBody.append(btnRequestReply);
+						
+						replyContent.append(panelBody);
+						replyContent.append($("<hr/>"));
+						
 											
 						div.append(name);
 						div.append(date);
 						div.append(content);
+						div.append(replyContent);
 						$("#commentArea").append(div);
 						return true;
 					}
@@ -687,8 +725,9 @@ function responseCommentWrite(receive){
 				
 				name.text(v.nickname);
 				name.css("margin-right","30px");
-				
-				date.html(new Date(receive.regdate).format('yyyy-MM-dd')+"<br/>");
+
+
+				date.html(new Date(parseDate(receive.regdate)).format('yyyy-MM-dd')+"<br/>"); 
 				date.css({
 					"font-size":"13px"
 				});
@@ -708,14 +747,52 @@ function responseCommentWrite(receive){
 					var btnDel = $("<button/>");
 					btnDel.attr("type","button");
 					btnDel.attr("class","btn btn-sm btn-primary");
+					btnDel.css("margin-right","3px");
 					btnDel.text("삭제");
 					btnDel.attr("onclick","requestDeleteComment(this);");
 					content.append(btnDel);
 				}
 				
+				var reply = $("<button/>");
+				reply.attr("type","button");
+				reply.attr("class","btn btn-sm btn-primary");
+				reply.attr("data-toggle","collapse");
+				reply.attr("data-target","#replyContent"+receive.commentNo);
+				reply.attr("area-expanded","true");
+				reply.text("답글");
+				content.append(reply);
+				
+				var replyContent = $("<div/>");
+				replyContent.attr("class","panel-collapse collapse");
+				replyContent.attr("id","replyContent"+receive.commentNo);
+				
+				var panelBody = $("<div/>");
+				panelBody.attr("class","panel-body");
+				
+				var replyTextArea = $("<textarea/>");
+				replyTextArea.attr("id","replyArea"+receive.commentNo);
+				replyTextArea.attr("row","2");
+				replyTextArea.attr("cols","86");
+				
+				
+				var btnRequestReply = $("<button/>");
+				btnRequestReply.attr("class","btn btn-sm btn-primary");
+				btnRequestReply.attr("type","button");
+				btnRequestReply.attr("onclick","requestReplyWrite(this);");
+				btnRequestReply.text("작성");
+				
+				panelBody.append(replyTextArea);
+				panelBody.append($("<br/>"));
+				panelBody.append(btnRequestReply);
+				
+				replyContent.append(panelBody);
+				replyContent.append($("<hr/>"));
+				
+				
 				div.append(name);
 				div.append(date);
 				div.append(content);
+				div.append(replyContent);
 				$("#commentArea").append(div);
 				return true;
 			}
@@ -752,6 +829,32 @@ function responseDeleteComment(receive){
 	if(isCardModalOpen){
 		$("#commentNo_"+receive.commentNo).remove();
 	}
+}
+
+function parseDate(str) {
+    var y = str.substr(8, 4);
+    var m = str.substr(0, 2);
+    var d = str.substr(4, 2);
+    return new Date(y,m-1,d);
+}
+
+function requestReplyWrite(ele){
+	var targetNo = $(ele).parent().parent().attr('id').substring(12);
+	var content = $("#replyArea"+targetNo).val();
+	if(!content == ''){
+		var sendData = {
+			collaboNo : collaboNo,
+			targetNo : targetNo,
+			content : content,
+			userId : "${loginMember.no}",
+			type : "reply",
+			method : "write"
+		};
+		sendMessage(sendData);
+	}else{
+		alert('내용을 입력해 주세요.');
+	}
+	
 }
 
 </script>

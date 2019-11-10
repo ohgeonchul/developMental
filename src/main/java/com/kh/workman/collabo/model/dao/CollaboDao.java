@@ -73,4 +73,8 @@ public interface CollaboDao {
 	CollaboComment selectOneComment(SqlSessionTemplate session, DataPacket receive);
 
 	int deleteComment(SqlSessionTemplate session, DataPacket receive);
+
+	int createReply(SqlSessionTemplate session, DataPacket receive);
+
+	CollaboCommentReply selectOneReply(SqlSessionTemplate session, DataPacket receive);
 }

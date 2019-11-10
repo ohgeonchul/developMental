@@ -164,4 +164,15 @@
 		DELETE FROM COLLABO_COMMENT WHERE NO = #{commentNo}
 	</delete>
 	
+	<insert id="createReply" parameterType="map">
+		<selectKey keyProperty="commentNo" order="AFTER" resultType="_int">
+			SELECT COLLABO_COMMENT_REPLY_SEQ.CURRVAL AS commentNo FROM DUAL
+		</selectKey>
+		INSERT INTO COLLABO_COMMENT_REPLY VALUES(DEFAULT, #{targetNo}, #{userId}, #{content}, DEFAULT, DEFAULT)
+	</insert>
+	
+	<select id="selectOneReply" parameterType="map" resultType="com.kh.workman.collabo.model.vo.CollaboCommentReply">
+		SELECT * FROM COLLABO_COMMENT_REPLY WHERE NO = #{commentNo}
+	</select>
+	
 </mapper>

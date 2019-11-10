@@ -169,7 +169,15 @@ public class CollaboServiceImpl implements CollaboService {
 	public int deleteComment(DataPacket receive) {
 		return dao.deleteComment(session, receive);
 	}
-	
-	
+
+	@Override
+	public int createReply(DataPacket receive) {
+		return dao.createReply(session, receive);
+	}
+
+	@Override
+	public CollaboCommentReply selectOneReply(DataPacket receive) {
+		return dao.selectOneReply(session, receive);
+	}
 
 }
