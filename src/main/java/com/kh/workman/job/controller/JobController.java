@@ -31,11 +31,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.workman.common.PageBarFactory;
 import com.kh.workman.common.api.JobGithubApi;
+import com.kh.workman.common.api.JobITWorldCrawler;
 import com.kh.workman.job.model.service.JobService;
 import com.kh.workman.job.model.vo.JobApply;
 import com.kh.workman.job.model.vo.JobBoard;
@@ -250,8 +254,9 @@ public class JobController {
     else { //memberNo !=0 && board.getNo() !=0
       //just save JobApply DB
     }
+    //3. JobHashtag Hashtag
 
-    //3. 'JobApply'
+    //4. 'JobApply'
     JobApply newJobApply = new JobApply();
 
     newJobBoard = jobService.selectJobBoardWriter(newJobBoard);
@@ -395,10 +400,10 @@ public class JobController {
     logger.debug(description);
     logger.debug(howToApply);
 
-    j.setContent("Ⅰ. Job Type : " + jobType
-            + "\nⅡ. Location : " + location
-            + "\nⅢ. Description : " + description
-            + "\nⅣ. How to Apply : " + howToApply + "\n");
+    j.setContent("Ⅰ. 근무형태 : " + jobType
+            + "\nⅡ. 위치 : " + location
+            + "\nⅢ. 세부내용 : " + description
+            + "\nⅣ. 지원방법 : " + howToApply + "\n");
 
     int result = 0;
     try {
@@ -409,11 +414,11 @@ public class JobController {
 
     String msg = "", loc= "";
     if(result > 0) {
-      msg = "Job Recruiting post Successful!";
+      msg = "성공적으로 구인공고를 업로드 했습니다";
       loc = "jobBoardList";
     }
     else {
-      msg="Job Recruiting post Failed!\nYour company has already posted one...";
+      msg="구인공고 등록에 실패했습니다.!";
       loc="/";
     }
     
@@ -424,4 +429,15 @@ public class JobController {
 
     return mv;
   }
+  
+  @ResponseBody
+  @RequestMapping("/job/newsList")
+  public String showNewsList() throws JsonProcessingException {
+
+    List<Map<String,String>> crawlNewsList = JobITWorldCrawler.crawlNewsList();
+    
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.writeValueAsString(crawlNewsList);
+  }
+  
 }

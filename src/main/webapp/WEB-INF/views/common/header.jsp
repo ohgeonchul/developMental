@@ -12,24 +12,22 @@
   <meta charset="UTF-8">
   <title>${ param.pageTitle }</title>
   
-  
   <!-- CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-  integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
-  
-
-  <!-- jQuery CDN -->
-  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+  <link rel="stylesheet" href="${path }/resources/css/header.css">
   
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <link rel="stylesheet" href="${path }/resources/css/header.css">
 
   <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
   
+  <!-- Javascript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>	
 
 
@@ -195,27 +193,33 @@
         $.each(params, function(key, value){
           var input = $("<input>");
           input.attr({"type": "hidden",
-                      "name": key,
-                      "value": value,
-          });
-          form.append(input);
+          "name": key,
+          "value": value,
         });
-
-        form.submit();
-      }
+        form.append(input);
+      });
+      
+      form.submit();
+    }
       function logoutSnsAccount(){
         googleLogout();
         return true;
       }
       
-      $(document).ready(function(){
+      $(function(){
         $("#login").click(function(){
           $("#loginModal").modal('show');
         })
-      })
 
+        $('.modal-dialog').draggable({
+          handle: ".modal-content",
+          // containment: "window",
+        });
+
+      })
+      
+  
     </script>
-    
     
 
   <!-- </header> -->
