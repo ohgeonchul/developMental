@@ -1,9 +1,13 @@
 package com.kh.workman.member.model.dao;
 
 import java.util.List;
+
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
+
+
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -66,5 +70,15 @@ public class MemberDaoImpl implements MemberDao {
 		return session.selectList("member.selectStudyMyBoardList", nickname);
 	}
 
+
+	@Override
+	public List<Member> selectAllMember(SqlSessionTemplate session) {
+		return session.selectList("member.selectAllMemberSearch");
+	}
+
+  @Override
+  public Member selectMemberNickname(SqlSessionTemplate session, Member m) {
+    return session.selectOne("member.selectMemberNickname", m);
+  }
 
 }
