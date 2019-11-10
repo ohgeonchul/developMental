@@ -2,6 +2,12 @@ package com.kh.workman.member.model.dao;
 
 import java.util.List;
 
+import java.util.Map;
+
+import org.apache.ibatis.session.RowBounds;
+
+
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -39,6 +45,31 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.update("member.updateInfoMember", m);
 	}
+	
+	@Override
+	public int selectJobMyBoardCount(SqlSessionTemplate session, String nickname) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.selectJobMyBoardCount", nickname);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectPageJobMyBoardList(SqlSessionTemplate session, int cPage, int numPerPage, String nickname) {
+	    RowBounds rows = new RowBounds((cPage-1)*numPerPage, numPerPage);
+	    return session.selectList("member.selectPageJobMyBoardList", nickname, rows);
+	}
+	
+	@Override
+	public int selectMyStudyBoardCount(SqlSessionTemplate session, String nickname) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.selectMyStudyBoardCount", nickname);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectStudyMyBoardList(SqlSessionTemplate session, String nickname) {
+		// TODO Auto-generated method stub
+		return session.selectList("member.selectStudyMyBoardList", nickname);
+	}
+
 
 	@Override
 	public List<Member> selectAllMember(SqlSessionTemplate session) {
