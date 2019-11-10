@@ -116,5 +116,12 @@
 		console.log(reportCount);
 		location.href='${path}/admin/memberReportUp?no='+no+'&reportCount='+reportCount;
 	}
+	$(function(){
+		var user = "${loginMember.id}";
+		if(user == "" || user != 'admin'){
+		   alert("잘못된 접근입니다.");
+		   location.href="${path}/";
+		}
+	});
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

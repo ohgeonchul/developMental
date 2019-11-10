@@ -45,8 +45,8 @@
                 				<div class="col-2-my">
                 					<div class="input-group-my">
                 						<label class="label-my">제목</label>
+                						<input type="hidden" name="noticeNo" id="noticeNo" value="${notice.noticeNo }"/>
                 						<input type="text" class="input--style-4-my" name="noticeTitle" id="noticeTitle" value="${notice.noticeTitle }" required>
-                						<input type="hidden"/>
                 					</div>
                 				</div>
                 				<div class="col-2-my">
@@ -145,6 +145,13 @@ function noticeCancel(){
 $(".custom-file-input").on("change", function() {
   var fileName = $(this).val().split("\\").pop();
   $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+$(function(){
+	var user = "${loginMember.id}";
+	if(user == "" || user != 'admin'){
+	   alert("잘못된 접근입니다.");
+	   location.href="${path}/";
+	}
 });
 
 </script>

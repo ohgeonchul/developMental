@@ -1,15 +1,20 @@
 package com.kh.workman.admin.controller;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +50,7 @@ public class AdminNoticeController {
 		
 		HttpSession session = request.getSession();
 		Member loginMember = (Member)session.getAttribute("loginMember");
+		System.out.println(loginMember);
 		
 		
 		int numPerPage=10;
@@ -58,10 +64,6 @@ public class AdminNoticeController {
 		mv.addObject("count",totalCount);
 		mv.addObject("list", list);
 		mv.addObject("attList", attList);
-		
-		System.out.println("list : "+list);
-		System.out.println("totalcnt : "+totalCount);
-		System.out.println("attList : "+attList);
 		
 		if(loginMember.getId().equals("admin")) {
 			mv.setViewName("admin/notice/adminNoticeList");
@@ -98,9 +100,15 @@ public class AdminNoticeController {
 	}
 	
 	@RequestMapping("/admin/noticeUpdateEnd.do")
-	public ModelAndView noticeUpdateEnd(@RequestParam Map<String,String> param, 
+	public ModelAndView noticeUpdateEnd(@RequestParam Map<String,Object> param, 
 			@RequestParam(value="upFile", required=false) MultipartFile[] upFile ,HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
+		
+		System.out.println("업데이트 실행 : "+param);
+		System.out.println(param.get("noticeNo"));
+		
+//		int noticeNo=Integer.parseInt(param.get("noticeNo"));
+//		param.put("noticeNo", noticeNo);
 		
 		//1. 저장경로 지정하기
 		String saveDir=request.getSession().getServletContext().getRealPath("/resources/upload/notice");
@@ -153,8 +161,10 @@ public class AdminNoticeController {
 	@RequestMapping("/admin/noticeFormEnd.do")
 	public ModelAndView insertNotice(@RequestParam Map<String,String> param, 
 			@RequestParam(value="upFile", required=false) MultipartFile[] upFile ,HttpServletRequest request) {
+		
 		//1. 저장경로 지정하기
 		String saveDir=request.getSession().getServletContext().getRealPath("/resources/upload/notice");
+		System.out.println(saveDir);
 		List<AdminAttachment> attachList=new ArrayList();//여러파일 보관용
 		
 		File dir=new File(saveDir);
@@ -173,6 +183,7 @@ public class AdminNoticeController {
 				//파일 실제 저장하기
 				try {
 					f.transferTo(new File(saveDir+"/"+reName));
+					System.out.println("FILE저장함");
 				}catch (Exception e) {//IlligalStateException|IOException
 					e.printStackTrace();
 				}
@@ -236,6 +247,52 @@ public class AdminNoticeController {
 		mv.setViewName("admin/notice/adminNoticeView");
 		
 		return mv;
+	}
+	
+	@RequestMapping("/notice/filedownLoad.do")
+	public void fileDownLoad(String oName, String rName, HttpServletRequest req, HttpServletResponse res) {
+
+		System.out.println("파일다운 oName : "+oName);
+		System.out.println("파일다운 rName : "+rName);
+		
+		BufferedInputStream bis = null;
+		ServletOutputStream sos = null;
+		
+		String dir = req.getSession().getServletContext().getRealPath("/resources/upload/notice");
+		File saveFile = new File(dir+"/"+rName);//이미 저장된것을 다운로드하기 때문에 rName
+		
+		try {
+			FileInputStream fis = new FileInputStream(saveFile);
+			bis = new BufferedInputStream(fis);
+			sos = res.getOutputStream();
+			String resFileName="";
+			boolean isMSIE=req.getHeader("user-agent").indexOf("MISE")!=-1||
+							req.getHeader("user-agent").indexOf("Trident")!=-1;
+			
+			if(isMSIE) {
+				resFileName=URLEncoder.encode(oName,"UTF-8");
+				resFileName=resFileName.replace("\\", "%20");
+			}else {
+				resFileName=new String(oName.getBytes("UTF-8"),"ISO-8859-1");
+			}
+			res.setContentType("application/octet-stream;charset=utf-8");
+			res.addHeader("Content-Disposition", "attachmnet;filename=\""+resFileName+"\"");
+			res.setContentLength((int)saveFile.length());
+			
+			int read=0;
+			while((read=bis.read())!=-1) {
+				sos.write(read);
+			}
+		}catch(IOException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				sos.close();
+				bis.close();
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
