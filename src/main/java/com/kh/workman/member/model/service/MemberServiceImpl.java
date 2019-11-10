@@ -62,6 +62,18 @@ public class MemberServiceImpl implements MemberService {
 		return dao.selectPageJobMyBoardList(session, cPage, numPerPage, nickname);
 	}
 	
+	@Override
+	public int selectMyStudyBoardCount(String nickname) {
+		// TODO Auto-generated method stub
+		return dao.selectMyStudyBoardCount(session, nickname);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectStudyMyBoardList(String nickname) {
+		// TODO Auto-generated method stub
+		return dao.selectStudyMyBoardList(session, nickname);
+	}
+	
 	
 
 }

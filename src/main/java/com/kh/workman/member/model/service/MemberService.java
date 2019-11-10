@@ -14,4 +14,6 @@ public interface MemberService {
 	
 	 List<Map<String, Object>> selectPageJobMyBoardList(int cPage, int numPerPage, String nickname);
 	 int selectJobMyBoardCount(String nickname);
+	 List<Map<String,Object>> selectStudyMyBoardList(String nickname);
+	 int selectMyStudyBoardCount(String nickname);
 }

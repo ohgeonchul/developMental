@@ -17,6 +17,9 @@ public interface MemberDao {
 	
 	
 	List<Map<String, Object>> selectPageJobMyBoardList(SqlSessionTemplate session, int cPage, int numPerPage, String nickname);
-	  
+	List<Map<String, Object>> selectStudyMyBoardList(SqlSessionTemplate session, String nickname);
+	
 	int selectJobMyBoardCount(SqlSessionTemplate session, String nickname);
+	int selectMyStudyBoardCount(SqlSessionTemplate session, String nickname);
+	
 }

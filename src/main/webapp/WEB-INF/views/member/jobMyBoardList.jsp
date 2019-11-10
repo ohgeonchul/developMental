@@ -267,9 +267,9 @@ hr { margin-top: 5px;margin-bottom: 10px; }
           </c:if>
           <c:if test="${studylist != null}">
           	<c:forEach var="s" items="${studylist}" varStatus="status">
-	          <a class="list-group-item border-info list-group-item-action" name="studyBoard" id="studyBoard"> 
+	          <a class="list-group-item border-info list-group-item-action" name="studyBoard" id="${s['no']}"> 
 	              <span>
-	                <span>Study - java Study</span>
+						<span>${s['boardName']} - ${s['title']}</span>
 	                 <span></span>
 	                 <!--  <span>
 	                      <input type="button" class="btn btn-info more-info" onclick="parkingInfoPopup()" value="More Info">    
@@ -295,7 +295,7 @@ hr { margin-top: 5px;margin-bottom: 10px; }
       
       
       	
-      <!-- <div class="card border-primary mb-3" style="height: 100%;">
+       <div class="card border-primary mb-3" style="height: 100%;">
         <div class="card-header bg-primary h3">Job</div>
         <div class="card-body text-primary">
           <h5 class="card-title text-center">FrontEnd</h5><h6 class="text-right">Yoon</h6>
@@ -304,12 +304,12 @@ hr { margin-top: 5px;margin-bottom: 10px; }
             sdfdsfddddddddddddddddddddddddddddddddddddddddddddddddddddddd
           </p>
         </div>
-        <div class="card-footer bg-info h5">신청한 인원</div>
+        <!-- <div class="card-footer bg-info h5">신청한 인원</div>
         <div class="card-body text-primary">
           <div class="card-text">
               <div class="my-3 p-3 bg-white rounded box-shadow">
                  
-                  <div class="media text-muted pt-3">
+                   <div class="media text-muted pt-3">
                     <img data-src="holder.js/32x32?theme=thumb&amp;bg=007bff&amp;fg=007bff&amp;size=1" alt="32x32" class="mr-2 rounded" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16e4874d895%20text%20%7B%20fill%3A%23007bff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16e4874d895%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23007bff%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2212.03125%22%20y%3D%2216.9%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 32px; height: 32px;">
                     <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                       <div class="d-flex justify-content-between align-items-center w-100">
@@ -318,8 +318,9 @@ hr { margin-top: 5px;margin-bottom: 10px; }
                       </div>
                       <span class="d-block" style="float: left;">@fasdfsdfsdfsdfsdfsdaf</span>
                     </div>
-                  </div>
-                  <div class="media text-muted pt-3">
+						</div> 
+						
+                   <div class="media text-muted pt-3">
                     <img data-src="holder.js/32x32?theme=thumb&amp;bg=007bff&amp;fg=007bff&amp;size=1" alt="32x32" class="mr-2 rounded" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16e4874d896%20text%20%7B%20fill%3A%23007bff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16e4874d896%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23007bff%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2212.03125%22%20y%3D%2216.9%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 32px; height: 32px;">
                     <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                       <div class="d-flex justify-content-between align-items-center w-100">
@@ -328,7 +329,7 @@ hr { margin-top: 5px;margin-bottom: 10px; }
                       </div>
                       <span class="d-block" style="float: left;">@username</span>
                     </div>
-                  </div>
+                  </div> 
                   <div class="media text-muted pt-3">
                     <img data-src="holder.js/32x32?theme=thumb&amp;bg=007bff&amp;fg=007bff&amp;size=1" alt="32x32" class="mr-2 rounded" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16e4874d898%20text%20%7B%20fill%3A%23007bff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16e4874d898%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23007bff%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2212.03125%22%20y%3D%2216.9%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 32px; height: 32px;">
                     <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
@@ -338,14 +339,16 @@ hr { margin-top: 5px;margin-bottom: 10px; }
                       </div>
                       <span class="d-block" style="float: left;">@username</span>
                     </div>
-                  </div>
+						</div>
+						
                 </div>
               </div>
-            </div>
+				</div> -->
+				
           <h6 class="d-block text-right mt-3 mr-3">
             <a href="#">${j['regDate']}</a>
           </h6>
-      </div> -->
+      </div> 
       	
       	
       
@@ -609,8 +612,12 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 				var number = $(e.target).attr('id');
 				var data ='${jsonlist}';
 				var data2 = JSON.parse(data);
+				
+				var data3 = '${jsonStudylist}';
+				var data4 = JSON.parse(data3);
 				//var jsonList = JSON.parse(data);
 				console.log(data2);
+				console.log(data4);
 				var startDiv = $("#TotalBoardContent");
 				
 				if(startDiv != null)
@@ -618,7 +625,7 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 					
 				for(var d in data2)
 				{
-					if(data2[d]['no'] == number )
+					if(data2[d]['no'] == number)
 					{
 						console.log(data2[d]);
 						var borderDiv = $("<div class='card border-primary mb-3' style='height:100%;'>");
@@ -632,11 +639,70 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 						startDiv.append(borderDiv);	
 					}
 				}
+				for(var d2 in data4)
+				{
+					if(data4[d2]['no'] == number && data4[d2]['boardName'] == 'STUDY')
+					{
+						console.log(data2[d]);
+						var borderDiv = $("<div class='card border-primary mb-3' style='height:100%;'>");
+						var headerDiv = $("<div class='card-header bg-primary h3'>"+data4[d2]['boardName']+"</div>");
+						var bodyDiv = $("<div class='card-body text-primary'>");
+						var h5Tag = $("<h5 class='card-title text-center'>FrontEnd</h5><h6 class='text-right'>"+data4[d2]['writer']+"</h6>")
+						var pTag = $("<p class='card-text'>"+data4[d2]['content']+"</p>");
+						var h6Tage = $("<h6 class='d-block text-right mt-3 mr-3'> <a href='#''>"+data4[d2]['regDate']+"</a></h6>")
+						bodyDiv.append(h5Tag).append(pTag);
+						borderDiv.append(headerDiv).append(bodyDiv).append(h6Tage);
+						startDiv.append(borderDiv);
+						
+						var applyDiv = $("<div class='card-footer bg-info h5'>신청한 인원</div>");
+						borderDiv.append(applyDiv);
+						
+						// 신청한 사람이 몇명인지 체크 하고 for문을 여기서 돌리면됨
+						
+						var applybodyDiv = $("<div class='card-body text-primary'>");
+						var applytext = $("<div class='card-text'>");
+						var applyRounded = $("<div class='my-3 p-3 bg-white rounded box-shadow'>");
+					
+						var mediaDiv =$("<div class='media text-muted pt-3'>");
+						var imgData = $("<img data-src='holder.js/32x32?theme=thumb&amp;bg=007bff&amp;fg=007bff&amp;size=1' alt='32x32' class='mr-2 rounded' src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16e4874d898%20text%20%7B%20fill%3A%23007bff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16e4874d898%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23007bff%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2212.03125%22%20y%3D%2216.9%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E' data-holder-rendered='true' style='width: 32px; height: 32px;'>");
+						var imgNextDiv = $("<div class='media-body pb-3 mb-0 small lh-125 border-bottom border-gray'>");
+						var itemDiv = $("<div class='d-flex justify-content-between align-items-center w-100'>");
+						var strongData = $("<strong class='text-gray-dark'>"+'Full Name'+"</strong>");
+						var strongNextA = $("<a href='#'' style='color: black;''>Follow</a>");
+						var userNameSpan = $("<span class='d-block' style='float: left;'>@username</span>");
+						
+						itemDiv.append(strongData);
+						itemDiv.append(strongNextA);
+						imgNextDiv.append(itemDiv);
+						imgNextDiv.append(userNameSpan);
+						
+						mediaDiv.append(imgData).append(imgNextDiv);
+						applyRounded.append(mediaDiv);
+						applytext.append(applyRounded);
+						applybodyDiv.append(applytext);
+						
+						borderDiv.append(applybodyDiv);	
+					}
+				}
 				
 
-
-
-
+			//<div class="card-footer bg-info h5">신청한 인원</div>
+			//<div class="card-body text-primary">
+			//	<div class="card-text">
+         //     <div class="my-3 p-3 bg-white rounded box-shadow">
+				// <div class="media text-muted pt-3">
+            //         <img data-src="holder.js/32x32?theme=thumb&amp;bg=007bff&amp;fg=007bff&amp;size=1" alt="32x32" class="mr-2 rounded" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16e4874d898%20text%20%7B%20fill%3A%23007bff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16e4874d898%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23007bff%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2212.03125%22%20y%3D%2216.9%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 32px; height: 32px;">
+            //         <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+				
+            //           <div class="d-flex justify-content-between align-items-center w-100">
+            //             <strong class="text-gray-dark">Full Name</strong>
+            //             <a href="#" style="color: black;">Follow</a>
+            //           </div>
+				
+            //           <span class="d-block" style="float: left;">@username</span>
+				
+            //         </div>
+				// 		</div>
 
          // <div class="card border-primary mb-3" style="height: 100%;">
          // <div class="card-header bg-primary h3">Job</div>
@@ -651,6 +717,10 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 			//  <h6 class="d-block text-right mt-3 mr-3">
          //    <a href="#">${j['regDate']}</a>
          //  </h6>
+			
+			
+			
+			
 				
 			});
 		

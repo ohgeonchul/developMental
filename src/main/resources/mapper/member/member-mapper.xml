@@ -20,6 +20,15 @@
   	<select id="selectJobMyBoardCount" parameterType="String" resultType="_int">
     	SELECT COUNT(*) FROM BOARD_JOB WHERE WRITER=#{nickname}
   	</select>
+  	
+  	<select id="selectMyStudyBoardCount" parameterType="String" resultType="_int">
+		 select count(*) from board_meetup WHERE WRITER=#{nickname}
+	</select>
+	
+	<select id="selectStudyMyBoardList" parameterType="String" resultType="com.kh.workman.member.model.vo.MyStudyBoard">
+	 SELECT * FROM BOARD_MEETUP WHERE WRITER=#{nickname} ORDER BY REGDATE DESC
+	</select>
+  	
 	
 	<!-- END 게시판 -->
 	

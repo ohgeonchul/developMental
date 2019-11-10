@@ -28,6 +28,7 @@ import com.kh.workman.common.api.JobGithubApi;
 import com.kh.workman.job.model.vo.JobBoard;
 import com.kh.workman.member.model.service.MemberService;
 import com.kh.workman.member.model.vo.Member;
+import com.kh.workman.member.model.vo.MyStudyBoard;
 
 import net.sf.json.JSONArray;
 
@@ -266,7 +267,9 @@ public class MemberController {
 	    
 	    List<Map<String, Object>> list = service.selectPageJobMyBoardList(cPage, numPerPage, loginMember.getNickname() );
 	    int totalCount = service.selectJobMyBoardCount(loginMember.getNickname());
-
+	    
+	    List<Map<String, Object>> studylist = service.selectStudyMyBoardList(loginMember.getNickname());
+	    int studyCount = service.selectMyStudyBoardCount(loginMember.getNickname());
 	    //2. Additional Job Listings From Github Job API (Not inserted into DB yet!)
 	    //   this data lists are inserted AFTER at least one Member applies for the position!
 	    //TODO: test data(to be replaced with User Input!)
@@ -292,12 +295,21 @@ public class MemberController {
 		   ((JobBoard)list.get(i)).setContent( str);   
 	   }
 	   
+	   for(int j =0; j < studylist.size(); j++)
+	   {
+		   ((MyStudyBoard)studylist.get(j)).setBoardName("STUDY");
+		   String str = ((MyStudyBoard)studylist.get(j)).getContent().replaceAll("(\r\n|\r|\n|\n\r)", " ");
+		   ((MyStudyBoard)studylist.get(j)).setContent( str);   
+	   }
+	   
 	   String jsonlist = gson.toJson(list);
+	   String jsonStudylist = gson.toJson(studylist);
 	   //System.out.println(jsonlist);
 	   
 	    mv.addObject("list", list);
-
+	    mv.addObject("studylist", studylist);
 	    model.addAttribute("jsonlist",jsonlist);
+	    model.addAttribute("jsonStudylist",jsonStudylist);
 //	    mv.addObject("newList", newList);
 	    mv.setViewName("/member/jobMyBoardList");
 

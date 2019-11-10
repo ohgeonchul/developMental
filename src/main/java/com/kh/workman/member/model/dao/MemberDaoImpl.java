@@ -53,6 +53,18 @@ public class MemberDaoImpl implements MemberDao {
 	    RowBounds rows = new RowBounds((cPage-1)*numPerPage, numPerPage);
 	    return session.selectList("member.selectPageJobMyBoardList", nickname, rows);
 	}
+	
+	@Override
+	public int selectMyStudyBoardCount(SqlSessionTemplate session, String nickname) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.selectMyStudyBoardCount", nickname);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectStudyMyBoardList(SqlSessionTemplate session, String nickname) {
+		// TODO Auto-generated method stub
+		return session.selectList("member.selectStudyMyBoardList", nickname);
+	}
 
 
 }
