@@ -148,8 +148,20 @@
 	</select>
 	
 	<insert id="createComment" parameterType="map">
+	<selectKey keyProperty="commentNo" order="AFTER" resultType="_int">
+		SELECT COLLABO_COMMENT_SEQ.CURRVAL AS commentNo FROM DUAL
+	</selectKey>
 		INSERT INTO COLLABO_COMMENT VALUES(DEFAULT, #{cardNo}, ( 
 			SELECT NO FROM MEMBER WHERE ID = #{userId}
 		), #{content}, DEFAULT, DEFAULT)
 	</insert>
+	
+	<select id="selectOneComment" parameterType="map" resultType="com.kh.workman.collabo.model.vo.CollaboComment">
+		SELECT * FROM COLLABO_COMMENT WHERE NO = #{commentNo}
+	</select>
+	
+	<delete id="deleteComment" parameterType="map">
+		DELETE FROM COLLABO_COMMENT WHERE NO = #{commentNo}
+	</delete>
+	
 </mapper>

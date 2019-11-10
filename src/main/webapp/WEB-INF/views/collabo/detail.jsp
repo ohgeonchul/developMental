@@ -165,7 +165,7 @@
 
 
 
-  <!-- Card Modal -->
+  <!-- CardModal -->
   <div class="modal fade" id="cardModal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -205,6 +205,9 @@
           <div style="margin-top:70px;padding:10px 2px;">
           	<h5>댓글</h5>
           	<hr>
+          	<div id="commentArea">
+          		
+          	</div>
           		<textarea id="editArea" rows="3" cols="86"></textarea>
           		<button type="button" class="btn btn-sm btn-primary" onclick="requestCommentWrite(this);" id="btnComment">덧글작성</button>
           </div>
@@ -254,6 +257,8 @@
 
 </style>
 <script>
+isCardModalOpen = false;
+
 function requestExpulsion(){
 	var userId = $("#expulsionUserId").val();
 		
@@ -335,6 +340,14 @@ function sendMessage(sendData) {
 // 서버로부터 메시지를 받았을 때
 function onMessage(msg) {
       var receive = JSON.parse(msg.data);
+      if(receive.type == 'comment'){
+    	  if(receive.method == 'write'){
+    		  responseCommentWrite(receive);
+    	  }
+    	  if(receive.method == 'delete'){
+    		  responseDeleteComment(receive);
+    	  }
+      }
       if(receive.type == 'list'){
     	  if(receive.method == 'create'){
     		  responseCreateList(receive);
@@ -364,11 +377,6 @@ function onMessage(msg) {
 			  responseDeleteCard(receive);
     	  }
       }
-      if(receive.type == 'comment'){
-    	  if(receive.method == 'write'){
-    		  responseCommentWrite(receive);
-    	  }
-      }
 }
 // 서버와 연결을 끊었을 때
 function onClose(evt) {
@@ -389,9 +397,11 @@ $("#modifyContent").on('show.bs.collapse',function(){
 });
  $("#cardModal").on('hide.bs.modal',function(e){
 	$("#modifyContent").collapse('hide');
+	isCardModalOpen = false;
 });
 
 $("#cardModal").on('show.bs.modal',function(e){
+	isCardModalOpen = true;
 	var data=$(e.relatedTarget).data('test');
 	var cardNo = $(e.relatedTarget).data('test').substring(7);
 	var card = $("#"+data);
@@ -405,12 +415,13 @@ $("#cardModal").on('show.bs.modal',function(e){
 	content.text(card.children('.card-content').text());
 	
 	var writerNo = card.children('input[name=cardWriter]').val();
-
-	<c:forEach items="${collaboMembers}" var = "v">
-		if(writerNo == ${v.no}){
-			writer.text("${v.nickname}");
+	collaboMembers.some(function(m){
+		if(writerNo == m.no){
+			writer.text(m.nickname);
+			return true;
 		}
-	</c:forEach>
+	});
+	
 	
 	$.ajax({
 		type : "post",
@@ -420,9 +431,67 @@ $("#cardModal").on('show.bs.modal',function(e){
 			cardNo : cardNo
 		},
 		success : function(data){
+			$("#commentArea").empty();
+// 			console.log(data.comments);
 			$.each(data.comments, function(i){
-				console.log(data.comments[i]);
-// 				댓글 생성
+// 				console.log(data.comments[i]);
+				collaboMembers.some(function(v){
+// 					console.log(v);
+					if(v.no == data.comments[i].writer){
+						var div = $("<div/>");
+						div.attr("id","commentNo_"+data.comments[i].no);
+						var img = $("<img/>");
+						img.attr("width","30px");
+						img.attr("hegiht","15px");
+						if(!v.profile == ""){
+							img.attr("src","${path}/resources/images/"+ "teamwork.png");
+						}else{
+							img.attr("src","${path}/resources/images/"+ "teamwork.png");
+						}
+						div.append(img);
+						var name = $("<span/>");
+						var content = $("<div/>");
+						var date = $("<span/>");
+						
+						var comment = $("<span/>");
+						
+						
+						name.text(v.nickname);
+						name.css("margin-right","30px");
+						
+						date.html(new Date(data.comments[i].regdate).format('yyyy-MM-dd')+"<br/>");
+						date.css({
+							"font-size":"13px"
+						});
+						comment.text(data.comments[i].content);
+						content.css({
+							"padding":"10px 20px",
+							"font-size":"16px",
+							"width":"713px",
+							"margin-bottom":"10px",
+							"border-bottom":"solid lightgrey 0.5px",
+							"display":"flex"
+						});
+						content.append(comment);
+						comment.css("flex","1");
+						//덧글 작성자 일시 수정,삭제버튼
+						if(data.comments[i].writer == "${loginMember.no}"){
+							var btnDel = $("<button/>");
+							btnDel.attr("type","button");
+							btnDel.attr("class","btn btn-sm btn-primary");
+							btnDel.text("삭제");
+							btnDel.attr("onclick","requestDeleteComment(this);");
+							content.append(btnDel);
+						}
+											
+						div.append(name);
+						div.append(date);
+						div.append(content);
+						$("#commentArea").append(div);
+						return true;
+					}
+				}) 
+				
 			});
 		},
 		beforeSend:function(){
@@ -466,22 +535,12 @@ $("#cardModal").on('show.bs.modal',function(e){
 		}
 	}
 
-
+// expulsion function
  $(function(){
-	var collaboMembers = new Array();
-	var userNicknames = {};
-	var userProfiles = {};
 	
-	<c:forEach items="${collaboMembers}" var="m">
-		<c:if test="${m.profile ne null}">
-			userProfiles.${m.id} = "${m.profile}";
-		</c:if>
-		userNicknames.${m.id} = "${m.nickname}";
-		collaboMembers.push("${m.id}");
-	</c:forEach>
 	$("#expulsionUserId").autocomplete({
 		minLength : 1,
-		source : collaboMembers,
+		source : collaboMembersId,
 		select : function (event, ui){
 			$("#expulsionUserId").val(ui.item.value);
 			return false;
@@ -498,33 +557,31 @@ $("#cardModal").on('show.bs.modal',function(e){
 		
 		div.css("display","flex");
 		span.css("flex","1");
-		span.html(item.value+"<br/>"+userNicknames[item.value]);
-		div.append(span);
-		if(!userProfiles[item.value]==""){	
-			img.attr("src","${path}/resources/images/"+ "teamwork.png");
-			img.attr("width","40px");
-			img.attr("hegiht","20px");
-			div.append(img);
-  		}
+		
+		collaboMembers.some(function(m){
+			if(m.id == item.value){
+				span.html(item.value+"<br/>"+m.nickname);
+				
+				div.append(span);
+				if(!m.profile == ""){	
+					img.attr("src","${path}/resources/images/"+ "teamwork.png");
+					img.attr("width","40px");
+					img.attr("hegiht","20px");
+					div.append(img);
+		  		}
+				return true;
+			}
+		});
+			
     return li.append(div).appendTo(ul);
 	};
 }); 
 
 
 $(function(){
-	var userIds = new Array();
-	var userProfiles = {};
-	var userNickNames = {};
-	<c:forEach items="${members}" var="v" varStatus="i">
-		<c:if test="${v.profile ne null}">
-			userProfiles.${v.id} = "${v.profile}";
-		</c:if> 
-		userNickNames.${v.id} = "${v.nickname}";
-		userIds.push("${v.id}");
-	</c:forEach>
  	$("#userId").autocomplete({
  		minLength : 3,
-		source : userIds,
+		source : membersId,
 		select : function (event, ui){
 			$("#userId").val(ui.item.value);
 			return false;
@@ -542,14 +599,20 @@ $(function(){
 	    div.css("display","flex");
 	    span.css("flex","1");
 	    
-	    span.html(item.value+"<br/>"+userNickNames[item.value]);
-	    div.append(span);
-	    if(!userProfiles[item.value]==""){
-			img.attr("src","${path}/resources/images/"+ "teamwork.png");
-			img.attr("width","40px");
-			img.attr("hegiht","20px");
-			div.append(img);
-	  	}
+	    members.some(function(m){
+	    	if(item.value == m.id){
+    		  span.html(item.value+"<br/>"+m.nickname);
+    		  div.append(span);
+   		      if(!m.profile == ""){
+   				img.attr("src","${path}/resources/images/"+ "teamwork.png");
+   				img.attr("width","40px");
+   				img.attr("hegiht","20px");
+   				div.append(img);
+    		  	}
+   		      return true;
+	    	}
+	    })
+	  
 	    return li.append(div).appendTo(ul);
 	}; 
 });
@@ -593,12 +656,103 @@ function requestCommentWrite(ele){
 		userId : userId,
 		cardNo : cardNo,
 		content : content,
-		method : "write"
+		method : "write",
+		collaboNo : collaboNo
+		
 	};
 	sendMessage(sendData);
+	$("#editArea").val('');
 }
 function responseCommentWrite(receive){
-	console.log($("#cardModal").show());
+	if(isCardModalOpen){
+		collaboMembers.some(function(v){
+			if(v.id == receive.userId){
+				var div = $("<div/>");
+				div.attr("id","commentNo_"+receive.commentNo);
+				var img = $("<img/>");
+				img.attr("width","30px");
+				img.attr("hegiht","15px");
+				if(!v.profile == ""){
+					img.attr("src","${path}/resources/images/"+ "teamwork.png");
+				}else{
+					img.attr("src","${path}/resources/images/"+ "teamwork.png");
+				}
+				div.append(img);
+				var name = $("<span/>");
+				var content = $("<div/>");
+				var date = $("<span/>");
+				
+				var comment = $("<span/>");
+				
+				
+				name.text(v.nickname);
+				name.css("margin-right","30px");
+				
+				date.html(new Date(receive.regdate).format('yyyy-MM-dd')+"<br/>");
+				date.css({
+					"font-size":"13px"
+				});
+				comment.text(receive.content);
+				content.css({
+					"padding":"10px 20px",
+					"font-size":"16px",
+					"width":"713px",
+					"margin-bottom":"10px",
+					"border-bottom":"solid lightgrey 0.5px",
+					"display":"flex"
+				});
+				content.append(comment);
+				comment.css("flex","1");
+				//덧글 작성자 일시 수정,삭제버튼
+				if(v.id == "${loginMember.id}"){
+					var btnDel = $("<button/>");
+					btnDel.attr("type","button");
+					btnDel.attr("class","btn btn-sm btn-primary");
+					btnDel.text("삭제");
+					btnDel.attr("onclick","requestDeleteComment(this);");
+					content.append(btnDel);
+				}
+				
+				div.append(name);
+				div.append(date);
+				div.append(content);
+				$("#commentArea").append(div);
+				return true;
+			}
+		});
+	}
 }
+
+members = ${members};
+membersId = new Array();
+members.forEach(function(m){
+	membersId.push(m.id);
+});
+
+collaboMembers = ${collaboMembers};
+collaboMembersId = new Array();
+collaboMembers.forEach(function(m){
+	collaboMembersId.push(m.id);
+});
+function requestDeleteComment(ele){
+	if(confirm('댓글을 삭제하시겠습니까?')){
+		var commentNo = $(ele).parent().parent().attr("id").substring(10);
+		var sendData ={
+				type : "comment",
+				userId : userId,
+				method : "delete",
+				commentNo : commentNo,
+				collaboNo : collaboNo
+			};
+			sendMessage(sendData);
+	}
+}
+
+function responseDeleteComment(receive){
+	if(isCardModalOpen){
+		$("#commentNo_"+receive.commentNo).remove();
+	}
+}
+
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/> 

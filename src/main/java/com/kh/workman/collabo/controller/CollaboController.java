@@ -20,12 +20,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.workman.collabo.model.service.CollaboService;
 import com.kh.workman.collabo.model.vo.CollaboCard;
 import com.kh.workman.collabo.model.vo.CollaboComment;
 import com.kh.workman.collabo.model.vo.CollaboCommentReply;
 import com.kh.workman.collabo.model.vo.CollaboList;
 import com.kh.workman.collabo.model.vo.CollaboTool;
+import com.kh.workman.collabo.model.vo.DataPacket;
 import com.kh.workman.member.model.service.MemberService;
 import com.kh.workman.member.model.vo.Member;
 
@@ -56,8 +59,8 @@ public class CollaboController {
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("collaboNo", collaboNo);
-		mav.addObject("members", temp);
-		mav.addObject("collaboMembers", collaboMembers);
+		mav.addObject("members", toJson(temp));
+		mav.addObject("collaboMembers", toJson(collaboMembers));
 		mav.addObject("collaboLists", collaboLists);
 		mav.addObject("collaboCards", collaboCards);
 		mav.addObject("collaboTool", collabo);
@@ -210,5 +213,16 @@ public class CollaboController {
 		data.put("commentReply", commentReply);
 
 		return data;
+	}
+
+	private HashMap<String, Object> parsingJson(String receiveMessage) {
+		Gson gson = new GsonBuilder().create();
+		HashMap<String, Object> temp = gson.fromJson(receiveMessage, HashMap.class);
+		return temp;
+	}
+
+	private String toJson(Object obj) {
+		Gson gson = new GsonBuilder().create();
+		return gson.toJson(obj);
 	}
 }

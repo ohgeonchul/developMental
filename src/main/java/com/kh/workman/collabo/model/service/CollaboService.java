@@ -68,4 +68,8 @@ public interface CollaboService {
 
 	int createComment(DataPacket receive);
 
+	CollaboComment selectOneComment(DataPacket receive);
+
+	int deleteComment(DataPacket receive);
+
 }

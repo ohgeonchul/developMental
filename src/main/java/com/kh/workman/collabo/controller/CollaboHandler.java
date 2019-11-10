@@ -16,6 +16,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.workman.collabo.model.service.CollaboService;
+import com.kh.workman.collabo.model.vo.CollaboComment;
 import com.kh.workman.collabo.model.vo.DataPacket;
 
 public class CollaboHandler extends TextWebSocketHandler {
@@ -39,7 +40,6 @@ public class CollaboHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		DataPacket receive = parsingJson(message.getPayload());
-		System.out.println(receive);
 //		ObjectMapper om = new ObjectMapper();
 //		Map<String, Object> temp = om.readValue(message.getPayload(), Map.class);
 //		System.out.println(temp);
@@ -87,28 +87,51 @@ public class CollaboHandler extends TextWebSocketHandler {
 			case "write":
 				createComment(receive, session);
 				break;
+			case "delete":
+				deleteComment(receive, session);
+				break;
 			}
 			break;
 		}
 	}
 
+	private void deleteComment(DataPacket receive, WebSocketSession session) throws IOException {
+		boolean isCompleted = service.deleteComment(receive) == 1 ? true : false;
+		List<HashMap> collabos = service.participation(receive.getCollaboNo());
+
+		if (isCompleted) {
+			for (String key : sessionList.keySet()) {
+				for (int i = 0; i < collabos.size(); i++) {
+					if (key.equals(collabos.get(i).get("ID"))) {
+						sessionList.get(key).sendMessage(new TextMessage(toJson(receive)));
+						break;
+					}
+				}
+			}
+		}
+		logger.debug("Move Card Success [USER ID : " + receive.getUserId() + " Card NO : " + receive.getCardNo() + "]");
+	}
+
 	private void createComment(DataPacket receive, WebSocketSession session) throws IOException {
 		if (receive.getContent() != null) {
 			boolean isCompleted = service.createComment(receive) == 1 ? true : false;
+			CollaboComment cc = service.selectOneComment(receive);
+			receive.setRegdate(cc.getRegdate());
 			List<HashMap> collabos = service.participation(receive.getCollaboNo());
-
+			logger.debug("" + isCompleted);
 			if (isCompleted) {
 				for (String key : sessionList.keySet()) {
 					for (int i = 0; i < collabos.size(); i++) {
 						if (key.equals(collabos.get(i).get("ID"))) {
+							logger.debug("" + receive);
 							sessionList.get(key).sendMessage(new TextMessage(toJson(receive)));
 							break;
 						}
 					}
 				}
 			}
-			logger.debug("Create Comment Success [USER ID : " + receive.getUserId() + " CARD NO : " + receive.getCardNo()
-					+ "]");
+			logger.debug("Create Comment Success [USER ID : " + receive.getUserId() + " CARD NO : "
+					+ receive.getCardNo() + "]");
 		}
 	}
 
