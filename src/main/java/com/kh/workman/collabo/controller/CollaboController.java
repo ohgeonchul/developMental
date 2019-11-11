@@ -78,7 +78,7 @@ public class CollaboController {
 
 		List<CollaboTool> collaboTools = service.selectCollaboTools(userId);
 		List<Map<String, String>> collaboMemberList = service.selectCollaboMemberList(userId);
-
+ 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("collaboMemberList", collaboMemberList);
 		mav.addObject("collaboTools", collaboTools);
