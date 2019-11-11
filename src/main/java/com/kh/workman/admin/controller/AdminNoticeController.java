@@ -52,6 +52,7 @@ public class AdminNoticeController {
 		HttpSession session = request.getSession(false);
 			
 		Member loginMember = (Member)session.getAttribute("loginMember");
+		System.out.println(loginMember);
 		
 		int numPerPage=10;
 		//공지사항 리스트 전부 불러오기

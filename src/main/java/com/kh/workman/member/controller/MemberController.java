@@ -68,12 +68,13 @@ public class MemberController {
 		if (m.getId().equals(loginMember.getId()) && pwEncoder.matches(m.getPw(), loginMember.getPw()))
 		// if(m.getPw().equals(loginMember.getPw()))
 		{
-//			if(session.getAttribute("loginMember") != null)
-//				session.removeAttribute("loginMember");
+
+			if (session.getAttribute("loginMember") != null)
+				session.removeAttribute("loginMember");
 
 			msg = "로그인 성공";
 			session.setAttribute("loginMember", loginMember);
-			System.out.println(session);
+
 		} else {
 			msg = "로그인 실패";
 		}
@@ -227,6 +228,11 @@ public class MemberController {
 		mv.setViewName("/common/msg");
 
 		return mv;
+	}
+
+	@RequestMapping("/member/privacy_policy")
+	public String connectPrivacyPolicy() {
+		return "common/workman_Privacy_Policy";
 	}
 
 	@RequestMapping("/member/jobMyBoardList")
