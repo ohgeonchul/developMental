@@ -70,12 +70,12 @@ public class MemberController {
 		if(m.getId().equals(loginMember.getId()) && pwEncoder.matches(m.getPw(), loginMember.getPw()))
 		//if(m.getPw().equals(loginMember.getPw()))
 		{
-			if(session.getAttribute("loginMember") != null)
-				session.removeAttribute("loginMember");
+//			if(session.getAttribute("loginMember") != null)
+//				session.removeAttribute("loginMember");
 			
 			msg = "로그인 성공";
 			session.setAttribute("loginMember", loginMember);		
-			
+			System.out.println(session);
 		}
 		else
 		{
