@@ -14,9 +14,9 @@
   <jsp:param name="pageTitle" value="관리자" />
 </jsp:include>
 
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.js"></script> -->
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.js"></script>  -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
 
   <style>
     .container-1200 {
@@ -69,6 +69,7 @@
               <th class="text-center">제목</th>
               <th class="text-center">작성자</th>
               <th class="text-center">작성일</th>
+              <th class="text-center">조회수</th>
               <th class="text-center" colspan="3">sup_btn</th>
             </tr>
           </thead>
@@ -80,7 +81,7 @@
               <input name="content" type="hidden" value="${n.noticeContent }"/>
               <c:forEach items="${attList }" var="a" varStatus="as">
               	<c:if test="${n.noticeNo == a.noticeNo }">
-              		<input  name="renamedFileName_${n.noticeNo }" type="hidden" id="${a.renamedFileName }" value="${a.originalFileName }"/>
+              		<input  name="renamedFileName" type="hidden" id="${a.renamedFileName }" value="${a.originalFileName }"/>
               	</c:if>
               </c:forEach>
               </td>
@@ -91,6 +92,7 @@
               </td>
               <td class="noticeWriter text-center">${n.noticeWriter }</td>
               <td class="noticeDate text-center">${n.noticeDate }</td>
+              <td class="noticeReadcount text-center">${n.noticeReadcount }</td>
 			  <td align="center">
 				  <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#myModal">상세</button>
 			  </td>
@@ -181,13 +183,19 @@
   </div>
   </div>
 
-<script>
+    <script>
+   // 파일다운
       function fileDownload(oName, rName) {
+//       	console.log(oName+":"+rName);
           oName=encodeURIComponent(oName);
           location.href="${path}/notice/filedownLoad.do?oName="+oName+"&rName="+rName;
        }
+       
+      // $("#myModal").on('hide.bs.modal',function(e){
+//       	$("#filecontainer").empty();
+      // });
 
-      $("#myModal").on('show.bs.modal',function(e){
+      $("#myModal").on('show.bs.modal',function(e){	  
       	var data=$(e.relatedTarget).parents("tr").children();
        	var noticeNo = parseInt($(e.relatedTarget).parents("tr").children('.noticeNo').text());
        	var title =  $(e.relatedTarget).parents("tr").children('.noticeTitle').text().trim();
@@ -199,28 +207,13 @@
        	var renamedFileName = $(e.relatedTarget).parents("tr").children('.noticeNo').children('input[name=renamedFileName]');
        	
        	e.stopPropagation();
-       	if($("#filecontainer").children().legnth != 0){
-			 $("#filecontainer").empty(); 
-		 }else{
-			
-		 }
-       
-       $.each($("input[name=renamedFileName_"+noticeNo+"]"),function(f){
-       	var btnDown = $("<button/>");
-       	var originFileName = $("input[name=renamedFileName_"+noticeNo+"]").val();
-       	var renameFileName = $("input[name=renamedFileName_"+noticeNo+"]").attr('id');
-       	btnDown.text(originFileName);
-       	btnDown.attr("type","button");
-       	btnDown.attr("onclick","fileDownload('"+originFileName+"','"+renameFileName+"')");
-       	btnDown.attr("class","btn btn-outline-info");
-       	$("#filecontainer").append(btnDown);
-       });
        	
-//        	$.each(renamedFileName,function(i,item){
-//        		$(item).attr({"type":"button","onclick":"fileDownload('"+$(item).attr("id")+"','"+$(item).val()+"')"});
-//        		$(item).addClass("btn btn-outline-info");
-//        		$("#filecontainer").append(item);
-//        	});
+       	$.each(renamedFileName,function(i,item){
+       		$(item).attr({"type":"button","onclick":"fileDownload('"+$(item).attr("id")+"','"+$(item).val()+"')"});
+       		$(item).addClass("btn btn-outline-info");
+       		$("#filecontainer").append(item);
+       		
+       	});
        	
       	$("#no").val(noticeNo);
       	$("#content2").val(content);
@@ -252,5 +245,7 @@
       		location.href="${path}/admin/noticeUpdate?noticeNo="+noticeNo;
       	}
       });
-</script>
+      
+    </script>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

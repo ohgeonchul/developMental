@@ -30,8 +30,8 @@
               <a href="${path }/admin/faqList" id="">FAQ관리</a>
             </li>
           </ul>
-          <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">Notice</a>
-          <ul class="collapse list-unstyled" id="pageSubmenu1">
+          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle sidebar-dropdown-toggle">Notice</a>
+          <ul class="collapse list-unstyled" id="pageSubmenu">
             <li>
               <a href="${path }/admin/noticeList" id="">공지 목록</a>
             </li>
