@@ -81,6 +81,8 @@ public interface CollaboService {
 	int deleteReply(DataPacket receive);
 
 	int updateReply(DataPacket receive);
+
+	int deleteCollabo(DataPacket receive);
 	
 	
 

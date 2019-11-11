@@ -35,6 +35,7 @@
 			<c:if test="${collaboTool.owner eq loginMember.no }">
 				<button style="margin-right:5px;border-radius:8px" class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#inviteModal">초대</button>
 				<button style="border-radius:8px;margin-right:5px"class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#expulsionModal">추방</button>
+				<button style="border-radius:8px;margin-right:5px"class="btn btn-sm btn-secondary" type="button" data-toggle="modal" data-target="#teamworkDeleteModal">팀워크 삭제</button>
 			</c:if>
 			<button type="button" class="btn btn-sm btn-primary" style="margin-right:5px;border-radius:8px" onclick="exitCollabo('${loginMember.no}')">탈퇴</button>
 		</div>
@@ -133,6 +134,30 @@
 		</div>
 	</div>
 </div>
+
+<!-- Teamwork Delete Modal -->
+<div class="modal fade" id="teamworkDeleteModal">
+	<div class="modal-dialog" style="width:450px;">
+		<div class="modal-content">
+			<div class="modal-header">
+			  <h3 class="modal-title"><span class="material-icons">cancel</span>[팀워크 삭제]<span id="modal-title"></span></h3>
+       	 	  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+			<hr/>
+				<div class="ui-widget">
+					<label for="validate">확인 : </label>
+					<input type="text" id="validate" autocomplete="off" placeholder='삭제하겠습니다' />
+				</div>
+			</div>
+			<div class="modal-footer">
+			   <button name="btnModalClose" type="button" class="btn btn-primary" onclick="requestDeleteTeamwork()">삭제</button>
+			   <button name="btnModalClose" type="button" class="btn btn-secondary" data-dismiss="modal">나가기</button>
+			</div>		
+		</div>
+	</div>
+</div>
+
 
 <!-- 추방 Modal -->
 <div class="modal fade" id="expulsionModal">
@@ -379,6 +404,11 @@ function onMessage(msg) {
     	  }
     	  if(receive.method == 'delete'){
 			  responseDeleteCard(receive);
+    	  }
+      }
+      if(receive.type == 'collabo'){
+    	  if(receive.method == 'delete'){
+    		  responseDeleteTeamwork();
     	  }
       }
 }
@@ -826,6 +856,18 @@ function createCommentContent(m,c,isResponse){
 			}
 		});
 	}
+	
+	
+	var reply = $("<button/>");
+	reply.attr("type","button");
+	reply.css("margin-right","3px");
+	reply.attr("class","btn btn-sm btn-primary");
+	reply.attr("data-toggle","collapse");
+	reply.attr("data-target","#replyContent"+c.no);
+	reply.attr("area-expanded","true");
+	reply.text("답글");
+	content.append(reply);
+	
 	if(c.writer == "${loginMember.no}"){
 		var btnUpdate =$("<button/>");
 		btnUpdate.attr("type","button");
@@ -839,7 +881,7 @@ function createCommentContent(m,c,isResponse){
 		
 		var btnDel = $("<button/>");
 		btnDel.attr("type","button");
-		btnDel.attr("class","btn btn-sm btn-primary");
+		btnDel.attr("class","btn btn-sm btn-secondary");
 		btnDel.text("삭제");
 		btnDel.css("margin-right","3px");
 		btnDel.attr("onclick","requestDeleteComment(this);");
@@ -847,15 +889,6 @@ function createCommentContent(m,c,isResponse){
 		
 		isOwner = true;
 	}
-	
-	var reply = $("<button/>");
-	reply.attr("type","button");
-	reply.attr("class","btn btn-sm btn-primary");
-	reply.attr("data-toggle","collapse");
-	reply.attr("data-target","#replyContent"+c.no);
-	reply.attr("area-expanded","true");
-	reply.text("답글");
-	content.append(reply);
 	
 	var replyContent = $("<div/>");
 	replyContent.attr("class","panel-collapse collapse");
@@ -1015,5 +1048,25 @@ function responseReplyUpdate(receive){
 	}
 }
 
+
+function requestDeleteTeamwork(){
+	var validate = $("#validate").val();
+	if(validate=='삭제하겠습니다'){
+		var sendData = {
+			collaboNo : collaboNo,
+			userId : ${loginMember.no},
+			type : "collabo",
+			method : "delete"
+		};
+		sendMessage(sendData);
+	}else{
+		alert('잘못입력하셨습니다. 다시 입력해주세요.');
+	}
+}
+
+function responseDeleteTeamwork(){
+	alert("팀워크가 삭제되었습니다.");
+	location.href = '${path}/';
+}
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/> 

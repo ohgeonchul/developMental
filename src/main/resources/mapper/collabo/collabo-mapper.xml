@@ -187,4 +187,8 @@
 		UPDATE COLLABO_COMMENT_REPLY SET CONTENT = #{content} WHERE NO = #{commentNo}	
 	</update>
 	
+	<update id="deleteCollabo" parameterType="map">
+		UPDATE COLLABO_TOOL SET STATUS = 0 WHERE NO = #{collaboNo} AND owner = #{userId}
+	</update>
+	
 </mapper>

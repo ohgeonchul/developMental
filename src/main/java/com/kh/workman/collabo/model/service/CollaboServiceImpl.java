@@ -195,4 +195,11 @@ public class CollaboServiceImpl implements CollaboService {
 		return dao.updateReply(session, receive);
 	}
 
+	@Override
+	public int deleteCollabo(DataPacket receive) {
+		return dao.deleteCollabo(session, receive);
+	}
+	
+	
+
 }
