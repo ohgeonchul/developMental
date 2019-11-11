@@ -36,8 +36,6 @@ public class CollaboController {
 	@Autowired
 	CollaboService service;
 
-
-
 	@RequestMapping("/collabo/main.do")
 	public ModelAndView connectCollaboMain(ModelAndView mv) {
 		mv.setViewName("collabo/main");
@@ -66,7 +64,7 @@ public class CollaboController {
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("collaboNo", collaboNo);
-		mav.addObject("members",temp);
+		mav.addObject("members", temp);
 		mav.addObject("collaboMembers", collaboMembers);
 		mav.addObject("collaboLists", collaboLists);
 		mav.addObject("collaboCards", collaboCards);
