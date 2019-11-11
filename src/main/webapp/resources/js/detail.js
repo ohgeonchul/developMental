@@ -323,8 +323,6 @@ function responseUpdateCard(receive){
 }
 
 function requestMoveList(element, ev){
-	console.log($(element));
-	console.log(ev.dataTransfer.getData("text"));
 	/* document.getElementById("listNo_"+listNo).appendChild(document.getElementById("cardNo_"+cardNo)); */
  	var listNo = $("#"+ev.dataTransfer.getData("text")).attr("id").substring(7);
 	var targetListNo = $(element).children().children('.list-cards').attr("id").substring(7);
@@ -429,7 +427,6 @@ function responseMoveList(receive){
 
 function responseDeleteList(receive){
 	var list = $("#listNo_"+receive.listNo).parent().parent();
-	console.log(list.attr("class"));
 	if(list.attr("class")== 'list-wrapper'){
 		list.remove();
 	}

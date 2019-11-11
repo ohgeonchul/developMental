@@ -183,4 +183,9 @@ public class CollaboDaoImpl implements CollaboDao {
 		return session.update("collabo.deleteReply", receive);
 	}
 
+	@Override
+	public int updateReply(SqlSessionTemplate session, DataPacket receive) {
+		return session.update("collabo.updateReply", receive);
+	}
+
 }

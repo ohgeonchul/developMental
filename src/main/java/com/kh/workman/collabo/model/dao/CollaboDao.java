@@ -81,4 +81,6 @@ public interface CollaboDao {
 	int updateComment(SqlSessionTemplate session, DataPacket receive);
 
 	int delteReply(SqlSessionTemplate session, DataPacket receive);
+
+	int updateReply(SqlSessionTemplate session, DataPacket receive);
 }

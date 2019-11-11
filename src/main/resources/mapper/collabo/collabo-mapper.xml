@@ -183,4 +183,8 @@
 		UPDATE COLLABO_COMMENT_REPLY SET STATUS = 0 WHERE NO = #{commentNo}
 	</update>
 	
+	<update id="updateReply" parameterType="map">
+		UPDATE COLLABO_COMMENT_REPLY SET CONTENT = #{content} WHERE NO = #{commentNo}	
+	</update>
+	
 </mapper>

@@ -189,7 +189,10 @@ public class CollaboServiceImpl implements CollaboService {
 	public int deleteReply(DataPacket receive) {
 		return dao.delteReply(session, receive);
 	}
-	
-	
+
+	@Override
+	public int updateReply(DataPacket receive) {
+		return dao.updateReply(session, receive);
+	}
 
 }

@@ -266,7 +266,6 @@ function requestExpulsion(){
 					collaboNo : collaboNo
 				},
 				success : function(data){
-					console.log(data);
 					if(data){
 						alert('추방하였습니다.');
 					}
@@ -338,6 +337,9 @@ function onMessage(msg) {
     	  }
     	  if(receive.method == 'delete'){
     		  responseReplyDelete(receive);
+    	  }
+    	  if(receive.method == 'update'){
+    		  responseReplyUpdate(receive);
     	  }
       }
       if(receive.type == 'comment'){
@@ -686,9 +688,7 @@ function responseReplyWrite(receive){
 				receive.no = receive.commentNo;
 				var div = createReplyContent(m,receive,true);
 				target.append(div);
-				
 				target.css("border-bottom","solid lightgrey 0.5px");
-				
 				return true;
 			}
 		});
@@ -708,6 +708,7 @@ function requestCommentUpdate(ele){
 		}
 		sendMessage(sendData);
 		content.val('');
+		content.parent().parent().collapse('hide');
 	}
 	
 }
@@ -926,6 +927,7 @@ function createReplyContent(m,c,isResponse){
 	
 	var content = $("<span/>");
 	content.css('margin-left',"70px");
+	content.attr("class","content");
 	content.text(c.content);
 	
 	div.append(icon);
@@ -936,18 +938,29 @@ function createReplyContent(m,c,isResponse){
 	
 	if(isResponse){
 		collaboMembers.some(function (e){
-			if(e.id == c.userId){
+			if(e.no == c.userId){
 				c.writer = e.no;
 				return true;
 			}
 		});
 	}
-	
 	if(c.writer == "${loginMember.no}"){
+		var btnUpdate = $("<button/>");
+		btnUpdate.css({
+			"font-size":"5px",
+			"margin-left":"40px",
+			"margin-bottom":"3px"
+		});
+		btnUpdate.attr("type","button");
+		btnUpdate.attr("class","btn btn-sm btn-primary");
+		btnUpdate.attr("onclick","requestReplyUpdate(this)");
+		btnUpdate.text("수정");
+		div.append(btnUpdate);
+		
 		var btnDel = $("<button/>");
 		btnDel.css({
 			"font-size":"5px",
-			"margin-left":"40px",
+			"margin-left":"10px",
 			"margin-bottom":"3px"
 		});
 		btnDel.attr("type","button");
@@ -977,6 +990,28 @@ function responseReplyDelete(receive){
 	if(isCardModalOpen){
 		var target = $("#replyNo_"+receive.commentNo);
 		target.remove();
+	}
+}
+
+function requestReplyUpdate(ele){
+	var content = prompt("수정할 내용을 입력하세요.");
+	if(content != ''){
+		var targetNo = $(ele).parent().attr('id').substring(8);
+		var sendData = {
+				commentNo : targetNo,
+				content : content,
+				collaboNo : collaboNo,
+				type : "reply",
+				method : "update"
+		}
+		sendMessage(sendData);
+	}
+}
+
+function responseReplyUpdate(receive){
+	if(isCardModalOpen){
+		var target = $("#replyNo_"+receive.commentNo).children('.content');
+		target.text(receive.content);
 	}
 }
 
