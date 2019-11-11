@@ -117,34 +117,36 @@
 
 
 <script>
-function noticeSubmit(){
-	
-	var noticeTitle=$("#noticeTitle").val();
-	var noticeContent=$("#noticeContent").val();
-	
-	if( (noticeTitle== "null" || noticeTitle== "undefined" || noticeTitle== "NaN" || noticeTitle== '') || 
-			(noticeContent== "null" || noticeContent== "undefined" || noticeContent== "NaN" || noticeContent== '') ){
-		alert("제목 또는 내용을 입력하세요");
-		return;
-	}else{
-		var form=$("form");
-		form.submit();
-	}
+	function noticeSubmit(){
 		
+		var noticeTitle=$("#noticeTitle").val();
+		var noticeContent=$("#noticeContent").val();
+		
+		if( (noticeTitle== "null" || noticeTitle== "undefined" || noticeTitle== "NaN" || noticeTitle== '') || 
+				(noticeContent== "null" || noticeContent== "undefined" || noticeContent== "NaN" || noticeContent== '') ){
+			alert("제목 또는 내용을 입력하세요");
+			return;
+		}else{
+			var form=$("form");
+			form.submit();
+		}
+		
+	};
+	function noticeCancel(){
+		history.back();
+	};
 	
-};
-function noticeCancel(){
-	history.back();
-};
-
-$(".custom-file-input").on("change", function() {
-  var fileName = $(this).val().split("\\").pop();
-  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-});
-
+	$(".custom-file-input").on("change", function() {
+	  var fileName = $(this).val().split("\\").pop();
+	  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+	});
+	$(function(){
+		var user = "${loginMember.id}";
+		if(user == "" || user != 'admin'){
+		   alert("잘못된 접근입니다.");
+		   location.href="${path}/";
+		}
+	});
 </script>
-	
-	
-
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

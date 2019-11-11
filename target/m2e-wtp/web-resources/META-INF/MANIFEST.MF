@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
-Built-By: ohgunchul
+
+Built-By: foo
 Build-Jdk: 1.8.0_211
 Created-By: Maven Integration for Eclipse
 

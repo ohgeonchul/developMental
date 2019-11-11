@@ -1,6 +1,10 @@
 package com.kh.workman.member.controller;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -17,8 +21,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.kh.workman.common.PageBarFactory;
+import com.kh.workman.common.api.JobGithubApi;
+import com.kh.workman.job.model.vo.JobBoard;
 import com.kh.workman.member.model.service.MemberService;
 import com.kh.workman.member.model.vo.Member;
+import com.kh.workman.member.model.vo.MyStudyBoard;
+
+import net.sf.json.JSONArray;
+
 
 @Controller
 public class MemberController {
@@ -237,4 +250,70 @@ public class MemberController {
 		
 		return mv;	
 	}
+	
+	 @RequestMapping("/member/jobMyBoardList")
+	  public ModelAndView jobMyBoardList(
+	      @RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+	      @RequestParam(value="skill", required=false) String skill,
+	      @RequestParam(value="loc", required=false) String loc,
+	      @RequestParam(value="page", required=false, defaultValue="1") String page,
+	      HttpServletRequest request, Model model) {
+
+	    //1. Job Listings From Database (At least 1 Member Applied for the position)
+	    ModelAndView mv = new ModelAndView();
+	    int numPerPage = 5;
+	    HttpSession session = request.getSession();
+	    Member loginMember = (Member)session.getAttribute("loginMember");
+	    
+	    List<Map<String, Object>> list = service.selectPageJobMyBoardList(cPage, numPerPage, loginMember.getNickname() );
+	    int totalCount = service.selectJobMyBoardCount(loginMember.getNickname());
+	    
+	    List<Map<String, Object>> studylist = service.selectStudyMyBoardList(loginMember.getNickname());
+	    int studyCount = service.selectMyStudyBoardCount(loginMember.getNickname());
+	    //2. Additional Job Listings From Github Job API (Not inserted into DB yet!)
+	    //   this data lists are inserted AFTER at least one Member applies for the position!
+	    //TODO: test data(to be replaced with User Input!)
+//	    skill="java";
+//	    loc = "Los Angeles";
+//	    page = "1";
+
+//	    List<Map<String, Object>> newList = null;
+//	    if(skill != null && loc!=null ) {
+//	      newList = JobGithubApi.jobsGithubApi(skill, loc, Integer.valueOf(page));
+//	    }
+
+	    mv.addObject("pageBar", PageBarFactory.getJobMyPageBar(totalCount, cPage, numPerPage, "/member/jobMyBoardList"));
+	    mv.addObject("count", totalCount);
+	    
+	    
+	  Gson gson = new Gson();
+	   
+	   for(int i=0; i < list.size(); i++)
+	   {
+		   ((JobBoard)list.get(i)).setBoardName("JOB");
+		   String str = ((JobBoard)list.get(i)).getContent().replaceAll("(\r\n|\r|\n|\n\r)", " ");
+		   ((JobBoard)list.get(i)).setContent( str);   
+	   }
+	   
+	   for(int j =0; j < studylist.size(); j++)
+	   {
+		   ((MyStudyBoard)studylist.get(j)).setBoardName("STUDY");
+		   String str = ((MyStudyBoard)studylist.get(j)).getContent().replaceAll("(\r\n|\r|\n|\n\r)", " ");
+		   ((MyStudyBoard)studylist.get(j)).setContent( str);   
+	   }
+	   
+	   String jsonlist = gson.toJson(list);
+	   String jsonStudylist = gson.toJson(studylist);
+	   //System.out.println(jsonlist);
+	   
+	    mv.addObject("list", list);
+	    mv.addObject("studylist", studylist);
+	    model.addAttribute("jsonlist",jsonlist);
+	    model.addAttribute("jsonStudylist",jsonStudylist);
+//	    mv.addObject("newList", newList);
+	    mv.setViewName("/member/jobMyBoardList");
+
+	    return mv;
+	  }
+	
 }

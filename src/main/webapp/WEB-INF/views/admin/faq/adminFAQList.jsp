@@ -7,11 +7,11 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-  <jsp:param name="pageTitle" value="faq" />
+  <jsp:param name="pageTitle" value="AdminFaq" />
 </jsp:include>
 
 <jsp:include page="/WEB-INF/views/common/adminSidebar.jsp">
-  <jsp:param name="pageTitle" value="faq" />
+  <jsp:param name="pageTitle" value="AdminFaq" />
 </jsp:include>
 
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
@@ -40,7 +40,7 @@
 
   <div class="py-4 col-lg-10 container submenu-container" id ="main-container">
 
-    <div class="card card-fluid" id="job-listings">
+    <div class="card card-fluid" id="job-listings" >
 
       <h6 class="card-header">
         <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-primary rounded shadow-sm">
@@ -69,32 +69,28 @@
               <th class="text-center">번호</th>
               <th class="text-center">분류</th>
               <th class="text-center">제목</th>
+              <th class="text-center" colspan="">btn_sup</th>
             </tr>
           </thead>
           <tbody>
-          <c:forEach items="${list }" var="n" varStatus="vs">
+          <c:forEach items="${list }" var="f" varStatus="vs">
             <tr class="text-gray">
               <td class="noticeNo text-center">
-              ${n.noticeNo }
-              <input name="content" type="hidden" value="${n.noticeContent }"/>
-              <c:forEach items="${attList }" var="a" varStatus="as">
-              	<c:if test="${n.noticeNo == a.noticeNo }">
-              		<input  name="renamedFileName" type="hidden" id="${a.renamedFileName }" value="${a.originalFileName }"/>
-              	</c:if>
-              </c:forEach>
+              	${f.faqNo }
               </td>
-              <td class="noticeTitle text-center">
-<%--               	<a href='${path }/admin/adminNoticeView.do?noticeNo=${n.noticeNo }'> --%>
-					<c:out value='${n.noticeTitle }'/>
-<!-- 				</a> -->
+              <td class="noticeNo text-center">
+              	${f.faqCategory }
               </td>
-              <td class="noticeWriter text-center">${n.noticeWriter }</td>
-              <td class="noticeDate text-center">${n.noticeDate }</td>
-              <td class="noticeReadcount text-center">${n.noticeReadcount }</td>
-			  <td align="center">
-				  <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#myModal">상세보기</button>
-			  </td>
-            <tr>
+              <td class="noticeNo text-center">
+              	<button type="button" class="btn btn-outline-secondary btn--radius-1-my" data-toggle="collapse" data-target="#demo${vs.count }">${f.faqTitle}</button>
+              	<div id="demo${vs.count }" class="collapse">
+				  ${f.faqContent }
+				</div>
+              </td>
+              <td>
+              	<button class="btn btn-outline-secondary" name="btn_d">삭제</button>
+              </td>
+            </tr>
           </c:forEach>
         </tbody>
       </table>
@@ -104,20 +100,26 @@
        <div id="paging">
        	${pageBar }
        </div>
+      <div>
+      	<button class="btn btn-outline-secondary btn--radius-1-my pull-right" onclick="insertFaq();">신규등록</button>
+      </div>
       </nav>
     </div>
   </div>
   </div>
 
     <script>
+    function insertFaq(){
+    	location.href="${path}/admin/insertFaq";
+    }
 
       $("button[name=btn_d]").click(function(){
       	var tr = $(this).parent().parent();
       	var td = tr.children();
       	
-      	var noticeNo=td.eq(0).text();
+      	var faqNo=td.eq(0).text().trim();
       	if(confirm("삭제된 정보는 복구되지 않습니다. 정말로 삭제합니까?")){
-      		location.href="${path}/admin/noticeDelete?noticeNo="+noticeNo;
+      		location.href="${path}/admin/faqDelete?faqNo="+faqNo;
       	}
       });
 
@@ -125,12 +127,19 @@
       	var tr = $(this).parent().parent();
       	var td = tr.children();
       	
-      	var noticeNo=td.eq(1).text();
+      	var faqNo=td.eq(0).text();
       	if(confirm("공지사항을 수정합니다.")){
-      		location.href="${path}/admin/noticeUpdate?noticeNo="+noticeNo;
+      		location.href="${path}/admin/faqUpdate?faqNo="+faqNo;
       	}
-      	
       });
+      $(function(){
+  		var user = "${loginMember.id}";
+  		if(user == "" || user != 'admin'){
+  		   alert("잘못된 접근입니다.");
+  		   location.href="${path}/";
+  		}
+  	});
+      
       
     </script>
 

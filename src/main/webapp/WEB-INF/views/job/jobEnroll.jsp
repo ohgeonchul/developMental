@@ -14,23 +14,7 @@
 </jsp:include>
 
   <main id="main-wrapper" class="p-0 w-100">
-    <div class="container mb-0 mt-3 p-0 text-center " id="loading">
-      <div class="spinner-grow spinner-grow-sm ml-1 mt-3 mb-0 text-primary apiLoading" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-      <div class="spinner-grow spinner-grow-sm ml-1 mt-3 mb-0 text-primary apiLoading" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-      <div class="spinner-grow spinner-grow-sm ml-1 mt-3 mb-0 text-primary apiLoading" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-      <div class="spinner-grow spinner-grow-sm ml-1 mt-3 mb-0 text-primary apiLoading" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-      <div class="spinner-grow spinner-grow-sm ml-1 mt-3 mb-0 text-primary apiLoading" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>
+    <jsp:include page="/WEB-INF/views/common/loading.jsp"/>
 
     <div id="main-container">
       <div class="container py-5 submenu-container">
@@ -38,9 +22,7 @@
         <!-- For demo purpose -->
         <div class="row mb-4">
           <div class="col-lg-8 mx-auto text-center">
-            <h5 class="display-4">Recruiting Form</h5>
-            <p class="lead mb-0">
-            </p>
+            <h2 class="">구인글 등록</h2>
           </div>
         </div>
         <!-- End -->
@@ -74,45 +56,54 @@
                     <!-- /companyLogo -->
 
                     <div class="form-group my-0">
-                      <label for="writer" class="fa fa-building-o">&nbsp;&nbsp;</label>Company
+                      <label for="writer" class="fa fa-building-o">&nbsp;&nbsp;</label>회사명
                       <c:if test="${loginMember != null}">
                         <input type="text" class="form-control text-primary" name="writer" value="${loginMember.nickname}" readonly required />
                       </c:if>
                     </div>
                     <div class="form-group">
-                      <label for="title">Title</label>
+                      <label for="title">구인글 제목</label>
                       <input type="text" name="title" placeholder="title..." required class="form-control">
                     </div>
                     <!-- content -->
                     <hr>
                     <div class="row">
                       <div class="col-sm-6">
-                        <div class="form-group my-0">
-                          <label for="jobType">Ⅰ. Job Type</label>
+                        <!-- <div class="form-group my-0">
+                          <label for="jobType">Ⅰ. 직업 타입</label>
                           <select name="jobType" id="jobType" class="form-control" required>
-                            <option value="Full Time">Full Time</option>
+                            <option value="Full Time">정규직</option>
                             <option value="Part Time">Part Time</option>
+                          </select>
+                        </div> -->
+                        <div class="my-1">
+                          <label for="jobType">Ⅰ. 근무형태</label>
+                          <select name="jobType" id="jobType" class="form-control-sm custom-select mr-2" required>
+                            <option selected disabled>근무형태</option>
+                            <option value="정규직">정규직</option>
+                            <option value="계약직">계약직</option>
                           </select>
                         </div>
                       </div>
                       <div class="col-sm-6">
-                        <div class="form-group my-0">
-                          <label for="location">Ⅱ. Location</label>
-                          <textarea name="location" placeholder="address..." required class="form-control" rows="2" style="resize:none"></textarea>
+                        <div class="my-1">
+                          <label for="location">Ⅱ. 회사위치</label>
+                          <textarea name="location" placeholder="address..." class="form-control"
+                            rows="3" style="resize:none" required></textarea>
                         </div>
                       </div>
                     </div>
                     <div class="form-group my-0">
-                      <label for="description">Ⅲ. Description</label>
+                      <label for="description">Ⅲ. 요구조건</label>
                       <textarea name="description" placeholder="describe..." required class="form-control" rows="5" style="resize:none"></textarea>
                     </div>
                     <div class="form-group my-0">
-                      <label for="howToApply">Ⅳ. How to Apply</label>
+                      <label for="howToApply">Ⅳ. 지원방법</label>
                       <textarea name="howToApply" placeholder="how to apply...?" required class="form-control" row="2" style="resize:none"></textarea>
                     </div>
                     <hr>
                     <!-- /content end -->
-                    <input type="submit" class="subscribe btn btn-outline-dark btn-block rounded-lg shadow-sm" value="Confirm" />
+                    <input type="submit" class="subscribe btn btn-outline-dark btn-block rounded-lg shadow-sm" value="제출하기" />
                   </form>
                 </div>
                 <!-- End -->

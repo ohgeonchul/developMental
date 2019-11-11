@@ -12,32 +12,25 @@
   <meta charset="UTF-8">
   <title>${ param.pageTitle }</title>
   
-  
   <!-- CSS -->
-  
-
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-  integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
-  
-<!--   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
-<!--   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-  <!-- jQuery CDN -->
-  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
-  
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="${path }/resources/css/header.css">
-
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+  <link rel="stylesheet" href="${path }/resources/css/header.css">
   
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+      integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+      crossorigin="anonymous"></script>
+  
+  <!-- Javascript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>	
 
 
@@ -118,7 +111,7 @@
         <!-- Logo -->
         <div class='py-0 mr-auto inline px-0' id="navbar-logo">
           <a class="navbar-brand" href="${path }/" >
-            <img src="${path }/resources/images/icons8-sphere-48.png">
+            <img src="${path }/resources/images/logo.png">
           </a>
         </div>
         <!-- Nav search bar -->
@@ -203,35 +196,42 @@
         $.each(params, function(key, value){
           var input = $("<input>");
           input.attr({"type": "hidden",
-                      "name": key,
-                      "value": value,
-          });
-          form.append(input);
+          "name": key,
+          "value": value,
         });
-
-        form.submit();
-      }
+        form.append(input);
+      });
+      
+      form.submit();
+    }
       function logoutSnsAccount(){
         googleLogout();
         return true;
       }
       
-      $(document).ready(function(){
+      $(function(){
         $("#login").click(function(){
           $("#loginModal").modal('show');
         })
-      })
 
+        $('.modal-dialog').draggable({
+          handle: ".modal-content",
+          // containment: "window",
+        });
+
+      })
+      
+  
     </script>
-    
     
 
   <!-- </header> -->
   </header>
+
   <!-- bootstrap Modal : Job content -->
   <!-- Modal -->
   <div class="modal fade" id="jobmodal" tabindex="-1" role="dialog" aria-labelledby="jobmodalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document"></div>
+    <div class="modal-dialog modal-lg modal-dialog-centered" id="job-dialog" role="document"></div>
   </div>
 
   
