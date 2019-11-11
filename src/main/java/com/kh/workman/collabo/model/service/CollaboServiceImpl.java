@@ -180,4 +180,11 @@ public class CollaboServiceImpl implements CollaboService {
 		return dao.selectOneReply(session, receive);
 	}
 
+	@Override
+	public int updateComment(DataPacket receive) {
+		return dao.updateComment(session, receive);
+	}
+	
+	
+
 }

@@ -1,5 +1,5 @@
 function responseCreateList(receive){
-		var content = $("button[name=btn_cList]").parent().parent().parent();
+		var content = $("button[name=btn_cList]").parent().parent().parent().parent();
 		var board = $("button[name=btn_cList]").parent().parent().parent().parent().parent().parent();
 		content.empty();
 		
@@ -87,7 +87,7 @@ function responseCreateList(receive){
 		
 		listHeader.append(listTitle);
 		listHeader.append(btnMenu);
-		listHeader.append(dropMenu);
+		btnMenu.append(dropMenu);
 		
 		content.append(listHeader);
 		content.append(listCards);

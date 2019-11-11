@@ -175,4 +175,8 @@
 		SELECT * FROM COLLABO_COMMENT_REPLY WHERE NO = #{commentNo} AND STATUS = 1
 	</select>
 	
+	<update id="updateComment" parameterType="map">
+		UPDATE COLLABO_COMMENT SET CONTENT = #{content} WHERE NO = #{commentNo}	AND STATUS = 1
+	</update>
+	
 </mapper>
