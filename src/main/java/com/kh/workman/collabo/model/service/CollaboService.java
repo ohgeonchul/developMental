@@ -77,6 +77,8 @@ public interface CollaboService {
 	CollaboCommentReply selectOneReply(DataPacket receive);
 
 	int updateComment(DataPacket receive);
+
+	int deleteReply(DataPacket receive);
 	
 	
 

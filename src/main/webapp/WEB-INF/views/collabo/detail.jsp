@@ -336,6 +336,9 @@ function onMessage(msg) {
     	  if(receive.method == 'write'){
     		  responseReplyWrite(receive);
     	  }
+    	  if(receive.method == 'delete'){
+    		  responseReplyDelete(receive);
+    	  }
       }
       if(receive.type == 'comment'){
     	  if(receive.method == 'write'){
@@ -420,8 +423,6 @@ $("#cardModal").on('show.bs.modal',function(e){
 			return true;
 		}
 	});
-	
-	
 	$.ajax({
 		type : "post",
 		url : "${path}/collabo/requestCommentData",
@@ -434,56 +435,19 @@ $("#cardModal").on('show.bs.modal',function(e){
 			$.each(data.comments, function(i){
 				collaboMembers.some(function(v){
 					if(v.no == data.comments[i].writer){
-						var div = createCommentContent(v,data.comments[i]);
+						var div = createCommentContent(v,data.comments[i],false);
 						$("#commentArea").append(div);
 						return true;
 					}
-					
 				}) 
-				
 			});
 			$.each(data.commentReply,function(r){
 				collaboMembers.some(function(m){
 					if(m.no == data.commentReply[r].writer){
 						var target = $("#commentNo_"+data.commentReply[r].targetNo);
-						var div = $("<div/>");
-						div.attr("id","replyNo_"+data.commentReply[r].no);
-						
-						var icon = $("<span/>");
-						icon.attr("class","material-icons");
-						icon.css("margin-left","15px");
-						icon.text("subdirectory_arrow_right");
-						
-						var img = $("<img/>");
-						img.attr('width',"30px");
-						img.attr("hegiht","15px");
-						if(!m.profile == ''){
-							img.attr('src','${path}/resources/upload/member/'+m.profile);
-						}else{
-							img.attr("src","${path}/resources/images/"+ "teamwork.png");
-						}
-						
-						var writer = $("<span/>");
-						writer.css("margin-right","20px");
-						writer.text(m.nickname);
-						
-						var regdate = $("<span/>");
-						regdate.css("font-size","13px");
-						regdate.html(new Date(data.commentReply[r].regdate).format('yyyy-MM-dd')+"<br/>");
-						
-						var content = $("<span/>");
-						content.css('margin-left',"70px");
-						content.text(data.commentReply[r].content);
-						
-						div.append(icon);
-						div.append(img);
-						div.append(writer);
-						div.append(regdate);
-						div.append(content);
+						var div = createReplyContent(m,data.commentReply[r],false);
 						target.append(div);
-						
 						target.css("border-bottom","solid lightgrey 0.5px");
-						
 						return true;
 					}
 				});
@@ -665,7 +629,7 @@ function responseCommentWrite(receive){
 		collaboMembers.some(function(v){
 			if(v.id == receive.userId){
 				receive.no = receive.commentNo;
-				var div = createCommentContent(v,receive);
+				var div = createCommentContent(v,receive,true);
 				$("#commentArea").append(div);
 				return true;
 			}
@@ -719,40 +683,8 @@ function responseReplyWrite(receive){
 			if(m.no == receive.userId){
 				
 				var target = $("#commentNo_"+receive.targetNo);
-				var div = $("<div/>");
-				div.attr("id","replyNo_"+receive.commentNo);
-				
-				var icon = $("<span/>");
-				icon.attr("class","material-icons");
-				icon.css("margin-left","15px");
-				icon.text("subdirectory_arrow_right");
-				
-				var img = $("<img/>");
-				img.attr('width',"30px");
-				img.attr("hegiht","15px");
-				if(!m.profile == ''){
-					img.attr('src','${path}/resources/upload/member/'+m.profile);
-				}else{
-					img.attr("src","${path}/resources/images/"+ "teamwork.png");
-				}
-				
-				var writer = $("<span/>");
-				writer.css("margin-right","20px");
-				writer.text(m.nickname);
-				
-				var regdate = $("<span/>");
-				regdate.css("font-size","13px");
-				regdate.html(new Date(parseDate(receive.regdate)).format('yyyy-MM-dd')+"<br/>");
-				
-				var content = $("<span/>");
-				content.css('margin-left',"70px");
-				content.text(receive.content);
-				
-				div.append(icon);
-				div.append(img);
-				div.append(writer);
-				div.append(regdate);
-				div.append(content);
+				receive.no = receive.commentNo;
+				var div = createReplyContent(m,receive,true);
 				target.append(div);
 				
 				target.css("border-bottom","solid lightgrey 0.5px");
@@ -838,7 +770,7 @@ function createCommentEditCollapse(no){
 	return commentUpdate;
 }
 
-function createCommentContent(m,c){
+function createCommentContent(m,c,isResponse){
 	var div = $("<div/>");
 	div.attr("id","commentNo_"+c.no);
 	div.css({
@@ -862,8 +794,12 @@ function createCommentContent(m,c){
 	
 	name.text(m.nickname);
 	name.css("margin-right","30px");
+	if(isResponse){
+		date.html(new Date(parseDate(c.regdate)).format('yyyy-MM-dd')+"<br/>");
+	}else{
+		date.html(new Date(c.regdate).format('yyyy-MM-dd')+"<br/>");
+	}
 	
-	date.html(new Date(c.regdate).format('yyyy-MM-dd')+"<br/>");
 	date.css({
 		"font-size":"13px"
 	});
@@ -881,7 +817,14 @@ function createCommentContent(m,c){
 	comment.css("flex","1");
 	//덧글 작성자 일시 수정,삭제버튼
 	var isOwner = false;
-	
+	if(isResponse){
+		collaboMembers.some(function (e){
+			if(e.id == c.userId){
+				c.writer = e.no;
+				return true;
+			}
+		});
+	}
 	if(c.writer == "${loginMember.no}"){
 		var btnUpdate =$("<button/>");
 		btnUpdate.attr("type","button");
@@ -949,7 +892,93 @@ function createCommentContent(m,c){
 	}
 	div.append(replyContent);
 	return div;
-}	
+}
+
+function createReplyContent(m,c,isResponse){
+	var div = $("<div/>");
+	div.attr("id","replyNo_"+c.no);
+	
+	var icon = $("<span/>");
+	icon.attr("class","material-icons");
+	icon.css("margin-left","15px");
+	icon.text("subdirectory_arrow_right");
+	
+	var img = $("<img/>");
+	img.attr('width',"30px");
+	img.attr("hegiht","15px");
+	if(!m.profile == ''){
+		img.attr('src','${path}/resources/upload/member/'+m.profile);
+	}else{
+		img.attr("src","${path}/resources/images/"+ "teamwork.png");
+	}
+	
+	var writer = $("<span/>");
+	writer.css("margin-right","20px");
+	writer.text(m.nickname);
+	
+	var regdate = $("<span/>");
+	regdate.css("font-size","13px");
+	if(isResponse){
+		regdate.html(new Date(parseDate(c.regdate)).format('yyyy-MM-dd')+"<br/>");
+	}else{
+		regdate.html(new Date(c.regdate).format('yyyy-MM-dd')+"<br/>");
+	}
+	
+	var content = $("<span/>");
+	content.css('margin-left',"70px");
+	content.text(c.content);
+	
+	div.append(icon);
+	div.append(img);
+	div.append(writer);
+	div.append(regdate);
+	div.append(content);
+	
+	if(isResponse){
+		collaboMembers.some(function (e){
+			if(e.id == c.userId){
+				c.writer = e.no;
+				return true;
+			}
+		});
+	}
+	
+	if(c.writer == "${loginMember.no}"){
+		var btnDel = $("<button/>");
+		btnDel.css({
+			"font-size":"5px",
+			"margin-left":"40px",
+			"margin-bottom":"3px"
+		});
+		btnDel.attr("type","button");
+		btnDel.attr("class","btn btn-sm btn-secondary");
+		btnDel.attr("onclick","requestReplyDelete(this)");
+		btnDel.text("삭제");
+		div.append(btnDel);
+	}
+	
+	return div;
+}
+
+function requestReplyDelete(ele){
+	if(confirm("덧글을 삭제하시겠습니까?")){
+		var replyNo = $(ele).parent().attr('id').substring(8);
+		var sendData = {
+				commentNo : replyNo,
+				collaboNo : collaboNo,
+				type : "reply",
+				method : "delete"
+		};
+		sendMessage(sendData);
+	}
+}
+
+function responseReplyDelete(receive){
+	if(isCardModalOpen){
+		var target = $("#replyNo_"+receive.commentNo);
+		target.remove();
+	}
+}
 
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/> 
